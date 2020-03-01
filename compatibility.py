@@ -22,7 +22,7 @@ class User:
 	"""
 
 	"""
-	def __init__(self, user_type, first, last, age, gender, questionnaire, bio, email, username):
+	def __init__(self, user_type, first, last, age, gender, questionnaire, bio, email, username, password):
 	 	self.user_type = user_type # int (Mentor = 1, mentee = 0)
 	 	self.first = first # string
 	 	self.last = last # string
@@ -33,6 +33,7 @@ class User:
 	 	self.email = email # string
 	 	self.user_matches = {} # key = user, value = % compatibile
 	 	self.username = username # string
+	 	self.password = password #string
 
 	def __str__(self):
 		return self.username
