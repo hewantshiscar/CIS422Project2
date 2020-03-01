@@ -125,7 +125,6 @@ def compat(current_user, matches):
 				matches[user] = 99.0
 			else:
 				matches[user] = round(matches[user], 1)
-
 	else:
 		for user in matches:
 			# 3) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
@@ -172,7 +171,7 @@ def compat(current_user, matches):
 
 # 	current_matches = pref_check(current_user)
 # 	compat(current_user, current_matches)
-	
+
 # 	print(current_user.matches)
 
 # 	return 1
