@@ -1,16 +1,18 @@
 """
-CIS 422 Project 2 : Compatibility Algorithm File
+CIS 422 Project 2: Compatibility Algorithm File
 
-Last Modified: 2/29/20
+Last Modified: 3/2/20
 
-Authors: Mikayla Campbell, Bethany Van Meter
+Authors: Mikayla Campbell
 """
 
 # All of the program's users
 users = []
 
-percent_scale = [100/7, 75/7, 50/7, 25/7, 0]
-# Divide percent by 7 for each question because there are 7 questions
+current_user = ""
+
+percent_scale = [100/18, 75/18, 50/18, 25/18, 0]
+# Divide percent by 18 for each question because there are 18 questions
 	# # Max 4 off
 	# # 4 = 0%
 	# # 3 = 25%
@@ -19,14 +21,12 @@ percent_scale = [100/7, 75/7, 50/7, 25/7, 0]
 	# # 0 = 100%
 
 class User:
-	"""
-
-	"""
+	"""Class that stores each user's information"""
 	def __init__(self, user_type, first, last, age, gender, questionnaire, bio, email, username, password):
 	 	self.user_type = user_type # int (Mentor = 1, mentee = 0)
 	 	self.first = first # string
 	 	self.last = last # string
-	 	self.age = age # string
+	 	self.age = age # int
 	 	self.gender = gender # string
 	 	self.q = questionnaire # list of numbers (Starts at 1)
 	 	self.bio = bio # string
@@ -39,7 +39,9 @@ class User:
 		return self.username
 
 	def __repr__(self):
-		return "{} {}".format(self.first, self.last)
+		return "User({} {} {} {} {} {} {} {} {} {})".format(self.first, self.last,
+			self.age, self.gender, self.q, self.bio, self.email, self.user_matches,
+			self.username, self.password)
 
 
 def equal_q_answer(current_user, user, q_num, matches):
@@ -49,7 +51,7 @@ def equal_q_answer(current_user, user, q_num, matches):
 	matches[user] += real_percent
 
 
-def equal_or_higer(current_user, user, q_num, matches):
+def equal_or_higher(current_user, user, q_num, matches):
 	"""Mentor needs to be 1 or higher than mentee or equal"""
 	percent = current_user.q[q_num] - user.q[q_num]
 	if percent >= 0:
@@ -87,7 +89,10 @@ def pref_check(current_user):
 	0) Gender (Male, Female, Other)
 	1) Who do you want to be matched with? (Male, Female, Other)
 	2) What is your career field? (47)
+	21) Age Range (1 - 5)
 	"""
+
+	age_ranges = [[18, 25], [25, 30], [30, 40], [40, 60], [60, 130]]
 
 	pref_matches = {}
 
@@ -95,7 +100,8 @@ def pref_check(current_user):
 		if user.user_type != current_user.user_type: # Make sure mentors are assigned to mentees and vice versa
 			if user.q[1] == 3 or user.q[1] == current_user.q[0]: # Make sure gender prefeerence match up
 				if user.q[2] == current_user.q[2]:
-					pref_matches[user] = 0
+					if user.age >= age_ranges[current_user.q[20] - 1][0] and user.age <= age_ranges[current_user.q[20] - 1][1]:
+						pref_matches[user] = 0
 
 	return pref_matches
 
@@ -108,18 +114,38 @@ def compat(current_user, matches):
 		for user in matches:
 			# 3) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
 			equal_q_answer(current_user, user, 3, matches)
+
 			# 4) What is your experience level in your field? (1 - 5)
-			higher(current_user, user, 4, matches)
 			# 5) How good are your networking skills? (1 - 5)
-			higher(current_user, user, 5, matches)
 			# 6) How good are your organizational skills? (1 - 5)
-			higher(current_user, user, 6, matches)
-			# 7) How much do you value integrity? (1 - 5)
-			equal_q_answer(current_user, user, 7, matches)
-			# 8) How patient are you? (1 - 5)
-			equal_or_higer(current_user, user, 8, matches)
-			# 9) What is your learning style? (1 - 5)
-			equal_q_answer(current_user, user, 9, matches)
+			for i in range(4, 7):
+				higher(current_user, user, i, matches)
+
+			# 7) How good are your organizational skills? (1 - 5)
+			# 8) How good are your time management skills? (1 - 5)
+			# 9) What is your work ethic? (1 - 5)
+			# 10) How flexible/adaptable are you?
+			# 11) Problem Solving skills (1 - 5)
+			# 12) Ability to work with coworkers/other people (1 - 5)
+			# 13) Self motivation (1 - 5)
+			# 14) Professionalism (1 - 5)
+			for i in range(7, 15):
+				equal_or_higher(current_user, user, i, matches)
+
+			# 15) How much do you value integrity?
+			equal_q_answer(current_user, user, 15, matches)
+
+			# 16) How patient are you? (1 - 5)
+			equal_or_higher(current_user, user, 16, matches)
+
+			# 17) How social are you? (1 - 5)
+			# 18) What is your learning style? (1 - 5)
+			# 19) Career goals (1 - 5)
+			for i in range(17, 20):
+				equal_q_answer(current_user, user, 19, matches)
+
+			# 21) What kind of work do you want to do? (1 - 5)
+			equal_q_answer(current_user, user, 21, matches)
 
 			# No one is 100% compatible -- account for that
 			if matches[user] >= 100:
@@ -130,18 +156,38 @@ def compat(current_user, matches):
 		for user in matches:
 			# 3) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
 			equal_q_answer(current_user, user, 3, matches)
+
 			# 4) What is your experience level in your field? (1 - 5)
-			lower(current_user, user, 4, matches)
 			# 5) How good are your networking skills? (1 - 5)
-			lower(current_user, user, 5, matches)
 			# 6) How good are your organizational skills? (1 - 5)
-			lower(current_user, user, 6, matches)
-			# 7) How much do you value integrity? (1 - 5)
-			equal_q_answer(current_user, user, 7, matches)
-			# 8) How patient are you? (1 - 5)
-			equal_or_lower(current_user, user, 8, matches)
-			# 9) What is your learning style? (1 - 5)
-			equal_q_answer(current_user, user, 9, matches)
+			for i in range(4, 7):
+				lower(current_user, user, i, matches)
+
+			# 7) How good are your organizational skills? (1 - 5)
+			# 8) How good are your time management skills? (1 - 5)
+			# 9) What is your work ethic? (1 - 5)
+			# 10) How flexible/adaptable are you?
+			# 11) Problem Solving skills (1 - 5)
+			# 12) Ability to work with coworkers/other people (1 - 5)
+			# 13) Self motivation (1 - 5)
+			# 14) Professionalism (1 - 5)
+			for i in range(7, 15):
+				equal_or_lower(current_user, user, i, matches)
+
+			# 15) How much do you value integrity?
+			equal_q_answer(current_user, user, 15, matches)
+			
+			# 16) How patient are you? (1 - 5)
+			equal_or_lower(current_user, user, 16, matches)
+
+			# 17) How social are you? (1 - 5)
+			# 18) What is your learning style? (1 - 5)
+			# 19) Career goals (1 - 5)
+			for i in range(17, 20):
+				equal_q_lower(current_user, user, 19, matches)
+
+			# 21) What kind of work do you want to do? (1 - 5)
+			equal_q_answer(current_user, user, 21, matches)
 
 			# No one is 100% compatible -- account for that
 			if matches[user] >= 100:
@@ -156,12 +202,12 @@ def compat(current_user, matches):
 # 	"""
 # 	Test it
 # 	"""
-# 	current_user = User(1, "Mikayla", "Campbell", 20, "Female", [2, 3, 11, 4, 4, 3, 5, 5, 4, 5], "Hi", "mikayla@gmail.com", "hewantshiscar")
-# 	user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, 11, 4, 4, 3, 5, 5, 4, 5], "Hiyo", "phillipe@gmail.com", "philoroz")
-# 	user2 = User(0, "Olivia", "Pannell", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5], "Hello", "olivia@gmail.com", "olp")
-# 	user3 = User(0, "Jose", "West", 23, "Male", [1, 3, 11, 5, 3, 5, 3, 3, 1, 1], "Hey", "jose@gmail.com", "josewt")
-# 	user4 = User(0, "Taylor", "Verney", 22, "Non-binary/Queer", [3, 3, 11, 1, 2, 1, 1, 2, 2, 4], "Heyo", "taylor@gmail.com", "tayvey")
-# 	user5 = User(0, "Pablo", "Garcia", 19, "Male", [1, 3, 11, 3, 1, 3, 4, 1, 4, 5], "Greetings", "pablo@gmail.com", "pabgar")
+# 	current_user = User(1, "Mikayla", "Campbell", 20, "Female", [2, 3, 11, 4, 4, 3, 5, 5, 4, 5, 4, 5, 4, 4, 4, 5, 5, 4, 5, 3, 1, 4], "Hi", "mikayla@gmail.com", "hewantshiscar", "bob2")
+# 	user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, 11, 4, 4, 3, 5, 5, 4, 5, 2, 3, 4, 4, 3, 4, 2, 1, 3, 4, 1, 2], "Hiyo", "phillipe@gmail.com", "philoroz", "pickles9")
+# 	user2 = User(0, "Olivia", "Pannell", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2], "Hello", "olivia@gmail.com", "olp", "anniepie98")
+# 	user3 = User(0, "Jose", "West", 23, "Male", [1, 3, 11, 5, 3, 5, 3, 3, 1, 1, 2, 3, 4, 5, 3, 2, 3, 4, 3, 4, 1, 4], "Hey", "jose@gmail.com", "josewt", "glassesguy65")
+# 	user4 = User(0, "Taylor", "Verney", 22, "Non-binary/Queer", [3, 3, 11, 1, 2, 1, 1, 2, 2, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 3, 1, 3], "Heyo", "taylor@gmail.com", "tayvey", "cheezitsaremylove74")
+# 	user5 = User(0, "Pablo", "Garcia", 19, "Male", [1, 3, 11, 3, 1, 3, 4, 1, 4, 5, 2, 3, 4, 2, 4, 2, 4, 2, 3, 4, 1, 3], "Greetings", "pablo@gmail.com", "pabgar", "9000goo")
 
 # 	users.append(current_user)
 # 	users.append(user1)
@@ -173,7 +219,10 @@ def compat(current_user, matches):
 # 	current_matches = pref_check(current_user)
 # 	compat(current_user, current_matches)
 
-# 	print(current_user.matches)
+# 	count = 0
+# 	for i in current_user.matches:
+# 		print(i, current_user.matches[i])
+# 		count += 1
 
 # 	return 1
 
