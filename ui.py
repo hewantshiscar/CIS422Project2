@@ -10,6 +10,9 @@ Authors: Olivia Pannell and Ben Verney
 from tkinter import *
 from tkinter import Text, messagebox
 
+from compatibility import *
+from database import *
+
 # Specific font variables
 SMALL_FONT = ("Helvetica", 12)
 TITLE_FONT = ("Helvetica", 50, "bold")
@@ -105,9 +108,9 @@ class HelpPage(Frame):
 class LoginPage(Frame):
 
 	def __init__(self, parent, controller):
-		global username
+		global username1
 		global userlbl
-		global password
+		global password1
 		global passlbl
 
 		Frame.__init__(self, parent)
@@ -124,14 +127,14 @@ class LoginPage(Frame):
 		userlbl = Label(self, text='Username:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		userlbl.place(relx=0.30, rely=0.40, anchor=CENTER)
 
-		username = Entry(self)
-		username.place(relx=0.55, rely=0.40, anchor=CENTER)
+		username1 = Entry(self)
+		username1.place(relx=0.55, rely=0.40, anchor=CENTER)
 
 		passlbl = Label(self, text='Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		passlbl.place(relx=0.30, rely=0.50, anchor=CENTER)
 
-		password = Entry(self, show='*')
-		password.place(relx=0.55, rely=0.50, anchor=CENTER)
+		password1 = Entry(self, show='*')
+		password1.place(relx=0.55, rely=0.50, anchor=CENTER)
 
 		log = Button(self, text="Login", highlightbackground="medium sea green", padx=10,
 					 command=lambda: self.loginerror(parent, controller))
@@ -140,43 +143,56 @@ class LoginPage(Frame):
 	# Checking if username and password entrys were filled out before
 	# clicking login
 	def loginerror(self, parent, controller):
-		global username
-		global password
+		global username1
+		global password1
 		global userlbl
 		global passlbl
+		global user
 
 		# Error message that displays if at least one of the Username/Password
 		# entries are not filled out
 		errorlbl = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="red", font=SMALL_FONT)
+		errorlbl2 = Label(self, text='*Incorrect Password or Username.', bg="medium sea green", fg="red", font=SMALL_FONT)
 
 		# If the username entry is empty turn text red
-		if not username.get():
+		if not username1.get():
 			userlbl.config(text='*Username:', fg='red')
 			errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
 
 		# If the password entry is empty turn text red
-		if not password.get():
+		if not password1.get():
 			passlbl.config(text='*Password:', fg='red')
 			errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
 
 		# Resets previous username error text
-		if username.get():
+		if username1.get():
 			userlbl.config(text='Username:', fg='white')
 
 		# Resets previous password error text
-		if password.get():
+		if password1.get():
 			passlbl.config(text='Password:', fg='white')
 
+
+		'''
+		WORKING ON THIS PART IT DOESNT WORK AT THE MOMENT
+		DOESNT RECOGNIZE user.login_check() function from
+		COMPATIBILITY.PY
+		'''
 		# If both are filled out
-		if username.get() and password.get():
-			# -------------TO DO------------------
-			#		NEED TO CHECK IF
-			#	  USERNAME AND PASSWORD
-			#		MATCH IN DATABASE
-			errorlbl = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="medium sea green",
-						 font=SMALL_FONT)
-			errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
-			controller.show_frame(HomePage)
+		if username1.get() and password1.get():
+			# Checks if the username and password are in the database
+			valid = user.login_check(username1.get(), password1.get())
+			if valid:
+				# If they are get rid of error messages and call the homepage
+				errorlbl = Label(self, text='*Incorrect Password or Username.', bg="medium sea green", fg="medium sea green",
+							 font=SMALL_FONT)
+				errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
+				# Check to see if current user is mentor or mentee
+				# Guides them to corresponding page
+				controller.show_frame(HomePage)
+			else:
+				errorlbl2.place(relx=0.50, rely=0.59, anchor=CENTER)
+
 
 # Contains everything for the Sign Up Page frame
 class SignUpPage(Frame):

@@ -40,7 +40,7 @@ def valid(email, username, status):
 	i = 0
 	for row in myresult:
 		if(row[6] == email):
-			i++
+			i = i + 1
 		if(row[8] == username):
 			i+=2
 
@@ -214,4 +214,6 @@ def create_account(User):
 #def log_in(email, password):
 
 #user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, 11, 4, 4, 3, 5, 5, 4, 5], "Hiyo", "phillipe@gmail.com",
-			 [(key, value)], "philoroz", "passowrd")
+#			 [(key, value)], "philoroz", "passowrd")
+
+
