@@ -20,7 +20,7 @@ TAB_FONT = ("Helvetica", 18, "bold italic")
 MATCH_FONT = ("Times", 15, "bold italic")
 
 # List of Majors/Subjects
-MAJORS = {"Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
+MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
 		   "Asian studies", "Biochemistry", "Biology", "Business administration", "Chemistry", "Chinese", "Cinema studies",
 		   "Classics", "Communication disorders and sciences", "Comparative literature", "Computer and information science",
 		   "Dance", "Earth sciences", "Economics", "Educational foundations", "English", "Environmental science","Environmental studies",
@@ -31,11 +31,13 @@ MAJORS = {"Accounting", "Anthropology", "Architecture", "Art", "Art and technolo
 		   "Marine biology", "Mathematics", "Mathematics and computer science", "Medieval studies", "Music", "Music composition",
 		   "Music education", "Music: jazz studies", "Music performance", "Philosophy", "Physics", "Planning, public policy and management",
 		   "Political science", "Product design", "Psychology", "Religious studies", "Romance languages", "Russian, East European, and Eurasian studies",
-		   "Sociology", "Spanish", "Spatial data science and technology", "Theater arts", "Women's, gender, and sexuality studies"}
+		   "Sociology", "Spanish", "Spatial data science and technology", "Theater arts", "Women's, gender, and sexuality studies"]
 
-questionnaireAnswers = {"gender": -1, "matchgender": -1, "careerfield": "", "timeinvestment": -1,"experiencelevel": -1,
+questionnaireAnswers = {"gender": -1, "matchgender": -1, "userage": -1, "careerfield": -1, "agerange": -1, "timeinvestment": -1,"experiencelevel": -1,
 						"networkingskills": -1, "orginizationalskills": -1, "communicationskills": -1, "timemanagementskills": -1,
-						"integrity": -1, "patience": -1, "social": -1, "learningstyle": -1, "careergoals": -1, "kindofwork": -1}
+						"workethic": -1, "flexibility": -1, "problemsolvingskills": -1, "workwithothers": -1, "selfmotivation": -1,
+						"professionalism": -1,"integrity": -1, "patience": -1, "social": -1, "learningstyle": -1, "careergoals": -1,
+						"kindofwork": -1}
 
 
 '''
@@ -258,6 +260,14 @@ class SignUpPage(Frame):
 		global newemaillbl
 		global pclbl
 
+		#debug code so i dont have to enter a password every time i want to check the questionanaire
+		#set debug = true to bypass the create account check.
+		debug = False
+		if(debug):
+			controller.show_frame(QuestionPage)
+			return
+
+
 		# Error message that displays if at least one of the entry fields is not
 		# filled in.
 		errorlbl = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="red", font=SMALL_FONT)
@@ -368,12 +378,15 @@ class HomePage(Frame):
 # Contains everything for the First page of the questionaire page
 class QuestionPage(Frame):
 
+	#TODO: make sure all of the options are chosen before moving on to the next page
+
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 
 		global gender
 		global matchgender
 		global careerfield
+		global userage
 		gender = IntVar()
 		matchgender = IntVar()
 		careerfield = StringVar()
@@ -400,10 +413,11 @@ class QuestionPage(Frame):
 									 command=lambda: self.placeinputgender())
 		selfidentifyRB.place(relx=0.1, rely=0.48, anchor=W)
 
-		matchgender = Label(self, text='Who do you want to be\n matched with?', bg="medium sea green", fg="white",
+		matchgenderLB = Label(self, text='Who do you want to be\n matched with?', bg="medium sea green", fg="white",
 							font=MATCH_FONT)
-		matchgender.place(relx=0.53, rely=0.27, anchor=W)
+		matchgenderLB.place(relx=0.53, rely=0.27, anchor=W)
 
+		#FIXME: this dumb tristate value bug is back
 		malematchRB = Radiobutton(self, text="Male", bg="medium sea green", selectcolor="medium sea green",
 								  activebackground="medium sea green", variable=matchgender, value=1, tristatevalue=0)
 		malematchRB.place(relx=0.58, rely=0.34, anchor=W)
@@ -419,7 +433,7 @@ class QuestionPage(Frame):
 
 		majorLabel = Label(self, text='What is your career field?', bg="medium sea green", fg="white",
 							font=MATCH_FONT)
-		majorLabel.place(relx=0.1, rely=0.62, anchor=W)
+		majorLabel.place(relx=0.05, rely=0.62, anchor=W)
 
 		# Sets initial drop down option to say "Choose one"
 		# This does not show in the list of options.
@@ -433,6 +447,16 @@ class QuestionPage(Frame):
 		# we can change this if you dont like it!
 		majoroptions["menu"].config(bg = 'medium sea green')
 		majoroptions.place(relx=0.1, rely=0.70, anchor=W)
+
+
+		#TODO: need to make sure people only enter intergers in this field
+		enterage = Label(self, text='How old are you?', bg="medium sea green", fg="white",
+							font=MATCH_FONT)
+		enterage.place(relx=0.53, rely=0.62, anchor=W)
+		userage = Entry(self)
+		userage.place(relx=0.58, rely=0.69, anchor=W)
+
+
 
 
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
@@ -451,9 +475,11 @@ class QuestionPage(Frame):
 		global gender
 		global matchgender
 		global careerfield
-		questionnaireAnswers["gender"] = gender
-		questionnaireAnswers["matchgender"] = matchgender
-		questionnaireAnswers["careerfield"] = careerfield
+		global userage
+		questionnaireAnswers["gender"] = gender.get()
+		questionnaireAnswers["matchgender"] = matchgender.get()
+		questionnaireAnswers["careerfield"] = MAJORS.index(careerfield.get())
+		questionnaireAnswers["userage"] = userage.get()
 
 	def placeinputgender(self):
 		global inputgender
@@ -467,16 +493,43 @@ class QuestionPage(Frame):
 class QuestionPage2(Frame):
 
 	def __init__(self, parent, controller):
+		global agerange
+		agerange = IntVar()
+
 		Frame.__init__(self, parent)
-		lbl1 = Label(self, text='Question Page 2', bg="medium sea green", fg="white", font=TAB_FONT)
-		lbl1.place(relx=0.5, rely=0.30, anchor=CENTER)
+
+		#TODO: maybe allow them to select multiple age ranges? This is kind of limiting... but also hard to implement. Ask group.
+		agerangeLB = Label(self, text='What age range do you want to be matched with?', bg="medium sea green", fg="white",
+							  font=MATCH_FONT)
+		agerangeLB.place(relx=0.05, rely=0.1, anchor=W)
+
+		agerange1825 = Radiobutton(self, text="18-25", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=agerange, value=1, tristatevalue=0)
+		agerange1825.place(relx=0.1, rely=0.17, anchor=W)
+
+		agerange2530 = Radiobutton(self, text="25-30", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=agerange, value=2, tristatevalue=0)
+		agerange2530.place(relx=0.1, rely=0.24, anchor=W)
+
+		agerange3040 = Radiobutton(self, text="30-40", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=agerange, value=3, tristatevalue=0)
+		agerange3040.place(relx=0.1, rely=0.31, anchor=W)
+
+		agerange4060 = Radiobutton(self, text="40-60", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=agerange, value=4, tristatevalue=0)
+		agerange4060.place(relx=0.1, rely=0.38, anchor=W)
+
+		agerange60plus = Radiobutton(self, text="60+", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=agerange, value=5, tristatevalue=0)
+		agerange60plus.place(relx=0.1, rely=0.45, anchor=W)
+
 
 		b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 					command=lambda: controller.show_frame(QuestionPage))
 		b0.place(relx=0.0, rely=1.0, anchor=SW)
 
 		b2 = Button(self, text="Test", highlightbackground="medium sea green", padx=10,
-					command=lambda: print(questionnaireAnswers["careerfield"].get()))
+					command=lambda: print(questionnaireAnswers["matchgender"]))
 		b2.pack()
 
 class ProfilePage(Frame):
