@@ -10,7 +10,7 @@ Authors: Olivia Pannell and Ben Verney
 from tkinter import *
 from tkinter import Text, messagebox
 
-from compatibility import *
+import compatibility as c
 from database import *
 
 # Specific font variables
@@ -40,6 +40,11 @@ questionnaireAnswers = {"gender": -1, "matchgender": -1, "userage": -1, "careerf
 						"kindofwork": -1}
 
 
+'''
+TO DO CREATE USER CLASS AND ADD TO IT
+'''
+#Creates current_user as a user class
+# current_user = c.User()
 '''
 POTENTIAL COLOR THEMES
 salmon
@@ -149,22 +154,21 @@ class LoginPage(Frame):
 		global password1
 		global userlbl
 		global passlbl
-		global user
 
 		# Error message that displays if at least one of the Username/Password
 		# entries are not filled out
-		errorlbl = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="red", font=SMALL_FONT)
-		errorlbl2 = Label(self, text='*Incorrect Password or Username.', bg="medium sea green", fg="red", font=SMALL_FONT)
+		errorlbl = Label(self, text='        *Please fill out all sections.    ', bg="medium sea green", fg="red4", font=SMALL_FONT)
+		errorlbl2 = Label(self, text='*Incorrect Password or Username.', bg="medium sea green", fg="red4", font=SMALL_FONT)
 
 		# If the username entry is empty turn text red
 		if not username1.get():
-			userlbl.config(text='*Username:', fg='red')
-			errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
+			userlbl.config(text='*Username:', fg='red4')
+			errorlbl.place(relx=0.47, rely=0.59, anchor=CENTER)
 
 		# If the password entry is empty turn text red
 		if not password1.get():
-			passlbl.config(text='*Password:', fg='red')
-			errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
+			passlbl.config(text='*Password:', fg='red4')
+			errorlbl.place(relx=0.47, rely=0.59, anchor=CENTER)
 
 		# Resets previous username error text
 		if username1.get():
@@ -174,26 +178,20 @@ class LoginPage(Frame):
 		if password1.get():
 			passlbl.config(text='Password:', fg='white')
 
-
-		'''
-		WORKING ON THIS PART IT DOESNT WORK AT THE MOMENT
-		DOESNT RECOGNIZE user.login_check() function from
-		COMPATIBILITY.PY
-		'''
 		# If both are filled out
 		if username1.get() and password1.get():
 			# Checks if the username and password are in the database
-			valid = user.login_check(username1.get(), password1.get())
+			valid = c.login_check(username1.get(), password1.get())
 			if valid:
 				# If they are get rid of error messages and call the homepage
 				errorlbl = Label(self, text='*Incorrect Password or Username.', bg="medium sea green", fg="medium sea green",
 							 font=SMALL_FONT)
-				errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
+				errorlbl.place(relx=0.47, rely=0.59, anchor=CENTER)
 				# Check to see if current user is mentor or mentee
 				# Guides them to corresponding page
 				controller.show_frame(HomePage)
 			else:
-				errorlbl2.place(relx=0.50, rely=0.59, anchor=CENTER)
+				errorlbl2.place(relx=0.47, rely=0.59, anchor=CENTER)
 
 
 # Contains everything for the Sign Up Page frame
@@ -270,38 +268,42 @@ class SignUpPage(Frame):
 
 		# Error message that displays if at least one of the entry fields is not
 		# filled in.
-		errorlbl = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="red", font=SMALL_FONT)
+		# Spaces are used here to fully cover larger error labels
+		errorlbl = Label(self, text='              *Please fill out all sections.              ', 
+			bg="medium sea green", fg="red4", font=SMALL_FONT)
+ 
+		# Error message that displays if password and password check dont match.
+		errorlbl2 = Label(self, text='*Passwords did not match. Please try again.', 
+			bg="medium sea green", fg="red4", font=SMALL_FONT)
 
 		# Error message that displays if password and password check dont match.
-		errorlbl1 = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="red", font=SMALL_FONT)
-
-		# Error message that displays if password and password check dont match.
-		errorlbl2 = Label(self, text='*Invalid email. Please try again.', bg="medium sea green", fg="red", font=SMALL_FONT)
+		errorlbl3 = Label(self, text='           *Invalid email. Please try again.         ', 
+			bg="medium sea green", fg="red4", font=SMALL_FONT)
 
 		# If the username entry is empty turn text red, else white
 		if not newusername.get():
-			newuserlbl.config(text='*New Username:', fg='red')
+			newuserlbl.config(text='*New Username:', fg='red4')
 			errorlbl.place(relx=0.50, rely=0.80, anchor=CENTER)
 		else:
 			newuserlbl.config(text='Username:', fg='white')
 
 		# If the password entry is empty turn text red, else white
 		if not newpassword.get():
-			newpasslbl.config(text='*New Password:', fg='red')
+			newpasslbl.config(text='*New Password:', fg='red4')
 			errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
 		else:
 			newpasslbl.config(text='New Password:', fg='white')
 
 		# If the user does not enter the password twice it turns red, else white
 		if not passcheck.get():
-			pclbl.config(text='*Re-Enter Password:', fg='red')
+			pclbl.config(text='*Re-Enter Password:', fg='red4')
 			errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
 		else:
 			pclbl.config(text='Re-Enter Password:', fg='white')
 
 		# If the email entry is empty turn text red, else white
 		if not newemail.get():
-			newemaillbl.config(text='*Email:', fg='red')
+			newemaillbl.config(text='*Email:', fg='red4')
 			errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
 		else:
 			newemaillbl.config(text='Email:', fg='white')
@@ -316,17 +318,20 @@ class SignUpPage(Frame):
 					# -------------TO DO------------------
 					#		
 					#		  ADD TO DATABASE
+					# current_user.username = newusername.get()
+					# current_user.password = newpassword.get()
+					# current_user.email = newemail.get()
 					errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
 								 font=SMALL_FONT)
 					errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
 					controller.show_frame(QuestionPage)
 				else:
-					newemaillbl.config(text='*Email:', fg='red')
-					errorlbl2.place(relx=0.50, rely=0.8, anchor=CENTER)
+					newemaillbl.config(text='*Email:', fg='red4')
+					errorlbl3.place(relx=0.50, rely=0.8, anchor=CENTER)
 			else:
-				newpasslbl.config(text='*New Password:', fg='red')
-				pclbl.config(text='*Re-Enter Password:', fg='red')
-				errorlbl1.place(relx=0.50, rely=0.8, anchor=CENTER)
+				newpasslbl.config(text='*New Password:', fg='red4')
+				pclbl.config(text='*Re-Enter Password:', fg='red4')
+				errorlbl2.place(relx=0.50, rely=0.8, anchor=CENTER)
 
 # Contains everything for the Home Page frame
 # This is where the user can see pontential mentors/mentees
