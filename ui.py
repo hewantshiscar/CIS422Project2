@@ -1,11 +1,22 @@
+"""
+CIS 422 Project 2: User Interface File
+
+Last Modified: 3/3/20
+
+Authors: Olivia Pannell and Ben Verney
+"""
+
+# Imports
 from tkinter import *
 from tkinter import Text, messagebox
 
+# Specific font variables
 SMALL_FONT = ("Helvetica", 12)
 TITLE_FONT = ("Helvetica", 50, "bold")
 TAB_FONT = ("Helvetica", 18, "bold italic")
 MATCH_FONT = ("Times", 15, "bold italic")
 
+# List of Majors/Subjects
 MAJORS = {"Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
 		   "Asian studies", "Biochemistry", "Biology", "Business administration", "Chemistry", "Chinese", "Cinema studies",
 		   "Classics", "Communication disorders and sciences", "Comparative literature", "Computer and information science",
@@ -31,7 +42,8 @@ medium sea green
 0d7e83
 '''
 
-
+# Main class that controls which frame is on top (shown to the user)
+# in any given instance
 class start(Tk):
 
 	def __init__(self, *args, **kwargs):
@@ -43,7 +55,7 @@ class start(Tk):
 		container.pack(side="top", fill="both", expand=True)
 		self.pages = {}
 
-		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2):
+		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage):
 			frame = page(container, self)
 			self.pages[page] = frame
 			frame.place(relx=0.0, rely=0.0, height=425, width=600)
@@ -55,7 +67,7 @@ class start(Tk):
 		frame = self.pages[controller]
 		frame.tkraise()
 
-
+# Contains everything for the Main Menu frame
 class MainMenu(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -77,7 +89,7 @@ class MainMenu(Frame):
 					command=lambda: controller.show_frame(HelpPage))
 		b2.place(relx=0.0, rely=1.0, anchor=SW)
 
-
+# Contains everything for the Help frame
 class HelpPage(Frame):
 
 	def __init__(self, parent, controller):
@@ -89,7 +101,7 @@ class HelpPage(Frame):
 					command=lambda: controller.show_frame(MainMenu))
 		b0.place(relx=0.0, rely=1.0, anchor=SW)
 
-
+# Contains everything for the Login Page frame
 class LoginPage(Frame):
 
 	def __init__(self, parent, controller):
@@ -97,7 +109,7 @@ class LoginPage(Frame):
 		global userlbl
 		global password
 		global passlbl
-		global log
+
 		Frame.__init__(self, parent)
 		lbl1 = Label(self, text='MENTOR SHIT', bg="medium sea green", fg="white", font=TITLE_FONT)
 		lbl1.place(relx=0.5, rely=0.20, anchor=CENTER)
@@ -122,41 +134,38 @@ class LoginPage(Frame):
 		password.place(relx=0.55, rely=0.50, anchor=CENTER)
 
 		log = Button(self, text="Login", highlightbackground="medium sea green", padx=10,
-					 command=lambda: self.error(parent, controller))
+					 command=lambda: self.loginerror(parent, controller))
 		log.place(relx=0.62, rely=0.62, anchor=SW)
 
 	# Checking if username and password entrys were filled out before
 	# clicking login
-	def error(self, parent, controller):
+	def loginerror(self, parent, controller):
 		global username
 		global password
 		global userlbl
 		global passlbl
-		global log
 
 		# Error message that displays if at least one of the Username/Password
 		# entries are not filled out
-		lbl1 = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="red", font=SMALL_FONT)
+		errorlbl = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="red", font=SMALL_FONT)
 
 		# If the username entry is empty turn text red
 		if not username.get():
 			userlbl.config(text='*Username:', fg='red')
-			lbl1.place(relx=0.50, rely=0.59, anchor=CENTER)
+			errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
 
 		# If the password entry is empty turn text red
 		if not password.get():
 			passlbl.config(text='*Password:', fg='red')
-			lbl1.place(relx=0.50, rely=0.59, anchor=CENTER)
+			errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
 
 		# Resets previous username error text
 		if username.get():
 			userlbl.config(text='Username:', fg='white')
-		# lbl1.place(relx = 0.50, rely = 0.59, anchor = CENTER)
 
 		# Resets previous password error text
 		if password.get():
 			passlbl.config(text='Password:', fg='white')
-		# lbl1.place(relx = 0.50, rely = 0.59, anchor = CENTER)
 
 		# If both are filled out
 		if username.get() and password.get():
@@ -164,15 +173,24 @@ class LoginPage(Frame):
 			#		NEED TO CHECK IF
 			#	  USERNAME AND PASSWORD
 			#		MATCH IN DATABASE
-			lbl1 = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="medium sea green",
+			errorlbl = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="medium sea green",
 						 font=SMALL_FONT)
-			lbl1.place(relx=0.50, rely=0.59, anchor=CENTER)
+			errorlbl.place(relx=0.50, rely=0.59, anchor=CENTER)
 			controller.show_frame(HomePage)
 
-
+# Contains everything for the Sign Up Page frame
 class SignUpPage(Frame):
 
 	def __init__(self, parent, controller):
+		global newusername
+		global newpassword
+		global newemail
+		global passcheck
+		global newuserlbl
+		global newpasslbl
+		global newemaillbl
+		global pclbl
+
 		Frame.__init__(self, parent)
 		lbl1 = Label(self, text='MENTOR SHIT', bg="medium sea green", fg="white", font=TITLE_FONT)
 		lbl1.place(relx=0.5, rely=0.20, anchor=CENTER)
@@ -186,28 +204,106 @@ class SignUpPage(Frame):
 		b0.place(relx=0.0, rely=1.0, anchor=SW)
 
 		b2 = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
-					command=lambda: controller.show_frame(QuestionPage))
+					command=lambda: self.signuperror(parent, controller))
 		b2.place(relx=1.0, rely=1.0, anchor=SE)
 
-		userlbl = Label(self, text='New Username:', bg="medium sea green", fg="white", font=SMALL_FONT)
-		userlbl.place(relx=0.30, rely=0.40, anchor=CENTER)
+		newuserlbl = Label(self, text='New Username:', bg="medium sea green", fg="white", font=SMALL_FONT)
+		newuserlbl.place(relx=0.28, rely=0.40, anchor=CENTER)
 
-		username1 = Entry(self)
-		username1.place(relx=0.55, rely=0.40, anchor=CENTER)
+		newusername = Entry(self)
+		newusername.place(relx=0.55, rely=0.40, anchor=CENTER)
 
-		passlbl = Label(self, text='New Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
-		passlbl.place(relx=0.30, rely=0.50, anchor=CENTER)
+		newpasslbl = Label(self, text='New Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
+		newpasslbl.place(relx=0.28, rely=0.50, anchor=CENTER)
 
-		password1 = Entry(self, show='*')
-		password1.place(relx=0.55, rely=0.50, anchor=CENTER)
+		newpassword = Entry(self, show='*')
+		newpassword.place(relx=0.55, rely=0.50, anchor=CENTER)
 
-		userlbl1 = Label(self, text='Email:', bg="medium sea green", fg="white", font=SMALL_FONT)
-		userlbl1.place(relx=0.30, rely=0.60, anchor=CENTER)
+		newemaillbl = Label(self, text='Email:', bg="medium sea green", fg="white", font=SMALL_FONT)
+		newemaillbl.place(relx=0.28, rely=0.70, anchor=CENTER)
 
-		email1 = Entry(self)
-		email1.place(relx=0.55, rely=0.60, anchor=CENTER)
+		newemail = Entry(self)
+		newemail.place(relx=0.55, rely=0.70, anchor=CENTER)
 
+		pclbl = Label(self, text='Re-Enter Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
+		pclbl.place(relx=0.28, rely=0.60, anchor=CENTER)
 
+		passcheck = Entry(self, show = '*')
+		passcheck.place(relx=0.55, rely=0.60, anchor=CENTER)
+
+	# Error checking on the signup page
+	def signuperror(self, parent, controller):
+		global newusername
+		global newpassword
+		global newemail
+		global passcheck
+		global newuserlbl
+		global newpasslbl
+		global newemaillbl
+		global pclbl
+
+		# Error message that displays if at least one of the entry fields is not
+		# filled in.
+		errorlbl = Label(self, text='*Please fill out all sections.', bg="medium sea green", fg="red", font=SMALL_FONT)
+
+		# Error message that displays if password and password check dont match.
+		errorlbl1 = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="red", font=SMALL_FONT)
+
+		# Error message that displays if password and password check dont match.
+		errorlbl2 = Label(self, text='*Invalid email. Please try again.', bg="medium sea green", fg="red", font=SMALL_FONT)
+
+		# If the username entry is empty turn text red, else white
+		if not newusername.get():
+			newuserlbl.config(text='*New Username:', fg='red')
+			errorlbl.place(relx=0.50, rely=0.80, anchor=CENTER)
+		else:
+			newuserlbl.config(text='Username:', fg='white')
+
+		# If the password entry is empty turn text red, else white
+		if not newpassword.get():
+			newpasslbl.config(text='*New Password:', fg='red')
+			errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
+		else:
+			newpasslbl.config(text='New Password:', fg='white')
+
+		# If the user does not enter the password twice it turns red, else white
+		if not passcheck.get():
+			pclbl.config(text='*Re-Enter Password:', fg='red')
+			errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
+		else:
+			pclbl.config(text='Re-Enter Password:', fg='white')
+
+		# If the email entry is empty turn text red, else white
+		if not newemail.get():
+			newemaillbl.config(text='*Email:', fg='red')
+			errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
+		else:
+			newemaillbl.config(text='Email:', fg='white')
+
+		# If all entries are filled out
+		if newusername.get() and newpassword.get() and passcheck.get() and newemail.get():
+			# Check for password and password check to match
+			if newpassword.get() == passcheck.get():
+				#Check for valid email with @
+				at = "@"
+				if newemail.get().count(at):
+					# -------------TO DO------------------
+					#		
+					#		  ADD TO DATABASE
+					errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
+								 font=SMALL_FONT)
+					errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
+					controller.show_frame(QuestionPage)
+				else:
+					newemaillbl.config(text='*Email:', fg='red')
+					errorlbl2.place(relx=0.50, rely=0.8, anchor=CENTER)
+			else:
+				newpasslbl.config(text='*New Password:', fg='red')
+				pclbl.config(text='*Re-Enter Password:', fg='red')
+				errorlbl1.place(relx=0.50, rely=0.8, anchor=CENTER)
+
+# Contains everything for the Home Page frame
+# This is where the user can see pontential mentors/mentees
 class HomePage(Frame):
 
 	def __init__(self, parent, controller):
@@ -215,7 +311,7 @@ class HomePage(Frame):
 		b0 = Button(self, text="Potential Mentors", width=30, font=TAB_FONT)
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
 
-		b1 = Button(self, text="Profile", padx=50, font=TAB_FONT)
+		b1 = Button(self, text="Profile", padx=50, font=TAB_FONT, command=lambda: controller.show_frame(ProfilePage))
 		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
 
 		b2 = Button(self, text="Logout", padx=40, font=TAB_FONT, command=lambda: controller.show_frame(MainMenu))
@@ -253,12 +349,11 @@ class HomePage(Frame):
 	# fr5 = Frame(self, width = 570, height = 40, bg = 'white')
 	# fr5.place(relx=0.50, rely=0.63, anchor=CENTER)
 
-
+# Contains everything for the First page of the questionaire page
 class QuestionPage(Frame):
 
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
-
 
 		global gender
 		global matchgender
@@ -310,11 +405,18 @@ class QuestionPage(Frame):
 							font=MATCH_FONT)
 		majorLabel.place(relx=0.1, rely=0.62, anchor=W)
 
+		# Sets initial drop down option to say "Choose one"
+		# This does not show in the list of options.
+		careerfield.set("Choose One...")
 		majoroptions = OptionMenu(self, careerfield, *MAJORS)
-		majoroptions.place(relx=0.13, rely=0.70, anchor=W)
 
+		#Changes the colors of the background to match our theme
+		majoroptions.config(bg = 'medium sea green')
 
-
+		# Changes the drop down font color to be green, 
+		# we can change this if you dont like it!
+		majoroptions["menu"].config(bg = 'medium sea green')
+		majoroptions.place(relx=0.1, rely=0.70, anchor=W)
 
 
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
@@ -360,6 +462,22 @@ class QuestionPage2(Frame):
 		b2 = Button(self, text="Test", highlightbackground="medium sea green", padx=10,
 					command=lambda: print(questionnaireAnswers["careerfield"].get()))
 		b2.pack()
+
+class ProfilePage(Frame):
+
+	def __init__(self, parent, controller):
+		Frame.__init__(self, parent)
+		b0 = Button(self, text = "Potential Mentors", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
+		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
+
+		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT)
+		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
+
+		b2 = Button(self, text="Logout", padx = 40, font = TAB_FONT, command=lambda: controller.show_frame(MainMenu))
+		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
+
+		fr1 = Frame(self, width = 570, height = 380, bg = 'white')
+		fr1.place(relx=0.50, rely=0.52, anchor=CENTER)
 
 
 win = start()
