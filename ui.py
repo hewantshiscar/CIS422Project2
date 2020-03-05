@@ -18,6 +18,8 @@ SMALL_FONT = ("Helvetica", 12)
 TITLE_FONT = ("Helvetica", 50, "bold")
 TAB_FONT = ("Helvetica", 18, "bold italic")
 MATCH_FONT = ("Times", 15, "bold italic")
+QUESTION_FONT = ("Roboto", 15, "bold")
+BUTTON_FONT = ("Helvetica", 10)
 
 # List of Majors/Subjects
 MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
@@ -35,9 +37,8 @@ MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technolo
 
 questionnaireAnswers = {"gender": -1, "matchgender": -1, "userage": -1, "careerfield": -1, "agerange": -1, "timeinvestment": -1,"experiencelevel": -1,
 						"networkingskills": -1, "orginizationalskills": -1, "communicationskills": -1, "timemanagementskills": -1,
-						"workethic": -1, "flexibility": -1, "problemsolvingskills": -1, "workwithothers": -1, "selfmotivation": -1,
-						"professionalism": -1,"integrity": -1, "patience": -1, "social": -1, "learningstyle": -1, "careergoals": -1,
-						"kindofwork": -1}
+						"workethic": -1, "flexibility": -1, "workwithothers": -1,
+						"introvertextrovert": -1, "learningstyle": -1, "careergoals": -1, "kindofwork": -1}
 
 
 '''
@@ -65,7 +66,8 @@ class start(Tk):
 		container.pack(side="top", fill="both", expand=True)
 		self.pages = {}
 
-		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage):
+		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage,
+					QuestionPage3, QuestionPage4, QuestionPage5, QuestionPage6):
 			frame = page(container, self)
 			self.pages[page] = frame
 			frame.place(relx=0.0, rely=0.0, height=425, width=600)
@@ -396,48 +398,48 @@ class QuestionPage(Frame):
 		matchgender = IntVar()
 		careerfield = StringVar()
 
-		lbl1 = Label(self, text='Please answer the following questions\n so we can match you with a mentor:',
-					 bg="medium sea green", fg="white", font=TAB_FONT)
-		lbl1.place(relx=0.5, rely=.05, anchor=N)
+		lbl1 = Label(self, text='Please answer the following questions so\nwe can match you with a mentor:',
+					 bg="medium sea green", fg="white", font=("Roboto", 18, "bold"))
+		lbl1.place(relx=0.05, rely=0.1, anchor=W)
 
-		lbl1 = Label(self, text='What is your gender?', bg="medium sea green", fg="white", font=MATCH_FONT)
+		lbl1 = Label(self, text='What is your gender?', bg="medium sea green", fg="white", font=QUESTION_FONT)
 		lbl1.place(relx=0.05, rely=0.27, anchor=W)
 
 		maleRB = Radiobutton(self, text="Male", bg="medium sea green", selectcolor="medium sea green",
-							 activebackground="medium sea green", variable=gender, value=1,
+							 activebackground="medium sea green", variable=gender, value=1, font=BUTTON_FONT,
 							 command=lambda: self.removeinputgender())
-		maleRB.place(relx=0.1, rely=0.34, anchor=W)
+		maleRB.place(relx=0.1, rely=0.36, anchor=W)
 
 		femaleRB = Radiobutton(self, text="Female", bg="medium sea green", selectcolor="medium sea green",
-							   activebackground="medium sea green", variable=gender, value=2,
+							   activebackground="medium sea green", variable=gender, value=2, font=BUTTON_FONT,
 							   command=lambda: self.removeinputgender())
-		femaleRB.place(relx=0.1, rely=0.41, anchor=W)
+		femaleRB.place(relx=0.1, rely=0.43, anchor=W)
 
 		selfidentifyRB = Radiobutton(self, text="Self Identify:", bg="medium sea green", selectcolor="medium sea green",
-									 activebackground="medium sea green", variable=gender, value=3,
+									 activebackground="medium sea green", variable=gender, value=3, font=BUTTON_FONT,
 									 command=lambda: self.placeinputgender())
-		selfidentifyRB.place(relx=0.1, rely=0.48, anchor=W)
+		selfidentifyRB.place(relx=0.1, rely=0.50, anchor=W)
 
 		matchgenderLB = Label(self, text='Who do you want to be\n matched with?', bg="medium sea green", fg="white",
-							font=MATCH_FONT)
+							font=QUESTION_FONT)
 		matchgenderLB.place(relx=0.53, rely=0.27, anchor=W)
 
 		#FIXME: this dumb tristate value bug is back
-		malematchRB = Radiobutton(self, text="Male", bg="medium sea green", selectcolor="medium sea green",
+		malematchRB = Radiobutton(self, text="Male", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
 								  activebackground="medium sea green", variable=matchgender, value=1, tristatevalue=0)
-		malematchRB.place(relx=0.58, rely=0.34, anchor=W)
+		malematchRB.place(relx=0.58, rely=0.36, anchor=W)
 
-		femalematchRB = Radiobutton(self, text="Female", bg="medium sea green", selectcolor="medium sea green",
+		femalematchRB = Radiobutton(self, text="Female", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
 									activebackground="medium sea green", variable=matchgender, value=2, tristatevalue=0)
-		femalematchRB.place(relx=0.58, rely=0.41, anchor=W)
+		femalematchRB.place(relx=0.58, rely=0.43, anchor=W)
 
-		everyonematchRB = Radiobutton(self, text="Everyone", bg="medium sea green", selectcolor="medium sea green",
+		everyonematchRB = Radiobutton(self, text="Everyone", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
 									  activebackground="medium sea green", variable=matchgender, value=3,
 									  tristatevalue=0)
-		everyonematchRB.place(relx=0.58, rely=0.48, anchor=W)
+		everyonematchRB.place(relx=0.58, rely=0.50, anchor=W)
 
 		majorLabel = Label(self, text='What is your career field?', bg="medium sea green", fg="white",
-							font=MATCH_FONT)
+							font=QUESTION_FONT)
 		majorLabel.place(relx=0.05, rely=0.62, anchor=W)
 
 		# Sets initial drop down option to say "Choose one"
@@ -456,12 +458,14 @@ class QuestionPage(Frame):
 
 		#TODO: need to make sure people only enter intergers in this field
 		enterage = Label(self, text='How old are you?', bg="medium sea green", fg="white",
-							font=MATCH_FONT)
+							font=QUESTION_FONT)
 		enterage.place(relx=0.53, rely=0.62, anchor=W)
 		userage = Entry(self)
 		userage.place(relx=0.58, rely=0.69, anchor=W)
 
 
+		pagenum = Label(self, text='pg 1/5',bg="medium sea green", font=BUTTON_FONT)
+		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
 
 
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
@@ -488,7 +492,7 @@ class QuestionPage(Frame):
 
 	def placeinputgender(self):
 		global inputgender
-		inputgender.place(relx=0.13, rely=0.54, anchor=W)
+		inputgender.place(relx=0.13, rely=0.56, anchor=W)
 
 	def removeinputgender(self):
 		global inputgender
@@ -499,43 +503,509 @@ class QuestionPage2(Frame):
 
 	def __init__(self, parent, controller):
 		global agerange
+		global timeinvestment
+		global experiencelevel
+		global networkingskills
 		agerange = IntVar()
+		timeinvestment = IntVar()
+		experiencelevel = IntVar()
+		networkingskills = IntVar()
+
 
 		Frame.__init__(self, parent)
 
 		#TODO: maybe allow them to select multiple age ranges? This is kind of limiting... but also hard to implement. Ask group.
-		agerangeLB = Label(self, text='What age range do you want to be matched with?', bg="medium sea green", fg="white",
-							  font=MATCH_FONT)
-		agerangeLB.place(relx=0.05, rely=0.1, anchor=W)
+		Label(self, text='What age range do you want to be matched with?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.1, anchor=W)
 
-		agerange1825 = Radiobutton(self, text="18-25", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=agerange, value=1, tristatevalue=0)
-		agerange1825.place(relx=0.1, rely=0.17, anchor=W)
+		Radiobutton(self, text="18-25", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=agerange, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.17, anchor=W)
 
-		agerange2530 = Radiobutton(self, text="25-30", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=agerange, value=2, tristatevalue=0)
-		agerange2530.place(relx=0.1, rely=0.24, anchor=W)
+		Radiobutton(self, text="25-30", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=agerange, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.17, anchor=W)
 
-		agerange3040 = Radiobutton(self, text="30-40", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=agerange, value=3, tristatevalue=0)
-		agerange3040.place(relx=0.1, rely=0.31, anchor=W)
+		Radiobutton(self, text="30-40", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=agerange, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.17, anchor=W)
 
-		agerange4060 = Radiobutton(self, text="40-60", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=agerange, value=4, tristatevalue=0)
-		agerange4060.place(relx=0.1, rely=0.38, anchor=W)
+		Radiobutton(self, text="40-60", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=agerange, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.17, anchor=W)
 
-		agerange60plus = Radiobutton(self, text="60+", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=agerange, value=5, tristatevalue=0)
-		agerange60plus.place(relx=0.1, rely=0.45, anchor=W)
+		Radiobutton(self, text="60+", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=agerange, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.17, anchor=W)
 
 
-		b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
-					command=lambda: controller.show_frame(QuestionPage))
-		b0.place(relx=0.0, rely=1.0, anchor=SW)
 
-		b2 = Button(self, text="Test", highlightbackground="medium sea green", padx=10,
-					command=lambda: print(questionnaireAnswers["matchgender"]))
-		b2.pack()
+		Label(self, text='How much time would you like to invest in your\nmentor-mentee relationship? (1 = low, 5 = high)', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.3, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=timeinvestment, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=timeinvestment, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=timeinvestment, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=timeinvestment, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=timeinvestment, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.4, anchor=W)
+
+
+
+		Label(self, text='What is your experience level in your field?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=experiencelevel, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=experiencelevel, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=experiencelevel, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=experiencelevel, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=experiencelevel, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.6, anchor=W)
+
+
+
+		Label(self, text='How good are your networking skills?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.7, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=networkingskills, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=networkingskills, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=networkingskills, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=networkingskills, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=networkingskills, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.8, anchor=W)
+
+
+
+
+		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
+					command=lambda: [controller.show_frame(QuestionPage), self.save()])
+		back.place(relx=0.0, rely=1.0, anchor=SW)
+
+		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
+					  command=lambda: [controller.show_frame(QuestionPage3), self.save()])
+		next.place(relx=1.0, rely=1.0, anchor=SE)
+
+		pagenum = Label(self, text='pg 2/5', bg="medium sea green", font=BUTTON_FONT)
+		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+
+	def save(self):
+		global agerange
+		global timeinvestment
+		global experiencelevel
+		global networkingskills
+		questionnaireAnswers["agerange"] = agerange.get()
+		questionnaireAnswers["timeinvestment"] = timeinvestment.get()
+		questionnaireAnswers["experiencelevel"] = experiencelevel.get()
+		questionnaireAnswers["networkingskills"] = networkingskills.get()
+
+class QuestionPage3(Frame):
+
+	def __init__(self, parent, controller):
+		global kindofwork
+		global networkingskills
+		global orginizationalskills
+		global communicationskills
+		kindofwork = IntVar()
+		networkingskills = IntVar()
+		orginizationalskills = IntVar()
+		communicationskills = IntVar()
+
+		Frame.__init__(self, parent)
+
+
+		Label(self, text='What kind of work do you want to do?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.1, anchor=W)
+
+		Radiobutton(self, text="Large corporate company", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=kindofwork, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.05, rely=0.17, anchor=W)
+
+		Radiobutton(self, text="Startup/small business", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=kindofwork, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.35, rely=0.17, anchor=W)
+
+		Radiobutton(self, text="Own your own business", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=kindofwork, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.65, rely=0.17, anchor=W)
+
+		Radiobutton(self, text="Freelancer/contractor", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=kindofwork, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.2, rely=0.24, anchor=W)
+
+		Radiobutton(self, text="Non-Profit", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=kindofwork, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.5, rely=0.24, anchor=W)
+
+
+
+		Label(self, text='How good are your networking skills? (1 = low, 5 = high)', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.3, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=networkingskills, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=networkingskills, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=networkingskills, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=networkingskills, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=networkingskills, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.4, anchor=W)
+
+
+
+		Label(self, text='How good are your orginizational skills?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=orginizationalskills, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=orginizationalskills, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=orginizationalskills, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=orginizationalskills, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=orginizationalskills, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.6, anchor=W)
+
+
+
+		Label(self, text='How good are your communication skills?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.7, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=communicationskills, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=communicationskills, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=communicationskills, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=communicationskills, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=communicationskills, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.8, anchor=W)
+
+
+
+		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
+				  command=lambda: [controller.show_frame(QuestionPage2), self.save()])
+		back.place(relx=0.0, rely=1.0, anchor=SW)
+
+		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
+				  command=lambda: [controller.show_frame(QuestionPage4), self.save()])
+		next.place(relx=1.0, rely=1.0, anchor=SE)
+
+		pagenum = Label(self, text='pg 3/5', bg="medium sea green", font=BUTTON_FONT)
+		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+
+
+	def save(self):
+		global kindofwork
+		global networkingskills
+		global orginizationalskills
+		global communicationskills
+		questionnaireAnswers["kindofwork"] = kindofwork.get()
+		questionnaireAnswers["networkingskills"] = networkingskills.get()
+		questionnaireAnswers["orginizationalskills"] = orginizationalskills.get()
+		questionnaireAnswers["communicationskills"] = communicationskills.get()
+
+
+
+class QuestionPage4(Frame):
+
+	def __init__(self, parent, controller):
+		global careergoals
+		global timemanagementskills
+		global workethic
+		global flexiblility
+		careergoals = IntVar()
+		timemanagementskills = IntVar()
+		workethic = IntVar()
+		flexiblility = IntVar()
+
+		Frame.__init__(self, parent)
+
+
+		Label(self, text='What is your prinary career goal?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.1, anchor=W)
+
+		Radiobutton(self, text="Money", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=careergoals, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.17, anchor=W)
+
+		Radiobutton(self, text="Happiness", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=careergoals, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.22, rely=0.17, anchor=W)
+
+		Radiobutton(self, text="Community", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=careergoals, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.38, rely=0.17, anchor=W)
+
+		Radiobutton(self, text="Stability", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=careergoals, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.17, anchor=W)
+
+		Radiobutton(self, text="Influence", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=careergoals, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.69, rely=0.17, anchor=W)
+
+
+
+		Label(self, text='How good are your time management skills?\n(1 = low, 5 = high)', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.28, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=timemanagementskills, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=timemanagementskills, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=timemanagementskills, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=timemanagementskills, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.4, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=timemanagementskills, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.4, anchor=W)
+
+
+
+		Label(self, text='How would you rate your work ethic?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=workethic, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=workethic, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=workethic, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=workethic, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.6, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=workethic, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.6, anchor=W)
+
+
+
+		Label(self, text='How flexible/adaptable are you?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.7, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=flexiblility, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=flexiblility, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=flexiblility, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=flexiblility, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.8, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=flexiblility, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.8, anchor=W)
+
+
+
+
+		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
+				  command=lambda: [controller.show_frame(QuestionPage3), self.save()])
+		back.place(relx=0.0, rely=1.0, anchor=SW)
+
+		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
+				  command=lambda: [controller.show_frame(QuestionPage5), self.save()])
+		next.place(relx=1.0, rely=1.0, anchor=SE)
+
+		pagenum = Label(self, text='pg 4/5', bg="medium sea green",  font=BUTTON_FONT)
+		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+
+
+	def save(self):
+		global careergoals
+		global timemanagementskills
+		global workethic
+		global flexiblility
+		questionnaireAnswers["careergoals"] = careergoals.get()
+		questionnaireAnswers["timemanagementskills"] = timemanagementskills.get()
+		questionnaireAnswers["workethic"] = workethic.get()
+		questionnaireAnswers["flexibility"] = flexiblility.get()
+
+
+
+class QuestionPage5(Frame):
+
+	def __init__(self, parent, controller):
+		global learningstyle
+		global workwithothers
+		#global patience
+		global introvertextrovert
+		learningstyle = IntVar()
+		workwithothers = IntVar()
+		#patience = IntVar()
+		introvertextrovert = IntVar()
+
+		Frame.__init__(self, parent)
+
+
+
+		Label(self, text='What kind of learner are you?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.08, anchor=W)
+
+		Radiobutton(self, text="Visual (Spatial): You prefer using pictures, images, and spatial understanding.", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=learningstyle, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.15, anchor=W)
+
+		Radiobutton(self, text="Aural (Auditory-Musical): You prefer using sound and music.", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=learningstyle, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.22, anchor=W)
+
+		Radiobutton(self, text="Verbal (Linguistic): You prefer using words, both in speech and writing", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=learningstyle, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.29, anchor=W)
+
+		Radiobutton(self, text="Physical (Kinesthetic): You prefer using our body, hands, and sense of touch.", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=learningstyle, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.36, anchor=W)
+
+		Radiobutton(self, text="Logical (Mathematical): You prefer using logic, reasoning, and systems.", bg="medium sea green", selectcolor="medium sea green",
+					activebackground="medium sea green", variable=learningstyle, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.43, anchor=W)
+
+
+
+		Label(self, text='How would you rate your ablility to work with others?\n(1 = low, 5 = high)', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.55, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=workwithothers, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.65, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=workwithothers, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.65, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=workwithothers, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.65, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=workwithothers, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.65, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=workwithothers, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.65, anchor=W)
+
+
+		"""
+		Label(self, text='How patient are you?', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.59, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=patience, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.68, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=patience, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.68, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=patience, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.68, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=patience, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.68, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=patience, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.68, anchor=W)
+		"""
+
+
+		Label(self, text='How introverted/extroverted are you?\n(1 = introverted, 5 = extroverted', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT).place(relx=0.05, rely=0.75, anchor=W)
+
+		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
+								  activebackground="medium sea green", variable=introvertextrovert, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.85, anchor=W)
+
+		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=introvertextrovert, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.85, anchor=W)
+
+		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=introvertextrovert, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.85, anchor=W)
+
+		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=introvertextrovert, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.85, anchor=W)
+
+		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
+								   activebackground="medium sea green", variable=introvertextrovert, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.85, anchor=W)
+
+
+
+
+		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
+				  command=lambda: [controller.show_frame(QuestionPage4), self.save()])
+		back.place(relx=0.0, rely=1.0, anchor=SW)
+
+		next = Button(self, text="Finish!", highlightbackground="medium sea green", padx=10,
+				  command=lambda: [controller.show_frame(QuestionPage6), self.save()])
+		next.place(relx=1.0, rely=1.0, anchor=SE)
+
+		pagenum = Label(self, text='pg 5/5', bg="medium sea green",  font=BUTTON_FONT)
+		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+
+
+	def save(self):
+		global learningstyle
+		global workwithothers
+		#global patience
+		global introvertextrovert
+		questionnaireAnswers["learningstyle"] = learningstyle.get()
+		questionnaireAnswers["workwithothers"] = workwithothers.get()
+		#questionnaireAnswers["patience"] = patience.get()
+		questionnaireAnswers["introvertextrovert"] = introvertextrovert.get()
+
+
+class QuestionPage6(Frame):
+
+	def __init__(self, parent, controller):
+
+
+		Frame.__init__(self, parent)
+
+		Label(self, text='Just the test button right now,\nThis should link to the profile page.', bg="medium sea green", fg="white",
+			  font=("Roboto", 18, "bold")).place(relx=0.05, rely=0.3, anchor=W)
+
+
+
+		test = Button(self, text="Test", highlightbackground="medium sea green", padx=10,
+					  command=lambda: print(questionnaireAnswers))
+		test.pack()
+
+		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
+				  command=lambda: [controller.show_frame(QuestionPage2), self.save()])
+		back.place(relx=0.0, rely=1.0, anchor=SW)
+
+		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
+				  command=lambda: [controller.show_frame(QuestionPage3), self.save()])
+		next.place(relx=1.0, rely=1.0, anchor=SE)
+
+		pagenum = Label(self, text='pg 6', bg="medium sea green",  font=BUTTON_FONT)
+		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+
+
+	def save(self):
+		pass
 
 class ProfilePage(Frame):
 
