@@ -1,15 +1,13 @@
 """
 CIS 422 Project 2: Compatibility Algorithm File
 
-Last Modified: 3/2/20
+Last Modified: 3/4/20
 
 Authors: Mikayla Campbell
 """
 
 # All of the program's users
 users = []
-
-current_user = ""
 
 percent_scale = [100/18, 75/18, 50/18, 25/18, 0]
 # Divide percent by 18 for each question because there are 18 questions
@@ -43,6 +41,7 @@ class User:
 			self.age, self.gender, self.q, self.bio, self.email, self.user_matches,
 			self.username, self.password)
 
+current_user = User(0, "", "", 0, "", {}, "", "", "", "")
 
 def login_check(username, password):
 	"""Checks login credentials"""
@@ -98,7 +97,7 @@ def pref_check():
 	0) Gender (Male, Female, Other)
 	1) Who do you want to be matched with? (Male, Female, Other)
 	2) What is your career field? (47)
-	21) Age Range (1 - 5)
+	3) Age Range (1 - 5)
 	"""
 
 	age_ranges = [[18, 25], [25, 30], [30, 40], [40, 60], [60, 130]]
@@ -109,7 +108,7 @@ def pref_check():
 		if user.user_type != current_user.user_type: # Make sure mentors are assigned to mentees and vice versa
 			if user.q[1] == 3 or user.q[1] == current_user.q[0]: # Make sure gender prefeerence match up
 				if user.q[2] == current_user.q[2]:
-					if user.age >= age_ranges[current_user.q[20] - 1][0] and user.age <= age_ranges[current_user.q[20] - 1][1]:
+					if user.age >= age_ranges[current_user.q[3] - 1][0] and user.age <= age_ranges[current_user.q[3] - 1][1]:
 						pref_matches[user] = 0
 
 	return pref_matches
@@ -121,9 +120,6 @@ def compat(matches):
 	# If the current user is a mentor
 	if current_user.user_type:
 		for user in matches:
-			# 3) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
-			equal_q_answer(current_user, user, 3, matches)
-
 			# 4) What is your experience level in your field? (1 - 5)
 			# 5) How good are your networking skills? (1 - 5)
 			# 6) How good are your organizational skills? (1 - 5)
@@ -153,8 +149,10 @@ def compat(matches):
 			for i in range(17, 20):
 				equal_q_answer(current_user, user, 19, matches)
 
+			# 20) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
 			# 21) What kind of work do you want to do? (1 - 5)
-			equal_q_answer(current_user, user, 21, matches)
+			for i in range(20, 22):
+				equal_q_answer(current_user, user, i, matches)
 
 			# No one is 100% compatible -- account for that
 			if matches[user] >= 100:
@@ -163,9 +161,6 @@ def compat(matches):
 				matches[user] = round(matches[user], 1)
 	else:
 		for user in matches:
-			# 3) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
-			equal_q_answer(current_user, user, 3, matches)
-
 			# 4) What is your experience level in your field? (1 - 5)
 			# 5) How good are your networking skills? (1 - 5)
 			# 6) How good are your organizational skills? (1 - 5)
@@ -195,8 +190,10 @@ def compat(matches):
 			for i in range(17, 20):
 				equal_q_lower(current_user, user, 19, matches)
 
+			# 20) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
 			# 21) What kind of work do you want to do? (1 - 5)
-			equal_q_answer(current_user, user, 21, matches)
+			for i in range(20, 22):
+				equal_q_answer(current_user, user, i, matches)
 
 			# No one is 100% compatible -- account for that
 			if matches[user] >= 100:
@@ -205,6 +202,7 @@ def compat(matches):
 				matches[user] = round(matches[user], 1)
 
 	current_user.matches = matches
+
 
 
 # def main():
