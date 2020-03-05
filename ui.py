@@ -14,7 +14,7 @@ import compatibility as c
 from database import *
 
 # Specific font variables
-SMALL_FONT = ("Helvetica", 12)
+SMALL_FONT = ("Helvetica", 14)
 TITLE_FONT = ("Helvetica", 50, "bold")
 TAB_FONT = ("Helvetica", 18, "bold italic")
 MATCH_FONT = ("Times", 15, "bold italic")
@@ -40,11 +40,20 @@ questionnaireAnswers = {"gender": -1, "matchgender": -1, "userage": -1, "careerf
 						"kindofwork": -1}
 
 
+#Creates new user as a user class
+new_account = c.User(0, None, None, 0, None, {}, None, None, None, None)
+# c_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
+
+
 '''
-TO DO CREATE USER CLASS AND ADD TO IT
+TESTING STUFF
 '''
-#Creates current_user as a user class
-# current_user = c.User()
+# user_type, first, last, age, gender, questionnaire, bio, email, username, password
+test_account = c.User(0, "Oliviadls", "Pannelldsms", 21, "Gender Queer", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2], 
+	"Hello I am a student at university of Oregon \nand I am looking for a mentor who can help\n guide me through the difficulties of \nbeing a woman", 
+	"olivia@gmail.com", "olp", "fyeah")
+c.users.append(test_account)
+
 '''
 POTENTIAL COLOR THEMES
 salmon
@@ -65,7 +74,8 @@ class start(Tk):
 		container.pack(side="top", fill="both", expand=True)
 		self.pages = {}
 
-		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage):
+		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, MenteeHomePage, MentorHomePage, QuestionPage, 
+			QuestionPage2, ProfilePage):
 			frame = page(container, self)
 			self.pages[page] = frame
 			frame.place(relx=0.0, rely=0.0, height=425, width=600)
@@ -78,6 +88,7 @@ class start(Tk):
 		frame.tkraise()
 
 # Contains everything for the Main Menu frame
+# This Includes a help button, and sign-in/login buttons.
 class MainMenu(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -111,7 +122,8 @@ class HelpPage(Frame):
 					command=lambda: controller.show_frame(MainMenu))
 		b0.place(relx=0.0, rely=1.0, anchor=SW)
 
-# Contains everything for the Login Page frame
+# Contains everything for the Login Page frame.
+# This is for the user who already has an existing account.
 class LoginPage(Frame):
 
 	def __init__(self, parent, controller):
@@ -155,6 +167,12 @@ class LoginPage(Frame):
 		global userlbl
 		global passlbl
 
+		# Quick way for testing to go to homepage
+		debug = False
+		if(debug):
+			controller.show_frame(MenteeHomePage)
+			return
+
 		# Error message that displays if at least one of the Username/Password
 		# entries are not filled out
 		errorlbl = Label(self, text='        *Please fill out all sections.    ', bg="medium sea green", fg="red4", font=SMALL_FONT)
@@ -163,12 +181,12 @@ class LoginPage(Frame):
 		# If the username entry is empty turn text red
 		if not username1.get():
 			userlbl.config(text='*Username:', fg='red4')
-			errorlbl.place(relx=0.47, rely=0.59, anchor=CENTER)
+			errorlbl.place(relx=0.43, rely=0.59, anchor=CENTER)
 
 		# If the password entry is empty turn text red
 		if not password1.get():
 			passlbl.config(text='*Password:', fg='red4')
-			errorlbl.place(relx=0.47, rely=0.59, anchor=CENTER)
+			errorlbl.place(relx=0.43, rely=0.59, anchor=CENTER)
 
 		# Resets previous username error text
 		if username1.get():
@@ -183,18 +201,19 @@ class LoginPage(Frame):
 			# Checks if the username and password are in the database
 			valid = c.login_check(username1.get(), password1.get())
 			if valid:
+				print("Welcome bitch")
 				# If they are get rid of error messages and call the homepage
 				errorlbl = Label(self, text='*Incorrect Password or Username.', bg="medium sea green", fg="medium sea green",
 							 font=SMALL_FONT)
-				errorlbl.place(relx=0.47, rely=0.59, anchor=CENTER)
+				errorlbl.place(relx=0.43, rely=0.59, anchor=CENTER)
 				# Check to see if current user is mentor or mentee
 				# Guides them to corresponding page
-				controller.show_frame(HomePage)
+				controller.show_frame(MenteeHomePage)
 			else:
-				errorlbl2.place(relx=0.47, rely=0.59, anchor=CENTER)
+				errorlbl2.place(relx=0.43, rely=0.59, anchor=CENTER)
 
-
-# Contains everything for the Sign Up Page frame
+# Contains everything for the Sign Up Page frame.
+# This is where the user can create a new account.
 class SignUpPage(Frame):
 
 	def __init__(self, parent, controller):
@@ -224,28 +243,35 @@ class SignUpPage(Frame):
 		b2.place(relx=1.0, rely=1.0, anchor=SE)
 
 		newuserlbl = Label(self, text='New Username:', bg="medium sea green", fg="white", font=SMALL_FONT)
-		newuserlbl.place(relx=0.28, rely=0.40, anchor=CENTER)
+		newuserlbl.place(relx=0.272, rely=0.40, anchor=CENTER)
 
 		newusername = Entry(self)
 		newusername.place(relx=0.55, rely=0.40, anchor=CENTER)
 
 		newpasslbl = Label(self, text='New Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
-		newpasslbl.place(relx=0.28, rely=0.50, anchor=CENTER)
+		newpasslbl.place(relx=0.275, rely=0.50, anchor=CENTER)
 
 		newpassword = Entry(self, show='*')
 		newpassword.place(relx=0.55, rely=0.50, anchor=CENTER)
 
 		newemaillbl = Label(self, text='Email:', bg="medium sea green", fg="white", font=SMALL_FONT)
-		newemaillbl.place(relx=0.28, rely=0.70, anchor=CENTER)
+		newemaillbl.place(relx=0.325, rely=0.70, anchor=CENTER)
 
 		newemail = Entry(self)
 		newemail.place(relx=0.55, rely=0.70, anchor=CENTER)
 
 		pclbl = Label(self, text='Re-Enter Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
-		pclbl.place(relx=0.28, rely=0.60, anchor=CENTER)
+		pclbl.place(relx=0.25, rely=0.60, anchor=CENTER)
 
 		passcheck = Entry(self, show = '*')
 		passcheck.place(relx=0.55, rely=0.60, anchor=CENTER)
+
+		b0 = Button(self, text="test", highlightbackground="medium sea green", padx=10,
+					command=self.printuser)
+		b0.place(relx=0.77, rely=1.0, anchor=SW)
+
+	def printuser(self):
+		print(c.current_user.username)
 
 	# Error checking on the signup page
 	def signuperror(self, parent, controller):
@@ -315,12 +341,14 @@ class SignUpPage(Frame):
 				#Check for valid email with @
 				at = "@"
 				if newemail.get().count(at):
-					# -------------TO DO------------------
-					#		
-					#		  ADD TO DATABASE
-					# current_user.username = newusername.get()
-					# current_user.password = newpassword.get()
-					# current_user.email = newemail.get()
+					# add information to user class to be later added into database
+					#c.current_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
+					print(newusername.get()) 
+					c.current_user.username = newusername.get()
+					new_account.username = newusername.get()
+					new_account.password = newpassword.get()
+					new_account.email = newemail.get()
+
 					errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
 								 font=SMALL_FONT)
 					errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
@@ -333,9 +361,9 @@ class SignUpPage(Frame):
 				pclbl.config(text='*Re-Enter Password:', fg='red4')
 				errorlbl2.place(relx=0.50, rely=0.8, anchor=CENTER)
 
-# Contains everything for the Home Page frame
-# This is where the user can see pontential mentors/mentees
-class HomePage(Frame):
+# Contains everything for the Mentee Home Page frame.
+# This is where the user can see pontential mentors.
+class MenteeHomePage(Frame):
 
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -380,7 +408,56 @@ class HomePage(Frame):
 	# fr5 = Frame(self, width = 570, height = 40, bg = 'white')
 	# fr5.place(relx=0.50, rely=0.63, anchor=CENTER)
 
-# Contains everything for the First page of the questionaire page
+# Contains everything for the Mentor Home Page frame.
+# This is where the user can see pontential mentees.
+class MentorHomePage(Frame):
+
+	def __init__(self, parent, controller):
+		Frame.__init__(self, parent)
+		b0 = Button(self, text="Potential Mentors", width=30, font=TAB_FONT)
+		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
+
+		b1 = Button(self, text="Profile", padx=50, font=TAB_FONT, command=lambda: controller.show_frame(ProfilePage))
+		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
+
+		b2 = Button(self, text="Logout", padx=40, font=TAB_FONT, command=lambda: controller.show_frame(MainMenu))
+		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
+
+		# First given mentor
+		fr1 = Frame(self, width=570, height=60, bg='white')
+		fr1.place(relx=0.50, rely=0.15, anchor=CENTER)
+
+		userlbl = Label(fr1, text='First Last', fg="black", font=MATCH_FONT)
+		userlbl.place(relx=0.2, rely=0.25, anchor=CENTER)
+
+		userlbl2 = Label(fr1, text='Bio Bio Bio BIo BIO BIo Bio bio Bouioioio', fg="grey", font=SMALL_FONT)
+		userlbl2.place(relx=0.2, rely=0.75, anchor=CENTER)
+
+		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
+
+		b2 = Button(fr1, text="Connect", padx=25, font=SMALL_FONT)
+		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+
+	# #Second given mentor
+	# fr2 = Frame(self, width = 570, height = 40, bg = 'white')
+	# fr2.place(relx=0.50, rely=0.27, anchor=CENTER)
+
+	# #Third given mentor
+	# fr3 = Frame(self, width = 570, height = 40, bg = 'white')
+	# fr3.place(relx=0.50, rely=0.39, anchor=CENTER)
+
+	# #Fourth given mentor
+	# fr4 = Frame(self, width = 570, height = 40, bg = 'white')
+	# fr4.place(relx=0.50, rely=0.51, anchor=CENTER)
+
+	# #Fifth given mentor
+	# fr5 = Frame(self, width = 570, height = 40, bg = 'white')
+	# fr5.place(relx=0.50, rely=0.63, anchor=CENTER)
+
+# Contains everything for the First page of the questionaire page.
+# After creating a new account the user answers questions from these
+# pages to help match them up with similar mentors
 class QuestionPage(Frame):
 
 	#TODO: make sure all of the options are chosen before moving on to the next page
@@ -475,6 +552,10 @@ class QuestionPage(Frame):
 		global inputgender
 		inputgender = Entry(self)
 
+	#NOTE: BEN, WHEN NOTHING IS SELECTED FROM THIS PAGE AND YOU GO BACK 
+	# TO THE SIGNUP PAGE AN ERROR IS THROWN IN THE TERMINAL. I THINK IT IS
+	# BECAUSE THE MAJOR LIST ISNT CHECKED TO MAKE SURE SOMETHING WAS ACTUALLY
+	# SELECTED BEFORE SAVING IT 
 	def save(self):
 		global questionnaireAnswers
 		global gender
@@ -493,7 +574,6 @@ class QuestionPage(Frame):
 	def removeinputgender(self):
 		global inputgender
 		inputgender.place_forget()
-
 
 class QuestionPage2(Frame):
 
@@ -541,7 +621,7 @@ class ProfilePage(Frame):
 
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
-		b0 = Button(self, text = "Potential Mentors", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
+		b0 = Button(self, text = "Potential Mentors", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(MenteeHomePage))
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
 
 		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT)
@@ -552,6 +632,30 @@ class ProfilePage(Frame):
 
 		fr1 = Frame(self, width = 570, height = 380, bg = 'white')
 		fr1.place(relx=0.50, rely=0.52, anchor=CENTER)
+
+		# Get current users full (first and last) name
+		print(c.current_user.first)
+		fullname = c.current_user.first + " " + c.current_user.last
+		print()
+		gndr = "Gender: " + test_account.gender
+
+
+
+		lbl1 = Label(fr1, text=fullname, bg="white", fg="medium sea green", font=TITLE_FONT)
+		lbl1.place(relx=0.0, rely=0.20, anchor=W)
+
+		lbl2 = Label(fr1, text=test_account.bio, bg="medium sea green", fg="light grey", font=MATCH_FONT)
+		lbl2.place(relx=0.3, rely=0.40, anchor=CENTER)
+
+
+		lbl3 = Label(fr1, text=gndr, bg="medium sea green", fg="grey80", font=MATCH_FONT)
+		lbl3.place(relx=0.2, rely=0.60, anchor=CENTER)
+
+
+	def logout():
+		pass
+
+
 
 
 win = start()

@@ -9,8 +9,6 @@ Authors: Mikayla Campbell
 # All of the program's users
 users = []
 
-current_user = ""
-
 percent_scale = [100/18, 75/18, 50/18, 25/18, 0]
 # Divide percent by 18 for each question because there are 18 questions
 	# # Max 4 off
@@ -43,6 +41,7 @@ class User:
 			self.age, self.gender, self.q, self.bio, self.email, self.user_matches,
 			self.username, self.password)
 
+current_user = User(0, "", "", 0, "", {}, "", "", "", "")
 
 def login_check(username, password):
 	"""Checks login credentials"""
@@ -203,6 +202,7 @@ def compat(matches):
 				matches[user] = round(matches[user], 1)
 
 	current_user.matches = matches
+
 
 
 # def main():
