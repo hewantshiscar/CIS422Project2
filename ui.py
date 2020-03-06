@@ -51,10 +51,12 @@ new_account = c.User(0, None, None, 0, None, {}, None, None, None, None)
 TESTING STUFF
 '''
 # user_type, first, last, age, gender, questionnaire, bio, email, username, password
-test_account = c.User(0, "Oliviadls", "Pannelldsms", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
+
+test_account = c.User(0, "Oliviadls", "Pannelldsms", 21, "Female", [2, 3, "Computer Science", 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
 	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. ",
 	"olivia@gmail.com", "olp", "fyeah")
 c.users.append(test_account)
+c.current_user = test_account
 
 '''
 POTENTIAL COLOR THEMES
@@ -116,10 +118,10 @@ class start(Tk):
 class MainMenu(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
-		lbl1 = Label(self, text='MENTOR SHIT', bg="medium sea green", fg="white", font=TITLE_FONT)
+		lbl1 = Label(self, text='MENTOR MEETER', bg="medium sea green", fg="white", font=TITLE_FONT)
 		lbl1.place(relx=0.5, rely=0.20, anchor=CENTER)
 
-		lbl2 = Label(self, text='Meet your new best friend TODAY!', bg="medium sea green", fg="white", font=SMALL_FONT)
+		lbl2 = Label(self, text='Find your mentor today!', bg="medium sea green", fg="white", font=SMALL_FONT)
 		lbl2.place(relx=0.5, rely=0.30, anchor=CENTER)
 
 		b0 = Button(self, text="Login", highlightbackground="medium sea green", padx=10,
@@ -157,10 +159,10 @@ class LoginPage(Frame):
 		global passlbl
 
 		Frame.__init__(self, parent)
-		lbl1 = Label(self, text='MENTOR SHIT', bg="medium sea green", fg="white", font=TITLE_FONT)
+		lbl1 = Label(self, text='MENTOR MEETER', bg="medium sea green", fg="white", font=TITLE_FONT)
 		lbl1.place(relx=0.5, rely=0.20, anchor=CENTER)
 
-		lbl2 = Label(self, text='Meet your new best friend TODAY!', bg="medium sea green", fg="white", font=SMALL_FONT)
+		lbl2 = Label(self, text='Find a mentor today!', bg="medium sea green", fg="white", font=SMALL_FONT)
 		lbl2.place(relx=0.5, rely=0.30, anchor=CENTER)
 
 		b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
@@ -192,7 +194,7 @@ class LoginPage(Frame):
 		global passlbl
 
 		# Quick way for testing to go to homepage
-		debug = False
+		debug = True
 		if(debug):
 			controller.show_frame(HomePage)
 			return
@@ -527,7 +529,7 @@ class HomePage(Frame):
 		userlbl = Label(fr1, text=c.current_user.user_matches[0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr1, text='Compatibility: ' + c.current_user.user_compats[0] + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr1, text='Compatibility: ' + str(c.current_user.user_compats[0]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -544,7 +546,7 @@ class HomePage(Frame):
 		userlbl = Label(fr2, text=c.current_user.user_matches[1], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr2, text='Compatibility: ' + c.current_user.user_compats[1] + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr2, text='Compatibility: ' + str(c.current_user.user_compats[1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr2, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -562,7 +564,7 @@ class HomePage(Frame):
 		userlbl = Label(fr3, text=c.current_user.user_matches[2], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr3, text='Compatibility: ' + c.current_user.user_compats[2] + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr3, text='Compatibility: ' + str(c.current_user.user_compats[2]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr3, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -580,7 +582,7 @@ class HomePage(Frame):
 		userlbl = Label(fr4, text=c.current_user.user_matches[3], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr4, text='Compatibility: ' + c.current_user.user_compats[3] + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr4, text='Compatibility: ' + str(c.current_user.user_compats[3]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr4, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -598,7 +600,7 @@ class HomePage(Frame):
 		userlbl = Label(fr5, text=c.current_user.user_matches[4], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr5, text='Compatibility: ' + c.current_user.user_compats[4] + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr5, text='Compatibility: ' + str(c.current_user.user_compats[4]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr5, text="Learn More...", padx=10, font=SMALL_FONT)
