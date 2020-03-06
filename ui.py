@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import Text, messagebox
 
 import compatibility as c
-from database import *
+#from database import *
 
 # Specific font variables
 SMALL_FONT = ("Helvetica", 14)
@@ -192,7 +192,7 @@ class LoginPage(Frame):
 		global passlbl
 
 		# Quick way for testing to go to homepage
-		debug = True
+		debug = False
 		if(debug):
 			controller.show_frame(HomePage)
 			return
@@ -524,10 +524,10 @@ class HomePage(Frame):
 		fr1 = Frame(self, width=570, height=70, bg='white')
 		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 
-		userlbl = Label(fr1, text='Kelly Tellyphony', fg="black", font=MATCH_FONT)
+		userlbl = Label(fr1, text=c.current_user.user_matches[0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr1, text='Compatibility: 99%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr1, text='Compatibility: ' + c.current_user.user_compats[0] + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -541,10 +541,10 @@ class HomePage(Frame):
 		fr2 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr2.place(relx=0.50, rely=0.35, anchor=CENTER)
 
-		userlbl = Label(fr2, text='Leanna Phillips', fg="black", font=MATCH_FONT)
+		userlbl = Label(fr2, text=c.current_user.user_matches[1], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr2, text='Compatibility: 87%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr2, text='Compatibility: ' + c.current_user.user_compats[1] + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr2, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -559,10 +559,10 @@ class HomePage(Frame):
 		fr3 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr3.place(relx=0.50, rely=0.53, anchor=CENTER)
 
-		userlbl = Label(fr3, text='Hallam Barron', fg="black", font=MATCH_FONT)
+		userlbl = Label(fr3, text=c.current_user.user_matches[2], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr3, text='Compatibility: 87%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr3, text='Compatibility: ' + c.current_user.user_compats[2] + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr3, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -577,10 +577,10 @@ class HomePage(Frame):
 		fr4 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr4.place(relx=0.50, rely=0.71, anchor=CENTER)
 
-		userlbl = Label(fr4, text='Damian Steele', fg="black", font=MATCH_FONT)
+		userlbl = Label(fr4, text=c.current_user.user_matches[3], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr4, text='Compatibility: 70%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr4, text='Compatibility: ' + c.current_user.user_compats[3] + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr4, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -595,10 +595,10 @@ class HomePage(Frame):
 		fr5 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr5.place(relx=0.50, rely=0.89, anchor=CENTER)
 
-		userlbl = Label(fr5, text='Sheikh Hopkins', fg="black", font=MATCH_FONT)
+		userlbl = Label(fr5, text=c.current_user.user_matches[4], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr5, text='Compatibility: 70%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr5, text='Compatibility: ' + c.current_user.user_compats[4] + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr5, text="Learn More...", padx=10, font=SMALL_FONT)
