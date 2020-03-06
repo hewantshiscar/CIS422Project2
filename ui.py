@@ -52,7 +52,7 @@ TESTING STUFF
 '''
 # user_type, first, last, age, gender, questionnaire, bio, email, username, password
 test_account = c.User(0, "Oliviadls", "Pannelldsms", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
-	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman",
+	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. ",
 	"olivia@gmail.com", "olp", "fyeah")
 c.users.append(test_account)
 
@@ -62,32 +62,6 @@ salmon
 medium sea green
 0d7e83
 '''
-def connectwin(first, last, email):
-	#Create new smaller window
-	top = Toplevel()
-	top.geometry('280x170')
-	top.resizable(False, False)
-	top.title("Match Information")
-	top.config(bg='medium sea green')
-
-	#Combine first and last name
-	name = first + " " + last
-	l = Label(top, text=name, fg="White", bg = 'medium sea green', font=INFO_FONT)
-	l.place(relx=0.05, rely=0.13, anchor=W)
-
-	fr1 = Frame(top, width=600, height=5, bg='white')
-	fr1.place(relx=0.05, rely=0.25, anchor=CENTER)
-
-	#Add "Contact By" with email to new string
-	em = "Contact By: " + email
-	l2 = Label(top, text=em, fg="White", bg = 'medium sea green', font=SMALL_FONT)
-	l2.place(relx=0.05, rely=0.4, anchor=W)
-
-	b = Button(top, text="Back", padx=50, highlightbackground='medium sea green', command=lambda: exit(top))
-	b.place(relx=0.5, rely=0.7, anchor=CENTER)
-
-def exit(top):
-	top.destroy()
 
 # Main class that controls which frame is on top (shown to the user)
 # in any given instance
@@ -229,6 +203,8 @@ class LoginPage(Frame):
 			# Checks if the username and password are in the database
 			valid = c.login_check(username1.get(), password1.get())
 			if valid:
+				# Clears password entry for security reasons
+				password1.delete(0, 'end')
 				print("Welcome!")
 				# If they are get rid of error messages and call the homepage
 				errorlbl = Label(self, text='*Incorrect Password or Username.', bg="medium sea green", fg="medium sea green",
@@ -293,13 +269,6 @@ class SignUpPage(Frame):
 
 		passcheck = Entry(self, show = '*')
 		passcheck.place(relx=0.55, rely=0.60, anchor=CENTER)
-
-		b0 = Button(self, text="test", highlightbackground="medium sea green", padx=10,
-					command=self.printuser)
-		b0.place(relx=0.77, rely=1.0, anchor=SW)
-
-	def printuser(self):
-		print(c.current_user.username)
 
 	# Error checking on the signup page
 	def signuperror(self, parent, controller):
@@ -376,6 +345,9 @@ class SignUpPage(Frame):
 					new_account.password = newpassword.get()
 					new_account.email = newemail.get()
 
+					# Clears password entry for security reasons
+					# newpassword.delete(0, 'end')
+					# passcheck.delete(0, 'end')
 					errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
 								 font=SMALL_FONT)
 					errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
@@ -428,7 +400,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr1, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connectwin("Kelly", "Telly", "Ktellyphony@gmail.com"))
+			command=lambda: connect("Kelly", "Telly", "Ktellyphony@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 		#Second given mentor
@@ -445,7 +417,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr2, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connectwin("Leanna", "Phillips", "LPPP@gmail.com"))
+			command=lambda: connect("Leanna", "Phillips", "LPPP@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -463,7 +435,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr3, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connectwin("Hallam", "Barron", "Barron@gmail.com"))
+			command=lambda: connect("Hallam", "Barron", "Barron@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -481,7 +453,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr4, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connectwin("Damian", "Steele", "DSTEElee@gmail.com"))
+			command=lambda: connect("Damian", "Steele", "DSTEElee@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -499,20 +471,11 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr5, text="Connect", padx=25, font=SMALL_FONT, 
-			command=lambda: connectwin("Sheikh", "Hopkins", "ShiekhH@gmail.com"))
+			command=lambda: connect("Sheikh", "Hopkins", "ShiekhH@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
-
-	# def connect(self):
-	# 	top = Toplevel()
-	# 	userlbl = Label(top, text='Sheikh Hopkins', fg="black", font=MATCH_FONT)
-	# 	userlbl.place(relx=0.05, rely=0.3, anchor=W)
-
-	# 	userlbl = Label(top, text='Email: SheikhH@gmail.com', fg="black", font=MATCH_FONT)
-	# 	userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
 	def learnmore(self):
 		pass
-
 
 # Contains everything for the First page of the questionaire page.
 # After creating a new account the user answers questions from these
@@ -1139,6 +1102,8 @@ class QuestionPage6(Frame):
 	def save(self):
 		pass
 
+# Contains the current users profile page.
+# The user can see their name as well as some of their information.
 class ProfilePage(Frame):
 
 	def __init__(self, parent, controller):
@@ -1157,25 +1122,71 @@ class ProfilePage(Frame):
 
 		# Get current users full (first and last) name
 		fullname = c.current_user.first + " " + c.current_user.last
-		gndr = "Gender: " + test_account.gender
+		# maj = "Career Field: " + test_account.
 
+		lbl1 = Label(fr1, text="Olivia WhetherSpooner", bg="white", fg="sea green", font=(
+			"Helvetica", 46, "bold"))
+		lbl1.place(relx=0.0, rely=0.15, anchor=W)
 
+		# Random line for looks
+		fr2 = Frame(fr1, width = 570, height = 5, bg = 'black')
+		fr2.place(relx=0.0, rely=0.25, anchor=W)
 
-		lbl1 = Label(fr1, text=fullname, bg="white", fg="medium sea green", font=TITLE_FONT)
-		lbl1.place(relx=0.0, rely=0.20, anchor=W)
+		# Displays the users bio
+		lbl2 = Label(fr1, text=test_account.bio, bg="white", fg="gray20", 
+			font=INFO_FONT, wraplength = 570, justify = CENTER)
+		lbl2.place(relx=0.5, rely=0.35, anchor=CENTER)
 
-		lbl2 = Label(fr1, text=test_account.bio, bg="medium sea green", fg="light grey", font=MATCH_FONT)
-		lbl2.place(relx=0.3, rely=0.40, anchor=CENTER)
+		# More about me sections 
+		Label(fr1, text="A little more about me...", bg="white", fg="black", font=TAB_FONT).place(relx=0.2, rely=0.50, anchor=CENTER)
+		# Gender label and answer from current user
+		Label(fr1, text="Gender: ", bg="white", fg="black", font=INFO_FONT).place(relx=0.02, rely=0.56, anchor=W)
+		Label(fr1, text=test_account.gender, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.13, rely=0.56, anchor=W)
+		# Career Field and answer from current user
+		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.02, rely=0.62, anchor=W)
+		Label(fr1, text="Computer and Information Science", bg="white", fg="gray20", font=INFO_FONT).place(relx=0.185, rely=0.62, anchor=W)
 
+		Label(fr1, text="Something else:", bg="white", fg="black", font=INFO_FONT).place(relx=0.02, rely=0.68, anchor=W)
+		Label(fr1, text="is here and so on", bg="white", fg="gray20", font=INFO_FONT).place(relx=0.24, rely=0.68, anchor=W)
 
-		lbl3 = Label(fr1, text=gndr, bg="medium sea green", fg="grey80", font=MATCH_FONT)
-		lbl3.place(relx=0.2, rely=0.60, anchor=CENTER)
+		'''
+		Next labels x and ys
+		relx=0.02, rely=0.74
+		relx=0.02, rely=0.80
+		relx=0.02, rely=0.86
+		relx=0.02, rely=0.92
+		'''
 
+# Function used to show mentors/mentees information after the connect
+# button from the HomePage is clicked.
+def connect(first, last, email):
+	#Create new smaller window
+	top = Toplevel()
+	top.geometry('280x170')
+	top.resizable(False, False)
+	top.title("Match Information")
+	top.config(bg='medium sea green')
 
-	def logout():
-		pass
+	#Combine first and last name
+	name = first + " " + last
+	l = Label(top, text=name, fg="White", bg = 'medium sea green', font=INFO_FONT)
+	l.place(relx=0.05, rely=0.13, anchor=W)
+	fr1 = Frame(top, width=600, height=5, bg='white')
+	fr1.place(relx=0.05, rely=0.25, anchor=CENTER)
 
+	#Add "Contact By" with email to new string
+	em = "Contact By: " + email
+	l2 = Label(top, text=em, fg="White", bg = 'medium sea green', font=SMALL_FONT)
+	l2.place(relx=0.05, rely=0.4, anchor=W)
 
+	#Button that will exit out of this small window
+	b = Button(top, text="Back", padx=50, highlightbackground='medium sea green', command=lambda: exit(top))
+	b.place(relx=0.5, rely=0.7, anchor=CENTER)
+
+# Helper function for connect that will close the window after a button
+# is clicked
+def exit(top):
+	top.destroy()
 
 win = start()
 win.geometry('600x425')
