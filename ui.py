@@ -17,10 +17,11 @@ from database import *
 SMALL_FONT = ("Helvetica", 14)
 TITLE_FONT = ("Helvetica", 50, "bold")
 TAB_FONT = ("Helvetica", 18, "bold italic")
-MATCH_FONT = ("Ariel", 20, "bold italic")
-PERCENT_FONT = ("Ariel", 14, "bold italic")
+MATCH_FONT = ("Helvetica", 22, "bold")
+PERCENT_FONT = ("Helvetica", 12, "bold italic")
 QUESTION_FONT = ("Roboto", 15, "bold")
 BUTTON_FONT = ("Helvetica", 10)
+INFO_FONT = ("Helvetica", 16, "bold")
 
 # List of Majors/Subjects
 MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
@@ -61,6 +62,32 @@ salmon
 medium sea green
 0d7e83
 '''
+def connectwin(first, last, email):
+	#Create new smaller window
+	top = Toplevel()
+	top.geometry('280x170')
+	top.resizable(False, False)
+	top.title("Match Information")
+	top.config(bg='medium sea green')
+
+	#Combine first and last name
+	name = first + " " + last
+	l = Label(top, text=name, fg="White", bg = 'medium sea green', font=INFO_FONT)
+	l.place(relx=0.05, rely=0.13, anchor=W)
+
+	fr1 = Frame(top, width=600, height=5, bg='white')
+	fr1.place(relx=0.05, rely=0.25, anchor=CENTER)
+
+	#Add "Contact By" with email to new string
+	em = "Contact By: " + email
+	l2 = Label(top, text=em, fg="White", bg = 'medium sea green', font=SMALL_FONT)
+	l2.place(relx=0.05, rely=0.4, anchor=W)
+
+	b = Button(top, text="Back", padx=50, highlightbackground='medium sea green', command=lambda: exit(top))
+	b.place(relx=0.5, rely=0.7, anchor=CENTER)
+
+def exit(top):
+	top.destroy()
 
 # Main class that controls which frame is on top (shown to the user)
 # in any given instance
@@ -381,6 +408,10 @@ class HomePage(Frame):
 		FIND MENTORS/MENTEES
 		FROM CURRENT USERS MATCHES
 		REPLACE USERLBL TEXT WITH MATCH FIRST AND LAST 
+
+		ALSO NEED TO CHANGE THE CONNECT BUTTONS SO THAT
+		THEY CALL CONNECTWIN(MENTOR FIRST NAME, MENTOR LAST NAME,
+		MENTOR EMAIL)
 		'''
 
 		# First given mentor
@@ -396,7 +427,8 @@ class HomePage(Frame):
 		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT)
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr1, text="Connect", padx=25, font=SMALL_FONT)
+		b2 = Button(fr1, text="Connect", padx=25, font=SMALL_FONT,
+			command=lambda: connectwin("Kelly", "Telly", "Ktellyphony@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 		#Second given mentor
@@ -412,7 +444,8 @@ class HomePage(Frame):
 		b2 = Button(fr2, text="Learn More...", padx=10, font=SMALL_FONT)
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr2, text="Connect", padx=25, font=SMALL_FONT)
+		b2 = Button(fr2, text="Connect", padx=25, font=SMALL_FONT,
+			command=lambda: connectwin("Leanna", "Phillips", "LPPP@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -429,7 +462,8 @@ class HomePage(Frame):
 		b2 = Button(fr3, text="Learn More...", padx=10, font=SMALL_FONT)
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr3, text="Connect", padx=25, font=SMALL_FONT)
+		b2 = Button(fr3, text="Connect", padx=25, font=SMALL_FONT,
+			command=lambda: connectwin("Hallam", "Barron", "Barron@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -446,7 +480,8 @@ class HomePage(Frame):
 		b2 = Button(fr4, text="Learn More...", padx=10, font=SMALL_FONT)
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr4, text="Connect", padx=25, font=SMALL_FONT)
+		b2 = Button(fr4, text="Connect", padx=25, font=SMALL_FONT,
+			command=lambda: connectwin("Damian", "Steele", "DSTEElee@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -463,8 +498,20 @@ class HomePage(Frame):
 		b2 = Button(fr5, text="Learn More...", padx=10, font=SMALL_FONT)
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr5, text="Connect", padx=25, font=SMALL_FONT)
+		b2 = Button(fr5, text="Connect", padx=25, font=SMALL_FONT, 
+			command=lambda: connectwin("Sheikh", "Hopkins", "ShiekhH@gmail.com"))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+
+	# def connect(self):
+	# 	top = Toplevel()
+	# 	userlbl = Label(top, text='Sheikh Hopkins', fg="black", font=MATCH_FONT)
+	# 	userlbl.place(relx=0.05, rely=0.3, anchor=W)
+
+	# 	userlbl = Label(top, text='Email: SheikhH@gmail.com', fg="black", font=MATCH_FONT)
+	# 	userlbl.place(relx=0.05, rely=0.3, anchor=W)
+
+	def learnmore(self):
+		pass
 
 
 # Contains everything for the First page of the questionaire page.
