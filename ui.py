@@ -77,7 +77,7 @@ class start(Tk):
 		self.pages = {}
 
 		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage,
-					QuestionPage3, QuestionPage4, QuestionPage5, QuestionPage6):
+					QuestionPage3, QuestionPage4, QuestionPage5, QuestionPage6, NamePreferencesPage):
 			frame = page(container, self)
 			self.pages[page] = frame
 			frame.place(relx=0.0, rely=0.0, height=425, width=600)
@@ -218,6 +218,113 @@ class LoginPage(Frame):
 
 # Contains everything for the Sign Up Page frame.
 # This is where the user can create a new account.
+class NamePreferencesPage(Frame):
+
+        def __init__(self, parent, controller):
+                global firstname
+                global lastname
+                global mentormentee
+                global firstnamelbl
+                global lastnamelbl
+                global mentormenteelbl
+
+                Frame.__init__(self, parent)
+
+                lbl2 = Label(self, text='Please fill out all fields:', bg="medium sea green", fg="white",
+                                         font=SMALL_FONT)
+                lbl2.place(relx=0.5, rely=0.30, anchor=CENTER)
+
+                b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
+                                        command=lambda: controller.show_frame(SignUpPage))
+                b0.place(relx=0.0, rely=1.0, anchor=SW)
+
+                b2 = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
+                                        command=lambda: self.signuperror(parent, controller))
+                b2.place(relx=1.0, rely=1.0, anchor=SE)
+
+                firstnamelbl = Label(self, text='First name:', bg="medium sea green", fg="white", font=SMALL_FONT)
+                firstnamelbl.place(relx=0.272, rely=0.40, anchor=CENTER)
+
+                firstname = Entry(self)
+                firstname.place(relx=0.55, rely=0.40, anchor=CENTER)
+
+                lastnamelbl = Label(self, text='Last name:', bg="medium sea green", fg="white", font=SMALL_FONT)
+                lastnamelbl.place(relx=0.275, rely=0.50, anchor=CENTER)
+
+                lastname = Entry(self)
+                lastname.place(relx=0.55, rely=0.50, anchor=CENTER)
+
+                mentormentee = StringVar()
+
+                mentormenteelbl = Label(self, text='Are you looking to be a mentor or mentee?', bg="medium sea green", fg="white",
+							font=QUESTION_FONT)
+                mentormenteelbl.place(relx=0.15, rely=0.63, anchor=W)
+
+                mentorrb = Radiobutton(self, text="Mentor", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
+								  activebackground="medium sea green", variable=mentormentee, value=1, tristatevalue=2)
+                mentorrb.place(relx=0.3, rely=0.7, anchor=W)
+                
+                menteerb = Radiobutton(self, text="Mentee", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
+									activebackground="medium sea green", variable=mentormentee, value=0, tristatevalue=2)
+                menteerb.place(relx=0.6, rely=0.7, anchor=W)
+
+
+        # Error checking on the signup page
+        def signuperror(self, parent, controller):
+                global firstname
+                global lastname
+                global mentormentee
+                global firstnamelbl
+                global lastnamelbl
+                global mentormenteelbl
+
+                #debug code so i dont have to enter a password every time i want to check the questionanaire
+                #set debug = true to bypass the create account check.
+                debug = True
+                if(debug):
+                        controller.show_frame(QuestionPage)
+                        return
+
+                # Error message that displays if at least one of the entry fields is not
+                # filled in.
+                # Spaces are used here to fully cover larger error labels
+                errorlbl = Label(self, text='              *Please fill out all sections.              ', 
+                        bg="medium sea green", fg="red4", font=SMALL_FONT)
+
+                # If the first name entry is empty turn text red, else white
+                if not firstname.get():
+                        firstnamelbl.config(text='*First name:', fg='red4')
+                        errorlbl.place(relx=0.50, rely=0.80, anchor=CENTER)
+                else:
+                        firstnamelbl.config(text='First name:', fg='white')
+
+                # If the last name entry is empty turn text red, else white
+                if not lastname.get():
+                        lastnamelbl.config(text='*Last name:', fg='red4')
+                        errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
+                else:
+                        lastnamelbl.config(text='Last name:', fg='white')
+
+                # If the mentor/mentee entry is empty turn text red, else white
+                if not mentormentee.get():
+                        mentormenteelbl.config(text='*Are you looking to be a mentor or mentee?', fg='red4')
+                        mentormenteelbl.place(relx=0.15, rely=0.63, anchor=W)
+                else:
+                        mentormenteelbl.config(text='Are you looking to be a mentor or mentee?', fg='white')
+
+                # If all entries are filled out
+                if firstname.get() and lastname.get() and mentormentee.get():
+                        # add information to user class to be later added into database
+                        c.current_user.first = firstname.get()
+                        new_account.first = firstname.get()
+                        new_account.last = lastname.get()
+                        new_account.user_type = mentormentee.get()
+
+                        controller.show_frame(QuestionPage)
+
+
+# Contains everything for the Sign Up Page frame.
+# This is where the user can create a new account.
 class SignUpPage(Frame):
 
 	def __init__(self, parent, controller):
@@ -285,7 +392,7 @@ class SignUpPage(Frame):
 		#set debug = true to bypass the create account check.
 		debug = True
 		if(debug):
-			controller.show_frame(QuestionPage)
+			controller.show_frame(NamePreferencesPage)
 			return
 
 
@@ -351,7 +458,7 @@ class SignUpPage(Frame):
 					errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
 								 font=SMALL_FONT)
 					errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
-					controller.show_frame(QuestionPage)
+					controller.show_frame(NamePreferencesPage)
 				else:
 					newemaillbl.config(text='*Email:', fg='red4')
 					errorlbl3.place(relx=0.50, rely=0.8, anchor=CENTER)
@@ -570,7 +677,7 @@ class QuestionPage(Frame):
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
 		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
-					  command=lambda: [controller.show_frame(SignUpPage), self.save()])
+					  command=lambda: [controller.show_frame(NamePreferencesPage), self.save()])
 		back.place(relx=0.0, rely=1.0, anchor=SW)
 
 		global inputgender
