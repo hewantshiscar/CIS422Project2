@@ -1,9 +1,9 @@
 """
 CIS 422 Project 2: User Interface File
 
-Last Modified: 3/3/20
+Last Modified: 3/6/20
 
-Authors: Olivia Pannell and Ben Verney
+Authors: Olivia Pannell and Ben Verney and Bethany Van Meter
 """
 
 # Imports
@@ -62,6 +62,28 @@ salmon
 medium sea green
 0d7e83
 '''
+
+# this function is checking to make sure the email entered is the correct format
+# returns True if email is in the correct format
+def check_email(address):
+        # check for the @ sign
+        if ("@" in address):
+                # split the string at the @ to be able to check the second part of the email
+                address_split = address.split("@")
+                # check if a . exists in the part of the email after the @
+                if "." in address_split[1]:
+                        # split again at the . to ensure there are characters behind and after the .
+                        address_split_second = address_split[1].split(".")
+                        if len(address_split_second[0]) >= 1 and len(address_split_second[1]) >= 1:
+                                return True
+        return False
+
+# this checks if a username already exists in the database. Returns True if username is not taken
+def check_username(username):
+        for user in c.users:
+                if username == user.username:
+                        return False
+        return True
 
 # Main class that controls which frame is on top (shown to the user)
 # in any given instance
@@ -365,17 +387,17 @@ class SignUpPage(Frame):
 		newpassword = Entry(self, show='*')
 		newpassword.place(relx=0.55, rely=0.50, anchor=CENTER)
 
-		newemaillbl = Label(self, text='Email:', bg="medium sea green", fg="white", font=SMALL_FONT)
-		newemaillbl.place(relx=0.325, rely=0.70, anchor=CENTER)
-
-		newemail = Entry(self)
-		newemail.place(relx=0.55, rely=0.70, anchor=CENTER)
-
 		pclbl = Label(self, text='Re-Enter Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		pclbl.place(relx=0.25, rely=0.60, anchor=CENTER)
 
 		passcheck = Entry(self, show = '*')
 		passcheck.place(relx=0.55, rely=0.60, anchor=CENTER)
+
+		newemaillbl = Label(self, text='Email:', bg="medium sea green", fg="white", font=SMALL_FONT)
+		newemaillbl.place(relx=0.325, rely=0.70, anchor=CENTER)
+
+		newemail = Entry(self)
+		newemail.place(relx=0.55, rely=0.70, anchor=CENTER)
 
 	# Error checking on the signup page
 	def signuperror(self, parent, controller):
@@ -406,7 +428,7 @@ class SignUpPage(Frame):
 		errorlbl2 = Label(self, text='*Passwords did not match. Please try again.', 
 			bg="medium sea green", fg="red4", font=SMALL_FONT)
 
-		# Error message that displays if password and password check dont match.
+		# Error message that displays if email check doesn't pass.
 		errorlbl3 = Label(self, text='           *Invalid email. Please try again.         ', 
 			bg="medium sea green", fg="red4", font=SMALL_FONT)
 
@@ -442,23 +464,27 @@ class SignUpPage(Frame):
 		if newusername.get() and newpassword.get() and passcheck.get() and newemail.get():
 			# Check for password and password check to match
 			if newpassword.get() == passcheck.get():
-				#Check for valid email with @
-				at = "@"
-				if newemail.get().count(at):
-					# add information to user class to be later added into database
-					#c.current_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
-					c.current_user.username = newusername.get()
-					new_account.username = newusername.get()
-					new_account.password = newpassword.get()
-					new_account.email = newemail.get()
+				#Check for valid email with @ -> newemail.get().count(at)
+				if check_email(newemail.get()):
+                                        # Check to ensure the username is not taken
+                                        if check_username(newusername.get()):
+                                                # add information to user class to be later added into database
+                                                #c.current_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
+                                                c.current_user.username = newusername.get()
+                                                new_account.username = newusername.get()
+                                                new_account.password = newpassword.get()
+                                                new_account.email = newemail.get()
 
-					# Clears password entry for security reasons
-					# newpassword.delete(0, 'end')
-					# passcheck.delete(0, 'end')
-					errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
-								 font=SMALL_FONT)
-					errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
-					controller.show_frame(NamePreferencesPage)
+                                                # Clears password entry for security reasons
+                                                # newpassword.delete(0, 'end')
+                                                # passcheck.delete(0, 'end')
+                                                errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
+                                                			 font=SMALL_FONT)
+                                                errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
+                                                controller.show_frame(NamePreferencesPage)
+                                        else:
+                                                errorlbl.config(text='*Username is taken, please enter a new username', fg='red4')
+                                                errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
 				else:
 					newemaillbl.config(text='*Email:', fg='red4')
 					errorlbl3.place(relx=0.50, rely=0.8, anchor=CENTER)
@@ -466,6 +492,7 @@ class SignUpPage(Frame):
 				newpasslbl.config(text='*New Password:', fg='red4')
 				pclbl.config(text='*Re-Enter Password:', fg='red4')
 				errorlbl2.place(relx=0.50, rely=0.8, anchor=CENTER)
+				
 
 # Contains everything for the Mentee Home Page frame.
 # This is where the user can see pontential mentors.
