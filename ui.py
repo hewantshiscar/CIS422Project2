@@ -17,7 +17,8 @@ from database import *
 SMALL_FONT = ("Helvetica", 14)
 TITLE_FONT = ("Helvetica", 50, "bold")
 TAB_FONT = ("Helvetica", 18, "bold italic")
-MATCH_FONT = ("Times", 15, "bold italic")
+MATCH_FONT = ("Ariel", 20, "bold italic")
+PERCENT_FONT = ("Ariel", 14, "bold italic")
 QUESTION_FONT = ("Roboto", 15, "bold")
 BUTTON_FONT = ("Helvetica", 10)
 
@@ -40,7 +41,6 @@ questionnaireAnswers = {"gender": -1, "matchgender": -1, "userage": -1, "careerf
 						"workethic": -1, "flexibility": -1, "workwithothers": -1,
 						"introvertextrovert": -1, "learningstyle": -1, "careergoals": -1, "kindofwork": -1}
 
-
 #Creates new user as a user class
 new_account = c.User(0, None, None, 0, None, {}, None, None, None, None)
 # c_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
@@ -50,8 +50,8 @@ new_account = c.User(0, None, None, 0, None, {}, None, None, None, None)
 TESTING STUFF
 '''
 # user_type, first, last, age, gender, questionnaire, bio, email, username, password
-test_account = c.User(0, "Oliviadls", "Pannelldsms", 21, "Gender Queer", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
-	"Hello I am a student at university of Oregon \nand I am looking for a mentor who can help\n guide me through the difficulties of \nbeing a woman",
+test_account = c.User(0, "Oliviadls", "Pannelldsms", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
+	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman",
 	"olivia@gmail.com", "olp", "fyeah")
 c.users.append(test_account)
 
@@ -75,7 +75,7 @@ class start(Tk):
 		container.pack(side="top", fill="both", expand=True)
 		self.pages = {}
 
-		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, MenteeHomePage, MentorHomePage, QuestionPage, QuestionPage2, ProfilePage,
+		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage,
 					QuestionPage3, QuestionPage4, QuestionPage5, QuestionPage6):
 			frame = page(container, self)
 			self.pages[page] = frame
@@ -169,9 +169,9 @@ class LoginPage(Frame):
 		global passlbl
 
 		# Quick way for testing to go to homepage
-		debug = False
+		debug = True
 		if(debug):
-			controller.show_frame(MenteeHomePage)
+			controller.show_frame(HomePage)
 			return
 
 		# Error message that displays if at least one of the Username/Password
@@ -202,14 +202,14 @@ class LoginPage(Frame):
 			# Checks if the username and password are in the database
 			valid = c.login_check(username1.get(), password1.get())
 			if valid:
-				print("Welcome bitch")
+				print("Welcome!")
 				# If they are get rid of error messages and call the homepage
 				errorlbl = Label(self, text='*Incorrect Password or Username.', bg="medium sea green", fg="medium sea green",
 							 font=SMALL_FONT)
 				errorlbl.place(relx=0.43, rely=0.59, anchor=CENTER)
 				# Check to see if current user is mentor or mentee
 				# Guides them to corresponding page
-				controller.show_frame(MenteeHomePage)
+				controller.show_frame(HomePage)
 			else:
 				errorlbl2.place(relx=0.43, rely=0.59, anchor=CENTER)
 
@@ -287,7 +287,7 @@ class SignUpPage(Frame):
 
 		#debug code so i dont have to enter a password every time i want to check the questionanaire
 		#set debug = true to bypass the create account check.
-		debug = False
+		debug = True
 		if(debug):
 			controller.show_frame(QuestionPage)
 			return
@@ -344,7 +344,6 @@ class SignUpPage(Frame):
 				if newemail.get().count(at):
 					# add information to user class to be later added into database
 					#c.current_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
-					print(newusername.get())
 					c.current_user.username = newusername.get()
 					new_account.username = newusername.get()
 					new_account.password = newpassword.get()
@@ -364,7 +363,7 @@ class SignUpPage(Frame):
 
 # Contains everything for the Mentee Home Page frame.
 # This is where the user can see pontential mentors.
-class MenteeHomePage(Frame):
+class HomePage(Frame):
 
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
@@ -377,15 +376,22 @@ class MenteeHomePage(Frame):
 		b2 = Button(self, text="Logout", padx=40, font=TAB_FONT, command=lambda: controller.show_frame(MainMenu))
 		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
 
+		'''
+		TO DO:
+		FIND MENTORS/MENTEES
+		FROM CURRENT USERS MATCHES
+		REPLACE USERLBL TEXT WITH MATCH FIRST AND LAST 
+		'''
+
 		# First given mentor
-		fr1 = Frame(self, width=570, height=60, bg='white')
-		fr1.place(relx=0.50, rely=0.15, anchor=CENTER)
+		fr1 = Frame(self, width=570, height=70, bg='white')
+		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 
-		userlbl = Label(fr1, text='First Last', fg="black", font=MATCH_FONT)
-		userlbl.place(relx=0.2, rely=0.25, anchor=CENTER)
+		userlbl = Label(fr1, text='Kelly Tellyphony', fg="black", font=MATCH_FONT)
+		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl2 = Label(fr1, text='Bio Bio Bio BIo BIO BIo Bio bio Bouioioio', fg="grey", font=SMALL_FONT)
-		userlbl2.place(relx=0.2, rely=0.75, anchor=CENTER)
+		userlbl = Label(fr1, text='Compatibility: 99%', fg="grey40", font=PERCENT_FONT)
+		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT)
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
@@ -393,68 +399,73 @@ class MenteeHomePage(Frame):
 		b2 = Button(fr1, text="Connect", padx=25, font=SMALL_FONT)
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
-	# #Second given mentor
-	# fr2 = Frame(self, width = 570, height = 40, bg = 'white')
-	# fr2.place(relx=0.50, rely=0.27, anchor=CENTER)
+		#Second given mentor
+		fr2 = Frame(self, width = 570, height = 70, bg = 'white')
+		fr2.place(relx=0.50, rely=0.35, anchor=CENTER)
 
-	# #Third given mentor
-	# fr3 = Frame(self, width = 570, height = 40, bg = 'white')
-	# fr3.place(relx=0.50, rely=0.39, anchor=CENTER)
+		userlbl = Label(fr2, text='Leanna Phillips', fg="black", font=MATCH_FONT)
+		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-	# #Fourth given mentor
-	# fr4 = Frame(self, width = 570, height = 40, bg = 'white')
-	# fr4.place(relx=0.50, rely=0.51, anchor=CENTER)
+		userlbl = Label(fr2, text='Compatibility: 87%', fg="grey40", font=PERCENT_FONT)
+		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-	# #Fifth given mentor
-	# fr5 = Frame(self, width = 570, height = 40, bg = 'white')
-	# fr5.place(relx=0.50, rely=0.63, anchor=CENTER)
-
-# Contains everything for the Mentor Home Page frame.
-# This is where the user can see pontential mentees.
-class MentorHomePage(Frame):
-
-	def __init__(self, parent, controller):
-		Frame.__init__(self, parent)
-		b0 = Button(self, text="Potential Mentors", width=30, font=TAB_FONT)
-		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
-
-		b1 = Button(self, text="Profile", padx=50, font=TAB_FONT, command=lambda: controller.show_frame(ProfilePage))
-		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
-
-		b2 = Button(self, text="Logout", padx=40, font=TAB_FONT, command=lambda: controller.show_frame(MainMenu))
-		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
-
-		# First given mentor
-		fr1 = Frame(self, width=570, height=60, bg='white')
-		fr1.place(relx=0.50, rely=0.15, anchor=CENTER)
-
-		userlbl = Label(fr1, text='First Last', fg="black", font=MATCH_FONT)
-		userlbl.place(relx=0.2, rely=0.25, anchor=CENTER)
-
-		userlbl2 = Label(fr1, text='Bio Bio Bio BIo BIO BIo Bio bio Bouioioio', fg="grey", font=SMALL_FONT)
-		userlbl2.place(relx=0.2, rely=0.75, anchor=CENTER)
-
-		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2 = Button(fr2, text="Learn More...", padx=10, font=SMALL_FONT)
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr1, text="Connect", padx=25, font=SMALL_FONT)
+		b2 = Button(fr2, text="Connect", padx=25, font=SMALL_FONT)
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
-	# #Second given mentor
-	# fr2 = Frame(self, width = 570, height = 40, bg = 'white')
-	# fr2.place(relx=0.50, rely=0.27, anchor=CENTER)
 
-	# #Third given mentor
-	# fr3 = Frame(self, width = 570, height = 40, bg = 'white')
-	# fr3.place(relx=0.50, rely=0.39, anchor=CENTER)
+		#Third given mentor
+		fr3 = Frame(self, width = 570, height = 70, bg = 'white')
+		fr3.place(relx=0.50, rely=0.53, anchor=CENTER)
 
-	# #Fourth given mentor
-	# fr4 = Frame(self, width = 570, height = 40, bg = 'white')
-	# fr4.place(relx=0.50, rely=0.51, anchor=CENTER)
+		userlbl = Label(fr3, text='Hallam Barron', fg="black", font=MATCH_FONT)
+		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-	# #Fifth given mentor
-	# fr5 = Frame(self, width = 570, height = 40, bg = 'white')
-	# fr5.place(relx=0.50, rely=0.63, anchor=CENTER)
+		userlbl = Label(fr3, text='Compatibility: 87%', fg="grey40", font=PERCENT_FONT)
+		userlbl.place(relx=0.05, rely=0.7, anchor=W)
+
+		b2 = Button(fr3, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
+
+		b2 = Button(fr3, text="Connect", padx=25, font=SMALL_FONT)
+		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+
+
+		#Fourth given mentor
+		fr4 = Frame(self, width = 570, height = 70, bg = 'white')
+		fr4.place(relx=0.50, rely=0.71, anchor=CENTER)
+
+		userlbl = Label(fr4, text='Damian Steele', fg="black", font=MATCH_FONT)
+		userlbl.place(relx=0.05, rely=0.3, anchor=W)
+
+		userlbl = Label(fr4, text='Compatibility: 70%', fg="grey40", font=PERCENT_FONT)
+		userlbl.place(relx=0.05, rely=0.7, anchor=W)
+
+		b2 = Button(fr4, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
+
+		b2 = Button(fr4, text="Connect", padx=25, font=SMALL_FONT)
+		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+
+
+		#Fifth given mentor
+		fr5 = Frame(self, width = 570, height = 70, bg = 'white')
+		fr5.place(relx=0.50, rely=0.89, anchor=CENTER)
+
+		userlbl = Label(fr5, text='Sheikh Hopkins', fg="black", font=MATCH_FONT)
+		userlbl.place(relx=0.05, rely=0.3, anchor=W)
+
+		userlbl = Label(fr5, text='Compatibility: 70%', fg="grey40", font=PERCENT_FONT)
+		userlbl.place(relx=0.05, rely=0.7, anchor=W)
+
+		b2 = Button(fr5, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
+
+		b2 = Button(fr5, text="Connect", padx=25, font=SMALL_FONT)
+		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+
 
 # Contains everything for the First page of the questionaire page.
 # After creating a new account the user answers questions from these
@@ -813,8 +824,6 @@ class QuestionPage3(Frame):
 		questionnaireAnswers["orginizationalskills"] = orginizationalskills.get()
 		questionnaireAnswers["communicationskills"] = communicationskills.get()
 
-
-
 class QuestionPage4(Frame):
 
 	def __init__(self, parent, controller):
@@ -932,8 +941,6 @@ class QuestionPage4(Frame):
 		questionnaireAnswers["timemanagementskills"] = timemanagementskills.get()
 		questionnaireAnswers["workethic"] = workethic.get()
 		questionnaireAnswers["flexibility"] = flexiblility.get()
-
-
 
 class QuestionPage5(Frame):
 
@@ -1054,7 +1061,6 @@ class QuestionPage5(Frame):
 		#questionnaireAnswers["patience"] = patience.get()
 		questionnaireAnswers["introvertextrovert"] = introvertextrovert.get()
 
-
 class QuestionPage6(Frame):
 
 	def __init__(self, parent, controller):
@@ -1090,7 +1096,7 @@ class ProfilePage(Frame):
 
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
-		b0 = Button(self, text = "Potential Mentors", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(MenteeHomePage))
+		b0 = Button(self, text = "Potential Mentors", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
 
 		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT)
@@ -1103,9 +1109,7 @@ class ProfilePage(Frame):
 		fr1.place(relx=0.50, rely=0.52, anchor=CENTER)
 
 		# Get current users full (first and last) name
-		print(c.current_user.first)
 		fullname = c.current_user.first + " " + c.current_user.last
-		print()
 		gndr = "Gender: " + test_account.gender
 
 
@@ -1123,7 +1127,6 @@ class ProfilePage(Frame):
 
 	def logout():
 		pass
-
 
 
 
