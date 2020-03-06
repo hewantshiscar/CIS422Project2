@@ -173,8 +173,10 @@ def mentee_info(username):
 	query = "SELECT * FROM mentee"
 	mycursor.execute(query)
 	myresult = mycursor.fetchall()
+	test = 0
 	for row in myresult:
 		if (row[8] == username):
+			test++
 			age = int(row[2])
 			qs = row[4].split(",")
 			c = row[7].split(",")
@@ -185,6 +187,7 @@ def mentee_info(username):
 			for i in comp:
 				comp[i][1] = int(comp[i][1])
 			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], comp, row[8], row[9])
+
 	return result
 
 # extract all of the information of the mentors
@@ -201,7 +204,16 @@ def extract_mentors():
 	myresult = mycursor.fetchall()
 	result = []
 	for row in myresult:
-		result.append(User(1,row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+		age = int(row[2])
+		qs = row[4].split(",")
+		c = row[7].split(",")
+		comp = []
+		for co in c:
+			com = co.split(".")
+			comp.append(com)
+		for i in comp:
+			comp[i][1] = int(comp[i][1])
+		result.append(User(1, row[0], row[1], age, row[3], qs, row[5], row[6], comp, row[8], row[9]))
 	return result
 
 # creates an account in our database
