@@ -42,7 +42,7 @@ MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technolo
 questionnaireAnswers = [-1, -1, -1, -1, -1, -1, -1, -1, -1,  -1,  -1, -1,  -1,  -1, -1, -1, -1, -1]
 
 #Creates new user as a user class
-new_account = c.User(0, None, None, 0, None, {}, None, None, None, None)
+new_account = c.User(1, None, None, 0, None, {}, None, None, None, None)
 # c_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
 
 
@@ -51,7 +51,7 @@ TESTING STUFF
 '''
 # user_type, first, last, age, gender, questionnaire, bio, email, username, password
 
-test_account = c.User(0, "Olivia Lauren", "Pannell", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
+test_account = c.User(1, "Olivia Lauren", "Pannell", 21, "Female", [2, 3, 11, 1, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
 	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. I am looking for someone who can be my friend.",
 	"olivia@gmail.com", "olp", "fyeah")
 c.users.append(test_account)
@@ -174,7 +174,7 @@ class LoginPage(Frame):
 		global passlbl
 
 		# Quick way for testing to go to homepage
-		debug = True
+		debug = False
 		if(debug):
 			win.pages[HomePage].load(parent, controller)
 			controller.show_frame(HomePage)
@@ -285,7 +285,7 @@ class NamePreferencesPage(Frame):
 
                 #debug code so i dont have to enter a password every time i want to check the questionanaire
                 #set debug = true to bypass the create account check.
-                debug = True
+                debug = False
                 if(debug):
                         controller.show_frame(QuestionPage)
                         return
