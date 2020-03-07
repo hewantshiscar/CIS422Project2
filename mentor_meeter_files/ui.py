@@ -39,10 +39,7 @@ MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technolo
 		   "Political science", "Product design", "Psychology", "Religious studies", "Romance languages", "Russian, East European, and Eurasian studies",
 		   "Sociology", "Spanish", "Spatial data science and technology", "Theater arts", "Women's, gender, and sexuality studies"]
 
-questionnaireAnswers = [-1, -1, -1, -1, -1, -1, -1,
-						-1, -1,  -1,  -1,
-						 -1,  -1,  -1,
-						 -1, -1, -1, -1]
+questionnaireAnswers = [-1, -1, -1, -1, -1, -1, -1, -1, -1,  -1,  -1, -1,  -1,  -1, -1, -1, -1, -1]
 
 #Creates new user as a user class
 new_account = c.User(0, None, None, 0, None, {}, None, None, None, None)
@@ -735,7 +732,7 @@ class QuestionPage(Frame):
 		questionnaireAnswers[0] = gender.get()
 		questionnaireAnswers[1] = matchgender.get()
 		questionnaireAnswers[3] = MAJORS.index(careerfield.get())
-		questionnaireAnswers[2] = userage.get()
+		questionnaireAnswers[2] = int(userage.get())
 
 	def placeinputgender(self):
 		global inputgender
@@ -867,11 +864,11 @@ class QuestionPage3(Frame):
 
 	def __init__(self, parent, controller):
 		global kindofwork
-		global networkingskills
+		global integrity
 		global orginizationalskills
 		global communicationskills
 		kindofwork = IntVar()
-		networkingskills = IntVar()
+		integrity = IntVar()
 		orginizationalskills = IntVar()
 		communicationskills = IntVar()
 
@@ -902,19 +899,19 @@ class QuestionPage3(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.3, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=networkingskills, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.4, anchor=W)
+								  activebackground="medium sea green", variable=integrity, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=networkingskills, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=integrity, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=networkingskills, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=integrity, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=networkingskills, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=integrity, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=networkingskills, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=integrity, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.4, anchor=W)
 
 
 
@@ -972,7 +969,7 @@ class QuestionPage3(Frame):
 
 	def save(self):
 		global kindofwork
-		global networkingskills
+
 		global orginizationalskills
 		global communicationskills
 		questionnaireAnswers[17] = kindofwork.get()
