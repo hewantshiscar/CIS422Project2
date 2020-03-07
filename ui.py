@@ -39,10 +39,10 @@ MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technolo
 		   "Political science", "Product design", "Psychology", "Religious studies", "Romance languages", "Russian, East European, and Eurasian studies",
 		   "Sociology", "Spanish", "Spatial data science and technology", "Theater arts", "Women's, gender, and sexuality studies"]
 
-questionnaireAnswers = {"gender": -1, "matchgender": -1, "userage": -1, "careerfield": -1, "agerange": -1, "timeinvestment": -1,"experiencelevel": -1,
-						"networkingskills": -1, "orginizationalskills": -1, "communicationskills": -1, "timemanagementskills": -1,
-						"workethic": -1, "flexibility": -1, "workwithothers": -1,
-						"introvertextrovert": -1, "learningstyle": -1, "careergoals": -1, "kindofwork": -1}
+questionnaireAnswers = [-1, -1, -1, -1, -1, -1, -1,
+						-1, -1,  -1,  -1,
+						 -1,  -1,  -1,
+						 -1, -1, -1, -1]
 
 #Creates new user as a user class
 new_account = c.User(0, None, None, 0, None, {}, None, None, None, None)
@@ -732,10 +732,10 @@ class QuestionPage(Frame):
 		global matchgender
 		global careerfield
 		global userage
-		questionnaireAnswers["gender"] = gender.get()
-		questionnaireAnswers["matchgender"] = matchgender.get()
-		questionnaireAnswers["careerfield"] = MAJORS.index(careerfield.get())
-		questionnaireAnswers["userage"] = userage.get()
+		questionnaireAnswers[0] = gender.get()
+		questionnaireAnswers[1] = matchgender.get()
+		questionnaireAnswers[3] = MAJORS.index(careerfield.get())
+		questionnaireAnswers[2] = userage.get()
 
 	def placeinputgender(self):
 		global inputgender
@@ -858,10 +858,10 @@ class QuestionPage2(Frame):
 		global timeinvestment
 		global experiencelevel
 		global networkingskills
-		questionnaireAnswers["agerange"] = agerange.get()
-		questionnaireAnswers["timeinvestment"] = timeinvestment.get()
-		questionnaireAnswers["experiencelevel"] = experiencelevel.get()
-		questionnaireAnswers["networkingskills"] = networkingskills.get()
+		questionnaireAnswers[4] = agerange.get()
+		questionnaireAnswers[5] = timeinvestment.get()
+		questionnaireAnswers[6] = experiencelevel.get()
+		questionnaireAnswers[7] = networkingskills.get()
 
 class QuestionPage3(Frame):
 
@@ -898,7 +898,7 @@ class QuestionPage3(Frame):
 
 
 
-		Label(self, text='How good are your networking skills? (1 = low, 5 = high)', bg="medium sea green", fg="white",
+		Label(self, text='How much do you value integrity? (1 = low, 5 = high)', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.3, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
@@ -975,10 +975,10 @@ class QuestionPage3(Frame):
 		global networkingskills
 		global orginizationalskills
 		global communicationskills
-		questionnaireAnswers["kindofwork"] = kindofwork.get()
-		questionnaireAnswers["networkingskills"] = networkingskills.get()
-		questionnaireAnswers["orginizationalskills"] = orginizationalskills.get()
-		questionnaireAnswers["communicationskills"] = communicationskills.get()
+		questionnaireAnswers[17] = kindofwork.get()
+		#questionnaireAnswers["networkingskills"] = networkingskills.get()
+		questionnaireAnswers[8] = orginizationalskills.get()
+		questionnaireAnswers[9] = communicationskills.get()
 
 class QuestionPage4(Frame):
 
@@ -1093,10 +1093,10 @@ class QuestionPage4(Frame):
 		global timemanagementskills
 		global workethic
 		global flexiblility
-		questionnaireAnswers["careergoals"] = careergoals.get()
-		questionnaireAnswers["timemanagementskills"] = timemanagementskills.get()
-		questionnaireAnswers["workethic"] = workethic.get()
-		questionnaireAnswers["flexibility"] = flexiblility.get()
+		questionnaireAnswers[16] = careergoals.get()
+		questionnaireAnswers[10] = timemanagementskills.get()
+		questionnaireAnswers[11] = workethic.get()
+		questionnaireAnswers[12] = flexiblility.get()
 
 class QuestionPage5(Frame):
 
@@ -1212,10 +1212,10 @@ class QuestionPage5(Frame):
 		global workwithothers
 		#global patience
 		global introvertextrovert
-		questionnaireAnswers["learningstyle"] = learningstyle.get()
-		questionnaireAnswers["workwithothers"] = workwithothers.get()
+		questionnaireAnswers[15] = learningstyle.get()
+		questionnaireAnswers[13] = workwithothers.get()
 		#questionnaireAnswers["patience"] = patience.get()
-		questionnaireAnswers["introvertextrovert"] = introvertextrovert.get()
+		questionnaireAnswers[14] = introvertextrovert.get()
 
 class QuestionPage6(Frame):
 
