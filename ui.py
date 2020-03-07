@@ -529,7 +529,7 @@ class HomePage(Frame):
 		userlbl = Label(fr1, text=c.current_user.user_matches[0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr1, text='Compatibility: ' + str(c.current_user.user_compats[0]) + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr1, text='Compatibility: ' + str(c.current_user.user_matches[0][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -546,7 +546,7 @@ class HomePage(Frame):
 		userlbl = Label(fr2, text=c.current_user.user_matches[1], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr2, text='Compatibility: ' + str(c.current_user.user_compats[1]) + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr2, text='Compatibility: ' + str(c.current_user.user_matches[1][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr2, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -564,7 +564,7 @@ class HomePage(Frame):
 		userlbl = Label(fr3, text=c.current_user.user_matches[2], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr3, text='Compatibility: ' + str(c.current_user.user_compats[2]) + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr3, text='Compatibility: ' + str(c.current_user.user_matches[2][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr3, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -582,7 +582,7 @@ class HomePage(Frame):
 		userlbl = Label(fr4, text=c.current_user.user_matches[3], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr4, text='Compatibility: ' + str(c.current_user.user_compats[3]) + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr4, text='Compatibility: ' + str(c.current_user.user_matches[3][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr4, text="Learn More...", padx=10, font=SMALL_FONT)
@@ -600,7 +600,7 @@ class HomePage(Frame):
 		userlbl = Label(fr5, text=c.current_user.user_matches[4], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr5, text='Compatibility: ' + str(c.current_user.user_compats[4]) + '%', fg="grey40", font=PERCENT_FONT)
+		userlbl = Label(fr5, text='Compatibility: ' + str(c.current_user.user_matches[4][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
 		b2 = Button(fr5, text="Learn More...", padx=10, font=SMALL_FONT)

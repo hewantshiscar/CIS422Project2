@@ -29,7 +29,7 @@ class User:
 	 	self.q = questionnaire # list of numbers (Starts at 1)
 	 	self.bio = bio # string
 	 	self.email = email # string
-	 	self.user_matches = [["", 0], ["", 0], ["", 0] ["", 0] ["", 0]] # User Matches (Sorted)
+	 	self.user_matches = [["", 0], ["", 0], ["", 0], ["", 0], ["", 0]] # User Matches (Sorted)
 	 	#self.user_compats = [0, 0, 0, 0, 0] # User Matches corresponding %
 	 	self.username = username # string
 	 	self.password = password #string
