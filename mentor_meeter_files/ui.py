@@ -23,8 +23,6 @@ QUESTION_FONT = ("Roboto", 15, "bold")
 BUTTON_FONT = ("Helvetica", 14)
 INFO_FONT = ("Helvetica", 16, "bold")
 
-load = 0
-
 # List of Majors/Subjects
 MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
 		   "Asian studies", "Biochemistry", "Biology", "Business administration", "Chemistry", "Chinese", "Cinema studies",
@@ -78,9 +76,7 @@ class start(Tk):
 		container.pack(side="top", fill="both", expand=True)
 		self.pages = {}
 
-		global frame
-
-		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage,
+		for page in (MainMenu, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage,
 					QuestionPage3, QuestionPage4, QuestionPage5, NamePreferencesPage):
 			frame = page(container, self)
 			self.pages[page] = frame
@@ -111,22 +107,6 @@ class MainMenu(Frame):
 		b1 = Button(self, text="Sign-Up", highlightbackground="medium sea green", padx=10,
 					command=lambda: controller.show_frame(SignUpPage))
 		b1.place(relx=0.5, rely=0.50, width=150, anchor=CENTER)
-
-		b2 = Button(self, text="Help", highlightbackground="medium sea green", padx=10,
-					command=lambda: controller.show_frame(HelpPage))
-		b2.place(relx=0.0, rely=1.0, anchor=SW)
-
-# Contains everything for the Help frame
-class HelpPage(Frame):
-
-	def __init__(self, parent, controller):
-		Frame.__init__(self, parent)
-		lbl1 = Label(self, text='THIS IS THE HELP PAGE', bg="medium sea green", fg="white", font=TAB_FONT)
-		lbl1.place(relx=0.5, rely=0.30, anchor=CENTER)
-
-		b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
-					command=lambda: controller.show_frame(MainMenu))
-		b0.place(relx=0.0, rely=1.0, anchor=SW)
 
 # Contains everything for the Login Page frame.
 # This is for the user who already has an existing account.
@@ -483,8 +463,7 @@ class HomePage(Frame):
 		Frame.__init__(self, parent)
 
 	def load(self, parent, controller):
-		print("here")
-		b0 = Button(self, text="Potential Mentors", width=30, font=TAB_FONT)
+		b0 = Button(self, text="Potential Matches", width=30, font=TAB_FONT)
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
 
 		b1 = Button(self, text="Profile", padx=50, font=TAB_FONT, command=lambda: [win.pages[ProfilePage].load(parent, controller), controller.show_frame(ProfilePage)])
@@ -528,7 +507,7 @@ class HomePage(Frame):
 		fr2 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr2.place(relx=0.50, rely=0.35, anchor=CENTER)
 
-		userlbl = Label(fr2, text=c.current_user.user_matches[1], fg="black", font=MATCH_FONT)
+		userlbl = Label(fr2, text=c.current_user.user_matches[1][0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
 		userlbl = Label(fr2, text='Compatibility: ' + str(c.current_user.user_matches[1][1]) + '%', fg="grey40", font=PERCENT_FONT)
@@ -546,7 +525,7 @@ class HomePage(Frame):
 		fr3 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr3.place(relx=0.50, rely=0.53, anchor=CENTER)
 
-		userlbl = Label(fr3, text=c.current_user.user_matches[2], fg="black", font=MATCH_FONT)
+		userlbl = Label(fr3, text=c.current_user.user_matches[2][0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
 		userlbl = Label(fr3, text='Compatibility: ' + str(c.current_user.user_matches[2][1]) + '%', fg="grey40", font=PERCENT_FONT)
@@ -564,7 +543,7 @@ class HomePage(Frame):
 		fr4 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr4.place(relx=0.50, rely=0.71, anchor=CENTER)
 
-		userlbl = Label(fr4, text=c.current_user.user_matches[3], fg="black", font=MATCH_FONT)
+		userlbl = Label(fr4, text=c.current_user.user_matches[3][0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
 		userlbl = Label(fr4, text='Compatibility: ' + str(c.current_user.user_matches[3][1]) + '%', fg="grey40", font=PERCENT_FONT)
@@ -582,7 +561,7 @@ class HomePage(Frame):
 		fr5 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr5.place(relx=0.50, rely=0.89, anchor=CENTER)
 
-		userlbl = Label(fr5, text=c.current_user.user_matches[4], fg="black", font=MATCH_FONT)
+		userlbl = Label(fr5, text=c.current_user.user_matches[4][0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
 		userlbl = Label(fr5, text='Compatibility: ' + str(c.current_user.user_matches[4][1]) + '%', fg="grey40", font=PERCENT_FONT)
