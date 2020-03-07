@@ -119,6 +119,7 @@ def create_mentee(User):
 # given the username
 # obtain the information of the following mentor
 # returns result as a User class type
+# if no such information exists then return User with userype = -1
 def mentor_info(username):
 	# connecting to our database
 	mydb = mysql.connector.connect(host="ix.cs.uoregon.edu", user="guest", passwd="guest", database="mentor",
@@ -136,7 +137,10 @@ def mentor_info(username):
 			for i in range(len(qs)):
 				qs[i] = int(qs[i])
 			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
-	return result
+	try:
+		return result
+	except:
+		return User(-1, None, None, 0, None, {}, None, None, None, None)
 
 # given the username of the mentee
 # obtain the information of the following mentee
@@ -159,7 +163,10 @@ def mentee_info(username):
 				qs[i] = int(qs[i])
 			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
 
-	return result
+	try:
+		return result
+	except:
+		return User(-1, None, None, 0, None, {}, None, None, None, None)
 
 # extract all of the information of the mentors
 # returns a list of mentors with User class type
