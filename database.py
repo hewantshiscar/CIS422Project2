@@ -150,6 +150,8 @@ def mentor_info(username):
 		if (row[8] == username):
 			age = int(row[2])
 			qs = row[4].split(",")
+			for i in range(len(qs)):
+				qs[i] = int(qs[i])
 			c = row[7].split(",")
 			comp = []
 			for co in c:
@@ -179,6 +181,8 @@ def mentee_info(username):
 			test++
 			age = int(row[2])
 			qs = row[4].split(",")
+			for i in range(len(qs)):
+				qs[i] = int(qs[i])
 			c = row[7].split(",")
 			comp = []
 			for co in c:
@@ -191,7 +195,7 @@ def mentee_info(username):
 	return result
 
 # extract all of the information of the mentors
-# resturns a list of mentors with User class type
+# returns a list of mentors with User class type
 def extract_mentors():
 	# connecting to our database
 	mydb = mysql.connector.connect(host="ix.cs.uoregon.edu", user="guest", passwd="guest", database="mentor",
@@ -200,6 +204,32 @@ def extract_mentors():
 	mycursor = mydb.cursor()
 	# fetching all
 	query = "SELECT * FROM mentor"
+	mycursor.execute(query)
+	myresult = mycursor.fetchall()
+	result = []
+	for row in myresult:
+		age = int(row[2])
+		qs = row[4].split(",")
+		c = row[7].split(",")
+		comp = []
+		for co in c:
+			com = co.split(".")
+			comp.append(com)
+		for i in comp:
+			comp[i][1] = int(comp[i][1])
+		result.append(User(1, row[0], row[1], age, row[3], qs, row[5], row[6], comp, row[8], row[9]))
+	return result
+
+# extract all of the information of the mentees
+# returns a list of mentors with User class type
+def extract_mentees():
+	# connecting to our database
+	mydb = mysql.connector.connect(host="ix.cs.uoregon.edu", user="guest", passwd="guest", database="mentor",
+								   port="3141")
+	# using a cursor to add into the databse
+	mycursor = mydb.cursor()
+	# fetching all
+	query = "SELECT * FROM mentee"
 	mycursor.execute(query)
 	myresult = mycursor.fetchall()
 	result = []
