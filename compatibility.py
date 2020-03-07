@@ -236,7 +236,7 @@ def sort_matches():
 	"""Sort matches by % compatibility"""
 	for i in range(len(current_user.user_matches)):
 		for j in range(len(current_user.user_matches) - i - 1):
-			if current_user.user_matches[j][1] > current_user.user_matches[j + 1][1]:
+			if current_user.user_matches[j][1] < current_user.user_matches[j + 1][1]:
 				current_user.user_matches[j], current_user.user_matches[j + 1] = current_user.user_matches[j + 1], current_user.user_matches[j]
 
 
