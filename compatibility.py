@@ -42,7 +42,7 @@ class User:
 			self.age, self.gender, self.q, self.bio, self.email,
 			self.username, self.password)
 
-current_user = User(0, "", "", 0, "", [], "", "", [], "", "")
+current_user = User(0, "", "", 0, "", {}, "", "", "", "")
 
 def login_check(username, password):
 	"""Checks login credentials"""
