@@ -23,6 +23,8 @@ QUESTION_FONT = ("Roboto", 15, "bold")
 BUTTON_FONT = ("Helvetica", 10)
 INFO_FONT = ("Helvetica", 16, "bold")
 
+load = 0
+
 # List of Majors/Subjects
 MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
 		   "Asian studies", "Biochemistry", "Biology", "Business administration", "Chemistry", "Chinese", "Cinema studies",
@@ -99,6 +101,8 @@ class start(Tk):
 
 		container.pack(side="top", fill="both", expand=True)
 		self.pages = {}
+
+		global frame
 
 		for page in (MainMenu, HelpPage, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage,
 					QuestionPage3, QuestionPage4, QuestionPage5, QuestionPage6, NamePreferencesPage):
@@ -194,7 +198,7 @@ class LoginPage(Frame):
 		global passlbl
 
 		# Quick way for testing to go to homepage
-		debug = True
+		debug = False
 		if(debug):
 			controller.show_frame(HomePage)
 			return
@@ -236,6 +240,7 @@ class LoginPage(Frame):
 				errorlbl.place(relx=0.43, rely=0.59, anchor=CENTER)
 				# Check to see if current user is mentor or mentee
 				# Guides them to corresponding page
+				win.pages[HomePage].load(parent, controller)
 				controller.show_frame(HomePage)
 			else:
 				errorlbl2.place(relx=0.43, rely=0.59, anchor=CENTER)
@@ -468,25 +473,25 @@ class SignUpPage(Frame):
 			if newpassword.get() == passcheck.get():
 				#Check for valid email with @ -> newemail.get().count(at)
 				if check_email(newemail.get()):
-                                        # Check to ensure the username is not taken
-                                        if check_username(newusername.get()):
-                                                # add information to user class to be later added into database
-                                                #c.current_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
-                                                c.current_user.username = newusername.get()
-                                                new_account.username = newusername.get()
-                                                new_account.password = newpassword.get()
-                                                new_account.email = newemail.get()
+					# Check to ensure the username is not taken
+					if check_username(newusername.get()):
+						# add information to user class to be later added into database
+						#c.current_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
+						c.current_user.username = newusername.get()
+						new_account.username = newusername.get()
+						new_account.password = newpassword.get()
+						new_account.email = newemail.get()
 
-                                                # Clears password entry for security reasons
-                                                # newpassword.delete(0, 'end')
-                                                # passcheck.delete(0, 'end')
-                                                errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
-                                                			 font=SMALL_FONT)
-                                                errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
-                                                controller.show_frame(NamePreferencesPage)
-                                        else:
-                                                errorlbl.config(text='*Username is taken, please enter a new username', fg='red4')
-                                                errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
+						# Clears password entry for security reasons
+						# newpassword.delete(0, 'end')
+						# passcheck.delete(0, 'end')
+						errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
+									 font=SMALL_FONT)
+						errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
+						controller.show_frame(NamePreferencesPage)
+					else:
+						errorlbl.config(text='*Username is taken, please enter a new username', fg='red4')
+						errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
 				else:
 					newemaillbl.config(text='*Email:', fg='red4')
 					errorlbl3.place(relx=0.50, rely=0.8, anchor=CENTER)
@@ -502,6 +507,9 @@ class HomePage(Frame):
 
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
+
+	def load(self, parent, controller):
+		print("here")
 		b0 = Button(self, text="Potential Mentors", width=30, font=TAB_FONT)
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
 
@@ -525,6 +533,8 @@ class HomePage(Frame):
 		# First given mentor
 		fr1 = Frame(self, width=570, height=70, bg='white')
 		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
+
+		print(c.current_user.user_matches[0][0])
 
 		userlbl = Label(fr1, text=c.current_user.user_matches[0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
@@ -1244,6 +1254,9 @@ class ProfilePage(Frame):
 
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
+
+
+	def loadp(self, parent, controller):
 		b0 = Button(self, text = "Potential Mentors", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
 
