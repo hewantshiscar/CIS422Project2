@@ -49,8 +49,10 @@ def login_check(username, password):
 	for user in users:
 		if user.username == username and user.password == password:
 			current_user = user
+			print("current user: ", current_user.first)
 			pref_check(current_user)
 			compat()
+			print(current_user.user_matches)
 			return 1
 	return 0
 
@@ -103,11 +105,11 @@ def pref_check(current_user):
 	3) Age Range (1 - 5)
 	"""
 
-	user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, "Computer Science", 4, 4, 3, 5, 5, 4, 5, 2, 3, 4, 4, 3, 4, 2, 1, 3, 4, 1, 2], "Hiyo", "phillipe@gmail.com", "philoroz", "pickles9")
-	user2 = User(0, "Olivia", "Pannell", 21, "Female", [2, 3, "Computer Science", 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2], "Hello", "olivia@gmail.com", "olp", "anniepie98")
-	user3 = User(0, "Jose", "West", 23, "Male", [1, 3, "Computer Science", 5, 3, 5, 3, 3, 1, 1, 2, 3, 4, 5, 3, 2, 3, 4, 3, 4, 1, 4], "Hey", "jose@gmail.com", "josewt", "glassesguy65")
-	user4 = User(0, "Taylor", "Verney", 22, "Non-binary/Queer", [3, 3, "Computer Science", 1, 2, 1, 1, 2, 2, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 3, 1, 3], "Heyo", "taylor@gmail.com", "tayvey", "cheezitsaremylove74")
-	user5 = User(0, "Pablo", "Garcia", 19, "Male", [1, 3, "Computer Science", 3, 1, 3, 4, 1, 4, 5, 2, 3, 4, 2, 4, 2, 4, 2, 3, 4, 1, 3], "Greetings", "pablo@gmail.com", "pabgar", "9000goo")
+	user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, 11, 4, 4, 3, 5, 5, 4, 5, 2, 3, 4, 4, 3, 4, 2, 1, 3, 4, 1, 2], "Hiyo", "phillipe@gmail.com", "philoroz", "pickles9")
+	user2 = User(0, "Olivia", "Pannell", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2], "Hello", "olivia@gmail.com", "olp", "anniepie98")
+	user3 = User(0, "Jose", "West", 23, "Male", [1, 3, 11, 5, 3, 5, 3, 3, 1, 1, 2, 3, 4, 5, 3, 2, 3, 4, 3, 4, 1, 4], "Hey", "jose@gmail.com", "josewt", "glassesguy65")
+	user4 = User(0, "Taylor", "Verney", 22, "Non-binary/Queer", [3, 3, 11, 1, 2, 1, 1, 2, 2, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 3, 1, 3], "Heyo", "taylor@gmail.com", "tayvey", "cheezitsaremylove74")
+	user5 = User(0, "Pablo", "Garcia", 19, "Male", [1, 3, 11, 3, 1, 3, 4, 1, 4, 5, 2, 3, 4, 2, 4, 2, 4, 2, 3, 4, 1, 3], "Greetings", "pablo@gmail.com", "pabgar", "9000goo")
 
 	users.append(user1)
 	users.append(user2)
@@ -125,7 +127,7 @@ def pref_check(current_user):
 					if user.age >= age_ranges[current_user.q[3] - 1][0] and user.age <= age_ranges[current_user.q[3] - 1][1]:
 						if len(current_user.user_matches) <= 5:
 							current_user.user_matches[count][1] = 0
-							current_user.usermatches[count][0] = user
+							current_user.user_matches[count][0] = user
 						else:
 							match = []
 							match.append(user)

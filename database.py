@@ -41,7 +41,7 @@ def valid(email, username, status):
 	for row in myresult:
 		if(row[6] == email):
 			i = i + 1
-		if(row[8] == username):
+		if(row[7] == username):
 			i+=2
 
 	return i
@@ -64,17 +64,8 @@ def create_mentor(User):
 	mycursor = mydb.cursor()
 
 	insert_s = (
-		"INSERT INTO mentor(first, last, age, gender, q, bio, email, user_matches, username, password) "
-		"VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-
-	# turning array data into strings (needs to turn into a string to store into the databse)
-	match = ""
-	for (x, y) in User.user_matches:
-		match += str(x)
-		match += "."
-		match += str(y)
-		match += ","
-	matches = match[:-1]
+		"INSERT INTO mentor(first, last, age, gender, q, bio, email, username, password) "
+		"VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
 	q = ""
 	for i in User.q:
@@ -84,7 +75,7 @@ def create_mentor(User):
 
 	data = (
 	str(User.first), str(User.last), str(User.age), str(User.gender), qs, str(User.bio), str(User.email),
-	matches, str(User.username), str(User.password))
+	str(User.username), str(User.password))
 
 	mycursor.execute(insert_s, data)
 
@@ -108,17 +99,8 @@ def create_mentee(User):
 	# using a cursor to add into the databse
 	mycursor = mydb.cursor()
 
-	insert_s = ("INSERT INTO mentee(first, last, age, gender, q, bio, email, user_matches, username, password) "
-				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-
-	#turning array data into strings (needs to turn into a string to store into the databse)
-	match = ""
-	for (x,y) in User.user_matches:
-		match += str(x)
-		match += "."
-		match += str(y)
-		match += ","
-	matches = match[:-1]
+	insert_s = ("INSERT INTO mentee(first, last, age, gender, q, bio, email, username, password) "
+				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
 	q = ""
 	for i in User.q:
@@ -127,7 +109,7 @@ def create_mentee(User):
 	qs = q[:-1]
 
 	data = (str(User.first), str(User.last), str(User.age), str(User.gender), qs, str(User.bio),
-			str(User.email), matches, str(User.username), str(User.password))
+			str(User.email), str(User.username), str(User.password))
 
 	mycursor.execute(insert_s, data)
 
@@ -148,19 +130,12 @@ def mentor_info(username):
 	mycursor.execute(query)
 	myresult = mycursor.fetchall()
 	for row in myresult:
-		if (row[8] == username):
+		if (row[7] == username):
 			age = int(row[2])
 			qs = row[4].split(",")
 			for i in range(len(qs)):
 				qs[i] = int(qs[i])
-			c = row[7].split(",")
-			comp = []
-			for co in c:
-				com = co.split(".")
-				comp.append(com)
-			for i in comp:
-				comp[i][1] = int(comp[i][1])
-			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], comp, row[8], row[9])
+			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
 	return result
 
 # given the username of the mentee
@@ -182,14 +157,7 @@ def mentee_info(username):
 			qs = row[4].split(",")
 			for i in range(len(qs)):
 				qs[i] = int(qs[i])
-			c = row[7].split(",")
-			comp = []
-			for co in c:
-				com = co.split(".")
-				comp.append(com)
-			for i in comp:
-				comp[i][1] = int(comp[i][1])
-			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], comp, row[8], row[9])
+			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
 
 	return result
 
@@ -209,14 +177,7 @@ def extract_mentors():
 	for row in myresult:
 		age = int(row[2])
 		qs = row[4].split(",")
-		c = row[7].split(",")
-		comp = []
-		for co in c:
-			com = co.split(".")
-			comp.append(com)
-		for i in range(len(comp)):
-			comp[i][1] = int(comp[i][1])
-		result.append(User(1, row[0], row[1], age, row[3], qs, row[5], row[6], comp, row[8], row[9]))
+		result.append(User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8]))
 	return result
 
 # extract all of the information of the mentees
@@ -235,14 +196,7 @@ def extract_mentees():
 	for row in myresult:
 		age = int(row[2])
 		qs = row[4].split(",")
-		c = row[7].split(",")
-		comp = []
-		for co in c:
-			com = co.split(".")
-			comp.append(com)
-		for i in range(len(comp)):
-			comp[i][1] = int(comp[i][1])
-		result.append(User(1, row[0], row[1], age, row[3], qs, row[5], row[6], comp, row[8], row[9]))
+		result.append(User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8]))
 	return result
 
 # creates an account in our database

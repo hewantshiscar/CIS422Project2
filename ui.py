@@ -20,7 +20,7 @@ TAB_FONT = ("Helvetica", 18, "bold italic")
 MATCH_FONT = ("Helvetica", 22, "bold")
 PERCENT_FONT = ("Helvetica", 12, "bold italic")
 QUESTION_FONT = ("Roboto", 15, "bold")
-BUTTON_FONT = ("Helvetica", 10)
+BUTTON_FONT = ("Helvetica", 14)
 INFO_FONT = ("Helvetica", 16, "bold")
 
 load = 0
@@ -54,7 +54,7 @@ TESTING STUFF
 '''
 # user_type, first, last, age, gender, questionnaire, bio, email, username, password
 
-test_account = c.User(0, "Oliviadls", "Pannelldsms", 21, "Female", [2, 3, "Computer Science", 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
+test_account = c.User(0, "Oliviadls", "Pannelldsms", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
 	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. ",
 	"olivia@gmail.com", "olp", "fyeah")
 c.users.append(test_account)
@@ -233,7 +233,6 @@ class LoginPage(Frame):
 			if valid:
 				# Clears password entry for security reasons
 				password1.delete(0, 'end')
-				print("Welcome!")
 				# If they are get rid of error messages and call the homepage
 				errorlbl = Label(self, text='*Incorrect Password or Username.', bg="medium sea green", fg="medium sea green",
 							 font=SMALL_FONT)
@@ -534,9 +533,10 @@ class HomePage(Frame):
 		fr1 = Frame(self, width=570, height=70, bg='white')
 		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 
+		print("Current:")
 		print(c.current_user.user_matches[0][0])
 
-		userlbl = Label(fr1, text=c.current_user.user_matches[0], fg="black", font=MATCH_FONT)
+		userlbl = Label(fr1, text=c.current_user.user_matches[0][0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
 		userlbl = Label(fr1, text='Compatibility: ' + str(c.current_user.user_matches[0][1]) + '%', fg="grey40", font=PERCENT_FONT)
