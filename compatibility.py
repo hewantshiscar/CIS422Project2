@@ -20,7 +20,7 @@ percent_scale = [100/18, 75/18, 50/18, 25/18, 0]
 
 class User:
 	"""Class that stores each user's information"""
-	def __init__(self, user_type, first, last, age, gender, questionnaire, bio, email, username, password):
+	def __init__(self, user_type, first, last, age, gender, questionnaire, bio, email, user_matches, username, password):
 	 	self.user_type = user_type # int (Mentor = 1, mentee = 0)
 	 	self.first = first # string
 	 	self.last = last # string
@@ -29,7 +29,7 @@ class User:
 	 	self.q = questionnaire # list of numbers (Starts at 1)
 	 	self.bio = bio # string
 	 	self.email = email # string
-	 	self.user_matches = [["", 0], ["", 0], ["", 0], ["", 0], ["", 0]] # User Matches (Sorted)
+	 	self.user_matches = user_matches # User Matches (Sorted)
 	 	#self.user_compats = [0, 0, 0, 0, 0] # User Matches corresponding %
 	 	self.username = username # string
 	 	self.password = password #string
@@ -42,7 +42,7 @@ class User:
 			self.age, self.gender, self.q, self.bio, self.email, self.user_matches,
 			self.username, self.password)
 
-current_user = User(0, "", "", 0, "", {}, "", "", "", "")
+current_user = User(0, "", "", 0, "", [], "", "", [], "", "")
 
 def login_check(username, password):
 	"""Checks login credentials"""
