@@ -45,28 +45,30 @@ class User:
 			self.age, self.gender, self.q, self.bio, self.email,
 			self.username, self.password)
 
-current_user = User(0, "", "", 0, "", {}, "", "", "", "")
+current_user = User(0, "", "", 0, "", [], "", "", "", "")
 
 def login_check(username, password):
 	"""Checks login credentials"""
+	current_user = User(0, "", "", 0, "", [], "", "", "", "")
+
 	for user in users:
 		if user.username == username and user.password == password:
 			current_user = user
-			print("Current: ", current_user)
 			pref_check(current_user)
-			compat()
+			compat(current_user)
 			return 1, user
+
 	return 0
 
 
-def equal_q_answer(user, q_num, count):
+def equal_q_answer(current_user, user, q_num, count):
 	"""Mentor and mentee must have equal answers"""
 	percent = abs(current_user.q[q_num] - user.q[q_num])
 	real_percent = percent_scale[percent]
 	current_user.user_matches[count][1] += real_percent
 
 
-def equal_or_higher(user, q_num, count):
+def equal_or_higher(current_user, user, q_num, count):
 	"""Mentor needs to be 1 or higher than mentee or equal"""
 	percent = current_user.q[q_num] - user.q[q_num]
 	if percent >= 0:
@@ -74,7 +76,7 @@ def equal_or_higher(user, q_num, count):
 		current_user.user_matches[count][1] += real_percent
 
 
-def equal_or_lower(user, q_num, count):
+def equal_or_lower(current_user, user, q_num, count):
 	"""Mentee needs to be 1 or lowerer than mentor or equal"""
 	percent = current_user.q[q_num] - user.q[q_num]
 	if percent <= 0:
@@ -82,7 +84,7 @@ def equal_or_lower(user, q_num, count):
 		current_user.user_matches[count][1] += real_percent
 
 
-def higher(user, q_num, count):
+def higher(current_user, user, q_num, count):
 	"""Mentor needs to be 1 or higher than mentee"""
 	percent = current_user.q[q_num] - user.q[q_num]
 	if percent > 0:
@@ -90,7 +92,7 @@ def higher(user, q_num, count):
 		current_user.user_matches[count][1] += real_percent
 
 
-def lower(user, q_num, count):
+def lower(current_user, user, q_num, count):
 	"""Mentee needs to be 1 or lower than mentor"""
 	percent = current_user.q[q_num] - user.q[q_num]
 	if percent < 0:
@@ -137,7 +139,7 @@ def pref_check(current_user):
 							match.append(0)
 							current_user.user_matches.append(match)
 
-def compat():
+def compat(current_user):
 	"""Compute compatibility amongst users"""
 	# If the current user is a mentor
 	if current_user.user_type:
@@ -148,7 +150,7 @@ def compat():
 				# 5) How good are your networking skills? (1 - 5)
 				# 6) How good are your organizational skills? (1 - 5)
 				for i in range(4, 7):
-					higher(user[0], i, count)
+					higher(current_user, user[0], i, count)
 
 				# 7) How good are your organizational skills? (1 - 5)
 				# 8) How good are your time management skills? (1 - 5)
@@ -159,24 +161,24 @@ def compat():
 				# 13) Self motivation (1 - 5)
 				# 14) Professionalism (1 - 5)
 				for i in range(7, 15):
-					equal_or_higher(user[0], i, count)
+					equal_or_higher(current_user, user[0], i, count)
 
 				# 15) How much do you value integrity?
-				equal_q_answer(user[0], 15, count)
+				equal_q_answer(current_user, user[0], 15, count)
 
 				# 16) How patient are you? (1 - 5)
-				equal_or_higher(user[0], 16, count)
+				equal_or_higher(current_user, user[0], 16, count)
 
 				# 17) How social are you? (1 - 5)
 				# 18) What is your learning style? (1 - 5)
 				# 19) Career goals (1 - 5)
 				for i in range(17, 20):
-					equal_q_answer(user[0], 19, count)
+					equal_q_answer(current_user, user[0], 19, count)
 
 				# 20) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
 				# 21) What kind of work do you want to do? (1 - 5)
 				for i in range(20, 22):
-					equal_q_answer(user[0], i, count)
+					equal_q_answer(current_user, user[0], i, count)
 
 				# No one is 100% compatible -- account for that
 				if current_user.user_matches[count][1] >= 100:
@@ -196,7 +198,7 @@ def compat():
 				# 5) How good are your networking skills? (1 - 5)
 				# 6) How good are your organizational skills? (1 - 5)
 				for i in range(4, 7):
-					lower(user[0], i, count)
+					lower(current_user, user[0], i, count)
 
 				# 7) How good are your organizational skills? (1 - 5)
 				# 8) How good are your time management skills? (1 - 5)
@@ -207,24 +209,24 @@ def compat():
 				# 13) Self motivation (1 - 5)
 				# 14) Professionalism (1 - 5)
 				for i in range(7, 15):
-					equal_or_lower(user[0], i, count)
+					equal_or_lower(current_user, user[0], i, count)
 
 				# 15) How much do you value integrity?
-				equal_q_answer(user[0], 15, count)
+				equal_q_answer(current_user, user[0], 15, count)
 				
 				# 16) How patient are you? (1 - 5)
-				equal_or_lower(user[0], 16, count)
+				equal_or_lower(current_user, user[0], 16, count)
 
 				# 17) How social are you? (1 - 5)
 				# 18) What is your learning style? (1 - 5)
 				# 19) Career goals (1 - 5)
 				for i in range(17, 20):
-					equal_q_answer(user[0], 19, count)
+					equal_q_answer(current_user, user[0], 19, count)
 
 				# 20) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
 				# 21) What kind of work do you want to do? (1 - 5)
 				for i in range(20, 22):
-					equal_q_answer(user[0], i, count)
+					equal_q_answer(current_user, user[0], i, count)
 
 				# No one is 100% compatible -- account for that
 				if current_user.user_matches[count][1] >= 100:
@@ -236,10 +238,10 @@ def compat():
 					current_user.user_matches[count][1] = 0
 
 				count += 1
-	sort_matches()
+	sort_matches(current_user)
 
 
-def sort_matches():
+def sort_matches(current_user):
 	"""Sort matches by % compatibility"""
 	for i in range(len(current_user.user_matches)):
 		for j in range(len(current_user.user_matches) - i - 1):

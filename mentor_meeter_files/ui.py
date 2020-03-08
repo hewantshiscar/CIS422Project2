@@ -42,7 +42,7 @@ MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technolo
 questionnaireAnswers = [-1, -1, -1, -1, -1, -1, -1, -1, -1,  -1,  -1, -1,  -1,  -1, -1, -1, -1, -1]
 
 #Creates new user as a user class
-new_account = c.User(1, None, None, 0, None, {}, None, None, None, None)
+new_account = c.User(0, "", "", 0, "", [], "", "", "", "")
 
 '''
 TO DO:
@@ -63,7 +63,7 @@ test_account = c.User(1, "Olivia", "Pannell", 21, "Gender Queer", [2, 3, 11, 1, 
 	"olivia@gmail.com", "olp", "fyeah")
 
 c.users.append(test_account)
-# c.current_user = test_account
+c.current_user = new_account
 
 # Main class that controls which frame is on top (shown to the user)
 # in any given instance
@@ -189,9 +189,9 @@ class LoginPage(Frame):
 		if username1.get() and password1.get():
 			# Checks if the username and password are in the database
 			valid, usr = c.login_check(username1.get(), password1.get())
-			# c.current_user = usr
+			#c.current_user = usr
 			if valid:
-				# c.current_user = usr
+				c.current_user = usr
 				# Clears password entry for security reasons
 				password1.delete(0, 'end')
 				# If they are get rid of error messages and call the homepage
