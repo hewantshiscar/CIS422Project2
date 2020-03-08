@@ -497,6 +497,11 @@ class HomePage(Frame):
 		'''
 
 		# First given mentor
+		# check to make sure a mentor matches
+		if c.current_user.user_matches[0][0] == "":
+			userlbl = Label(self, text='No available matches at this time...', fg="white", font=MATCH_FONT, bg = 'medium sea green')
+			userlbl.place(relx=0.5, rely=0.15, anchor=CENTER)
+			return
 		fr1 = Frame(self, width=570, height=70, bg='white')
 		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 
@@ -506,14 +511,16 @@ class HomePage(Frame):
 		userlbl = Label(fr1, text='Compatibility: ' + str(c.current_user.user_matches[0][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[0][0]), controller.show_frame(OtherProfilePage)])
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr1, text="Connect", padx=25, font=SMALL_FONT,
+		b2 = Button(fr1, text="Contact", padx=30, font=SMALL_FONT,
 			command=lambda: connect(str(c.current_user.user_matches[0][0].first), c.current_user.user_matches[0][0].last, c.current_user.user_matches[0][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 		#Second given mentor
+		if c.current_user.user_matches[1][0] == "":
+			return
 		fr2 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr2.place(relx=0.50, rely=0.35, anchor=CENTER)
 
@@ -523,15 +530,17 @@ class HomePage(Frame):
 		userlbl = Label(fr2, text='Compatibility: ' + str(c.current_user.user_matches[1][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		b2 = Button(fr2, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2 = Button(fr2, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[1][0]), controller.show_frame(OtherProfilePage)])
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr2, text="Connect", padx=25, font=SMALL_FONT,
+		b2 = Button(fr2, text="Contact", padx=30, font=SMALL_FONT,
 			command=lambda: connect(str(c.current_user.user_matches[1][0].first), c.current_user.user_matches[1][0].last, c.current_user.user_matches[1][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
 		#Third given mentor
+		if c.current_user.user_matches[2][0] == "":
+			return
 		fr3 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr3.place(relx=0.50, rely=0.53, anchor=CENTER)
 
@@ -541,15 +550,17 @@ class HomePage(Frame):
 		userlbl = Label(fr3, text='Compatibility: ' + str(c.current_user.user_matches[2][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		b2 = Button(fr3, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2 = Button(fr3, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[2][0]), controller.show_frame(OtherProfilePage)])
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr3, text="Connect", padx=25, font=SMALL_FONT,
+		b2 = Button(fr3, text="Contact", padx=30, font=SMALL_FONT,
 			command=lambda: connect(str(c.current_user.user_matches[2][0].first), c.current_user.user_matches[2][0].last, c.current_user.user_matches[2][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
 		#Fourth given mentor
+		if c.current_user.user_matches[3][0] == "":
+			return
 		fr4 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr4.place(relx=0.50, rely=0.71, anchor=CENTER)
 
@@ -559,15 +570,17 @@ class HomePage(Frame):
 		userlbl = Label(fr4, text='Compatibility: ' + str(c.current_user.user_matches[3][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		b2 = Button(fr4, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2 = Button(fr4, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[3][0]), controller.show_frame(OtherProfilePage)])
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr4, text="Connect", padx=25, font=SMALL_FONT,
+		b2 = Button(fr4, text="Contact", padx=30, font=SMALL_FONT,
 			command=lambda: connect(str(c.current_user.user_matches[3][0].first), c.current_user.user_matches[3][0].last, c.current_user.user_matches[3][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
 		#Fifth given mentor
+		if c.current_user.user_matches[4][0] == "":
+			return
 		fr5 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr5.place(relx=0.50, rely=0.89, anchor=CENTER)
 
@@ -577,15 +590,12 @@ class HomePage(Frame):
 		userlbl = Label(fr5, text='Compatibility: ' + str(c.current_user.user_matches[4][1]) + '%', fg="grey40", font=PERCENT_FONT)
 		userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		b2 = Button(fr5, text="Learn More...", padx=10, font=SMALL_FONT)
+		b2 = Button(fr5, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[4][0]), controller.show_frame(OtherProfilePage)])
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr5, text="Connect", padx=25, font=SMALL_FONT,
+		b2 = Button(fr5, text="Contact", padx=30, font=SMALL_FONT, 
 			command=lambda: connect(str(c.current_user.user_matches[4][0].first), c.current_user.user_matches[4][0].last, c.current_user.user_matches[4][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
-
-	def learnmore(self):
-		pass
 
 # Contains the current users profile page.
 # The user can see their name as well as some of their information.
@@ -595,7 +605,7 @@ class ProfilePage(Frame):
 		Frame.__init__(self, parent)
 
 	def load(self, parent, controller):
-		b0 = Button(self, text = "Potential Mentors", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
+		b0 = Button(self, text = "Potential Matches", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
 
 		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT)
@@ -621,11 +631,11 @@ class ProfilePage(Frame):
 		fr3.place(relx=0.5, rely=0.60, anchor=CENTER)
 
 		# Displays the users bio
-		lbl2 = Label(fr1, text=c.current_user.bio, bg="white", fg="gray20",
+		lbl2 = Label(fr1, text=c.current_user.bio, bg="white", fg="gray20", 
 			font=INFO_FONT, wraplength = 510, justify = CENTER)
 		lbl2.place(relx=0.5, rely=0.45, anchor=CENTER)
 
-		# More about me sections
+		# More about me sections 
 		Label(fr1, text="     A little more about me...     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.60, anchor=CENTER)
 
 		Label(fr1, text="Age:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.70, anchor=W)
@@ -636,8 +646,7 @@ class ProfilePage(Frame):
 
 		# Career Field and answer from current user
 		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.90, anchor=W)
-		Label(fr1, text= "Computer and Information Science", bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.90, anchor=W)
-		#MAJORS[c.current_user.q[2]]
+		Label(fr1, text= MAJORS[c.current_user.q[2]], bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.90, anchor=W)
 
 		'''
 		Next labels x and ys
@@ -654,60 +663,57 @@ class OtherProfilePage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 
-	def load(self, parent, controller):
-		b0 = Button(self, text = "Potential Mentors", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
+	#load(parent, controller, c.current_user.user_matches[0])
+	def loadd(self, parent, controller, mentor):
+		b0 = Button(self, text = "Potential Matches", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
 
-		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT)
+		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT, command=lambda: controller.show_frame(ProfilePage))
 		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
 
 		b2 = Button(self, text="Logout", padx = 40, font = TAB_FONT, command=lambda: controller.show_frame(MainMenu))
 		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
 
-		fr1 = Frame(self, width = 570, height = 380, bg = 'white')
-		fr1.place(relx=0.50, rely=0.52, anchor=CENTER)
+		fr1 = Frame(self, width = 570, height = 340, bg = 'white')
+		fr1.place(relx=0.50, rely=0.48, anchor=CENTER)
 
-		lbl1 = Label(fr1, text=c.current_user.first + " " + c.current_user.last, bg="white", fg="sea green", font=(
-			"Helvetica", 46, "bold"))
-		lbl1.place(relx=0.5, rely=0.15, anchor=CENTER)
+		# Random line for looks
+		fr4 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
+		fr4.place(relx=0.5, rely=0.08, anchor=CENTER)
+		Label(fr1, text="     Match's Profile:     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.08, anchor=CENTER)
+
+		lbl1 = Label(fr1, text=mentor.first + " " + mentor.last, bg="white", fg="sea green", font=("Helvetica", 46, "bold"))
+		lbl1.place(relx=0.5, rely=0.22, anchor=CENTER)
+
+		b3 = Button(self, text="Back", padx = 30, font = TAB_FONT, highlightbackground = 'medium sea green', command=lambda: controller.show_frame(HomePage))
+		b3.place(relx=0.12, rely=0.93, anchor=CENTER)
 
 		# Random line for looks
 		fr2 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
-		fr2.place(relx=0.5, rely=0.3, anchor=CENTER)
-		Label(fr1, text="     Biography:     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.3, anchor=CENTER)
+		fr2.place(relx=0.5, rely=0.35, anchor=CENTER)
+		Label(fr1, text="     Biography:     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.35, anchor=CENTER)
 
 		# Random line for looks
 		fr3 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
-		fr3.place(relx=0.5, rely=0.60, anchor=CENTER)
+		fr3.place(relx=0.5, rely=0.67, anchor=CENTER)
 
 		# Displays the users bio
-		lbl2 = Label(fr1, text=c.current_user.bio, bg="white", fg="gray20",
+		lbl2 = Label(fr1, text=mentor.bio, bg="white", fg="gray20", 
 			font=INFO_FONT, wraplength = 510, justify = CENTER)
-		lbl2.place(relx=0.5, rely=0.45, anchor=CENTER)
+		lbl2.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-		# More about me sections
-		Label(fr1, text="     A little more about me...     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.60, anchor=CENTER)
+		# More about me sections 
+		Label(fr1, text="    A little more about me...    ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.67, anchor=CENTER)
+
+		Label(fr1, text="Age:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.74, anchor=W)
+		Label(fr1, text=mentor.age, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.17, rely=0.74, anchor=W)
 		# Gender label and answer from current user
-		Label(fr1, text="Gender: ", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.70, anchor=W)
-		Label(fr1, text=c.current_user.gender, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.23, rely=0.70, anchor=W)
-
-		# fr3 = Frame(fr1, width = 570, height = 2, bg = 'grey60')
-		# fr3.place(relx=0.0, rely=0.75, anchor=W)
+		Label(fr1, text="Gender: ", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.82, anchor=W)
+		Label(fr1, text=mentor.gender, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.21, rely=0.82, anchor=W)
 
 		# Career Field and answer from current user
-		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.80, anchor=W)
-		Label(fr1, text="Computer and Information Science", bg="white", fg="gray20", font=INFO_FONT).place(relx=0.28, rely=0.80, anchor=W)
-
-		Label(fr1, text="Primary career goal:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.90, anchor=W)
-		Label(fr1, text="is here and so on", bg="white", fg="gray30", font=INFO_FONT).place(relx=0.4, rely=0.90, anchor=W)
-
-		'''
-		Next labels x and ys
-		relx=0.02, rely=0.74
-		relx=0.02, rely=0.80
-		relx=0.02, rely=0.86
-		relx=0.02, rely=0.92
-		'''
+		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.9, anchor=W)
+		Label(fr1, text= MAJORS[mentor.q[2]], bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.9, anchor=W)
 
 # Contains everything for the First page of the questionaire page.
 # After creating a new account the user answers questions from these
@@ -850,12 +856,6 @@ class QuestionPage(Frame):
 			  bg="medium sea green", fg="medium sea green", font=SMALL_FONT).place(relx=0.5, rely=0.85, anchor=S)
 		controller.show_frame(QuestionPage2)
 
-
-
-
-
-
-
 	def save(self):
 		global questionnaireAnswers
 		global gender
@@ -978,9 +978,6 @@ class QuestionPage2(Frame):
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
 								   activebackground="medium sea green", variable=networkingskills, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.8, anchor=W)
-
-
-
 
 		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 					command=lambda: controller.show_frame(QuestionPage))
@@ -1427,8 +1424,6 @@ class QuestionPage5(Frame):
 			  bg="medium sea green", fg="medium sea green", font=SMALL_FONT).place(relx=0.5, rely=0.95, anchor=S)
 		win.pages[HomePage].load(parent, controller)
 		controller.show_frame(HomePage)
-
-
 
 # this function is checking to make sure the email entered is the correct format
 # returns True if email is in the correct format
