@@ -212,12 +212,14 @@ class NamePreferencesPage(Frame):
                 global firstnamelbl
                 global lastnamelbl
                 global mentormenteelbl
+                global bio
+                global biolbl
 
                 Frame.__init__(self, parent)
 
                 lbl2 = Label(self, text='Please fill out all fields:', bg="medium sea green", fg="white",
                                          font=SMALL_FONT)
-                lbl2.place(relx=0.5, rely=0.30, anchor=CENTER)
+                lbl2.place(relx=0.5, rely=0.10, anchor=CENTER)
 
                 b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
                                         command=lambda: controller.show_frame(SignUpPage))
@@ -228,30 +230,36 @@ class NamePreferencesPage(Frame):
                 b2.place(relx=1.0, rely=1.0, anchor=SE)
 
                 firstnamelbl = Label(self, text='First name:', bg="medium sea green", fg="white", font=SMALL_FONT)
-                firstnamelbl.place(relx=0.272, rely=0.40, anchor=CENTER)
+                firstnamelbl.place(relx=0.272, rely=0.20, anchor=CENTER)
 
                 firstname = Entry(self)
-                firstname.place(relx=0.55, rely=0.40, anchor=CENTER)
+                firstname.place(relx=0.55, rely=0.20, anchor=CENTER)
 
                 lastnamelbl = Label(self, text='Last name:', bg="medium sea green", fg="white", font=SMALL_FONT)
-                lastnamelbl.place(relx=0.275, rely=0.50, anchor=CENTER)
+                lastnamelbl.place(relx=0.275, rely=0.30, anchor=CENTER)
 
                 lastname = Entry(self)
-                lastname.place(relx=0.55, rely=0.50, anchor=CENTER)
+                lastname.place(relx=0.55, rely=0.30, anchor=CENTER)
+
+                biolbl = Label(self, text='Please enter a little about yourself (250 char max):', bg="medium sea green", fg="white", font=SMALL_FONT)
+                biolbl.place(relx=0.5, rely=0.60, anchor=CENTER)
+
+                bio = Entry(self, width=70)
+                bio.place(relx=0.5, rely=0.70, anchor=CENTER)
 
                 mentormentee = StringVar()
 
                 mentormenteelbl = Label(self, text='Are you looking to be a mentor or mentee?', bg="medium sea green", fg="white",
 							font=QUESTION_FONT)
-                mentormenteelbl.place(relx=0.15, rely=0.63, anchor=W)
+                mentormenteelbl.place(relx=0.15, rely=0.43, anchor=W)
 
                 mentorrb = Radiobutton(self, text="Mentor", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
 								  activebackground="medium sea green", variable=mentormentee, value=1, tristatevalue=2)
-                mentorrb.place(relx=0.3, rely=0.7, anchor=W)
+                mentorrb.place(relx=0.3, rely=0.5, anchor=W)
                 
                 menteerb = Radiobutton(self, text="Mentee", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
 									activebackground="medium sea green", variable=mentormentee, value=0, tristatevalue=2)
-                menteerb.place(relx=0.6, rely=0.7, anchor=W)
+                menteerb.place(relx=0.6, rely=0.5, anchor=W)
 
 
         # Error checking on the signup page
@@ -262,6 +270,8 @@ class NamePreferencesPage(Frame):
                 global firstnamelbl
                 global lastnamelbl
                 global mentormenteelbl
+                global bio
+                global biolbl
 
                 #debug code so i dont have to enter a password every time i want to check the questionanaire
                 #set debug = true to bypass the create account check.
@@ -273,7 +283,7 @@ class NamePreferencesPage(Frame):
                 # Error message that displays if at least one of the entry fields is not
                 # filled in.
                 # Spaces are used here to fully cover larger error labels
-                errorlbl = Label(self, text='              *Please fill out all sections.              ', 
+                errorlbl = Label(self, text='              *Please fill out red sections.              ', 
                         bg="medium sea green", fg="red4", font=SMALL_FONT)
 
                 # If the first name entry is empty turn text red, else white
@@ -293,7 +303,7 @@ class NamePreferencesPage(Frame):
                 # If the mentor/mentee entry is empty turn text red, else white
                 if not mentormentee.get():
                         mentormenteelbl.config(text='*Are you looking to be a mentor or mentee?', fg='red4')
-                        mentormenteelbl.place(relx=0.15, rely=0.63, anchor=W)
+                        mentormenteelbl.place(relx=0.15, rely=0.43, anchor=W)
                 else:
                         mentormenteelbl.config(text='Are you looking to be a mentor or mentee?', fg='white')
 
@@ -304,6 +314,7 @@ class NamePreferencesPage(Frame):
                         new_account.first = firstname.get()
                         new_account.last = lastname.get()
                         new_account.user_type = mentormentee.get()
+                        new_account.bio = (bio.get()[:250])
 
                         controller.show_frame(QuestionPage)
 
