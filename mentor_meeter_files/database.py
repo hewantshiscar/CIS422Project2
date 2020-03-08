@@ -119,6 +119,7 @@ def create_mentee(User):
 # given the username
 # obtain the information of the following mentor
 # returns result as a User class type
+# if no such information exists then return User with userype = -1
 def mentor_info(username):
 	# connecting to our database
 	mydb = mysql.connector.connect(host="ix.cs.uoregon.edu", user="guest", passwd="guest", database="mentor",
@@ -136,7 +137,10 @@ def mentor_info(username):
 			for i in range(len(qs)):
 				qs[i] = int(qs[i])
 			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
-	return result
+	try:
+		return result
+	except:
+		return User(-1, None, None, 0, None, {}, None, None, None, None)
 
 # given the username of the mentee
 # obtain the information of the following mentee
@@ -159,7 +163,10 @@ def mentee_info(username):
 				qs[i] = int(qs[i])
 			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
 
-	return result
+	try:
+		return result
+	except:
+		return User(-1, None, None, 0, None, {}, None, None, None, None)
 
 # extract all of the information of the mentors
 # returns a list of mentors with User class type
@@ -208,6 +215,7 @@ def create_account(User):
 
 #def log_in(email, password):
 '''
+test to input into databse
 user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, 0, 4, 4, 3, 5, 5, 4, 5, 2, 3, 4, 4, 3, 4, 2, 1, 3, 4, 1, 2], "Hiyo", "phillipe@gmail.com", "philoroz", "pickles9")
 user2 = User(0, "Olivia", "Pannell", 21, "Female", [2, 3, 0, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2], "Hello", "olivia@gmail.com", "olp", "anniepie98")
 user3 = User(0, "Jose", "West", 23, "Male", [1, 3, 0, 5, 3, 5, 3, 3, 1, 1, 2, 3, 4, 5, 3, 2, 3, 4, 3, 4, 1, 4], "Hey", "jose@gmail.com", "josewt", "glassesguy65")
@@ -225,8 +233,10 @@ for use in users:
 	create_account(use)
 '''
 
+'''
+test to extract from database
 users = extract_mentees()
 for user in users:
 	print(user)
-
+'''
 
