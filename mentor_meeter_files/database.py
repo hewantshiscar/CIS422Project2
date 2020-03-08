@@ -220,8 +220,9 @@ def create_account(User):
 		create_mentee(User)
 
 	c.current_user = c.User(0, "", "", 0, "", [], "", "", "", "")
-	c.users.extend(extract_mentees())
-	c.users.extend(extract_mentors())
+	if c.users == []:
+		c.users.extend(extract_mentees())
+		c.users.extend(extract_mentors())
 	c.current_user = User
 	c.users.append(c.current_user)
 

@@ -49,8 +49,10 @@ current_user = User(0, "", "", 0, "", [], "", "", "", "")
 def login_check(username, password):
 	"""Checks login credentials"""
 	current_user = User(0, "", "", 0, "", [], "", "", "", "")
-	users.extend(d.extract_mentees())
-	users.extend(d.extract_mentors())
+
+	if users == []:
+		users.extend(d.extract_mentees())
+		users.extend(d.extract_mentors())
 
 	for user in users:
 		if user.username == username and user.password == password:
