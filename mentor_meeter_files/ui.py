@@ -332,7 +332,7 @@ class SignUpPage(Frame):
 		global pclbl
 
 		Frame.__init__(self, parent)
-		lbl1 = Label(self, text='MENTOR SHIT', bg="medium sea green", fg="white", font=TITLE_FONT)
+		lbl1 = Label(self, text='MENTOR MEETER', bg="medium sea green", fg="white", font=TITLE_FONT)
 		lbl1.place(relx=0.5, rely=0.20, anchor=CENTER)
 
 		lbl2 = Label(self, text='Welcome! Create your new account now!', bg="medium sea green", fg="white",
