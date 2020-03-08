@@ -23,7 +23,7 @@ QUESTION_FONT = ("Roboto", 15, "bold")
 BUTTON_FONT = ("Helvetica", 14)
 INFO_FONT = ("Helvetica", 16, "bold")
 
-DEBUG = False
+DEBUG = FALSE
 
 # List of Majors/Subjects
 MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
@@ -43,7 +43,14 @@ questionnaireAnswers = [-1, -1, -1, -1, -1, -1, -1, -1, -1,  -1,  -1, -1,  -1,  
 
 #Creates new user as a user class
 new_account = c.User(1, None, None, 0, None, {}, None, None, None, None)
-# c_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
+
+'''
+TO DO:
+MAKE CURRENT USER WORK
+SET USERS TO GET FROM JAMES
+
+'''
+
 
 
 '''
@@ -54,16 +61,9 @@ TESTING STUFF
 test_account = c.User(1, "Olivia", "Pannell", 21, "Gender Queer", [2, 3, 11, 1, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
 	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. I am looking for someone who can be my friend.",
 	"olivia@gmail.com", "olp", "fyeah")
+
 c.users.append(test_account)
-c.current_user = test_account
-
-'''
-POTENTIAL COLOR THEMES
-salmon
-medium sea green
-0d7e83
-'''
-
+# c.current_user = test_account
 
 # Main class that controls which frame is on top (shown to the user)
 # in any given instance
@@ -71,13 +71,13 @@ class start(Tk):
 
 	def __init__(self, *args, **kwargs):
 		global questionnaireAnswers
-
+		# initializes container for frames
 		Tk.__init__(self, *args, **kwargs)
 		container = Frame(self, height=500, width=450, bg="medium sea green")
-
 		container.pack(side="top", fill="both", expand=True)
 		self.pages = {}
 
+		# For every page initialize a frame for it
 		for page in (MainMenu, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage,
 					OtherProfilePage, QuestionPage3, QuestionPage4, QuestionPage5, NamePreferencesPage):
 			frame = page(container, self)
@@ -87,6 +87,7 @@ class start(Tk):
 
 		self.show_frame(MainMenu)
 
+	#Bring chosen frame to the front
 	def show_frame(self, controller):
 		frame = self.pages[controller]
 		frame.tkraise()
@@ -187,8 +188,10 @@ class LoginPage(Frame):
 		# If both are filled out
 		if username1.get() and password1.get():
 			# Checks if the username and password are in the database
-			valid = c.login_check(username1.get(), password1.get())
+			valid, usr = c.login_check(username1.get(), password1.get())
+			# c.current_user = usr
 			if valid:
+				# c.current_user = usr
 				# Clears password entry for security reasons
 				password1.delete(0, 'end')
 				# If they are get rid of error messages and call the homepage
@@ -206,134 +209,114 @@ class LoginPage(Frame):
 # This is where the user can create a new account.
 class NamePreferencesPage(Frame):
 
-		def __init__(self, parent, controller):
-				global firstname
-				global lastname
-				global mentormentee
-				global firstnamelbl
-				global lastnamelbl
-				global mentormenteelbl
-				global bio
-				global biolbl
+	def __init__(self, parent, controller):
+		global firstname, lastname, mentormentee, firstnamelbl, lastnamelbl
+		global mentormenteelbl, bio, biolbl
 
-				Frame.__init__(self, parent)
+		Frame.__init__(self, parent)
 
-				lbl2 = Label(self, text='Please fill out all fields:', bg="medium sea green", fg="white",
-										 font=SMALL_FONT)
-				lbl2.place(relx=0.5, rely=0.10, anchor=CENTER)
+		lbl2 = Label(self, text='Please fill out all fields:', bg="medium sea green", fg="white",
+								 font=QUESTION_FONT)
+		lbl2.place(relx=0.5, rely=0.10, anchor=CENTER)
 
-				b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
-										command=lambda: controller.show_frame(SignUpPage))
-				b0.place(relx=0.0, rely=1.0, anchor=SW)
+		b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
+								command=lambda: controller.show_frame(SignUpPage))
+		b0.place(relx=0.0, rely=1.0, anchor=SW)
 
-				b2 = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
-										command=lambda: self.signuperror(parent, controller))
-				b2.place(relx=1.0, rely=1.0, anchor=SE)
+		b2 = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
+								command=lambda: self.signuperror(parent, controller))
+		b2.place(relx=1.0, rely=1.0, anchor=SE)
 
-				firstnamelbl = Label(self, text='First name:', bg="medium sea green", fg="white", font=SMALL_FONT)
-				firstnamelbl.place(relx=0.272, rely=0.20, anchor=CENTER)
+		firstnamelbl = Label(self, text='First name:', bg="medium sea green", fg="white", font=SMALL_FONT)
+		firstnamelbl.place(relx=0.272, rely=0.20, anchor=CENTER)
 
-				firstname = Entry(self)
-				firstname.place(relx=0.55, rely=0.20, anchor=CENTER)
+		firstname = Entry(self)
+		firstname.place(relx=0.55, rely=0.20, anchor=CENTER)
 
-				lastnamelbl = Label(self, text='Last name:', bg="medium sea green", fg="white", font=SMALL_FONT)
-				lastnamelbl.place(relx=0.275, rely=0.30, anchor=CENTER)
+		lastnamelbl = Label(self, text='Last name:', bg="medium sea green", fg="white", font=SMALL_FONT)
+		lastnamelbl.place(relx=0.275, rely=0.30, anchor=CENTER)
 
-				lastname = Entry(self)
-				lastname.place(relx=0.55, rely=0.30, anchor=CENTER)
+		lastname = Entry(self)
+		lastname.place(relx=0.55, rely=0.30, anchor=CENTER)
 
-				biolbl = Label(self, text='Please enter a little about yourself (250 char max):', bg="medium sea green", fg="white", font=SMALL_FONT)
-				biolbl.place(relx=0.5, rely=0.60, anchor=CENTER)
+		biolbl = Label(self, text='Please enter a little about yourself (250 char max):', bg="medium sea green", fg="white", font=QUESTION_FONT)
+		biolbl.place(relx=0.5, rely=0.60, anchor=CENTER)
 
-				bio = Entry(self, width=70)
-				bio.place(relx=0.5, rely=0.70, anchor=CENTER)
+		bio = Entry(self, width=60)
+		bio.place(relx=0.5, rely=0.70, anchor=CENTER)
 
-				mentormentee = StringVar()
+		mentormentee = StringVar()
 
-				mentormenteelbl = Label(self, text='Are you looking to be a mentor or mentee?', bg="medium sea green", fg="white",
-							font=QUESTION_FONT)
-				mentormenteelbl.place(relx=0.15, rely=0.43, anchor=W)
+		mentormenteelbl = Label(self, text='Are you looking to be a mentor or mentee?', bg="medium sea green", fg="white",
+					font=QUESTION_FONT)
+		mentormenteelbl.place(relx=0.5, rely=0.43, anchor=CENTER)
 
-				mentorrb = Radiobutton(self, text="Mentor", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
-								  activebackground="medium sea green", variable=mentormentee, value=1, tristatevalue=2)
-				mentorrb.place(relx=0.3, rely=0.5, anchor=W)
+		mentorrb = Radiobutton(self, text="Mentor", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
+						  activebackground="medium sea green", variable=mentormentee, value=1, tristatevalue=2)
+		mentorrb.place(relx=0.3, rely=0.5, anchor=W)
 
-				menteerb = Radiobutton(self, text="Mentee", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
-									activebackground="medium sea green", variable=mentormentee, value=0, tristatevalue=2)
-				menteerb.place(relx=0.6, rely=0.5, anchor=W)
+		menteerb = Radiobutton(self, text="Mentee", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
+							activebackground="medium sea green", variable=mentormentee, value=0, tristatevalue=2)
+		menteerb.place(relx=0.6, rely=0.5, anchor=W)
 
-				pagenum = Label(self, text='pg 1/6', bg="medium sea green", font=("Helvetica", 10))
-				pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+		pagenum = Label(self, text='pg 1/6', bg="medium sea green", font=("Helvetica", 14))
+		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
 
-		# Error checking on the signup page
-		def signuperror(self, parent, controller):
-				global firstname
-				global lastname
-				global mentormentee
-				global firstnamelbl
-				global lastnamelbl
-				global mentormenteelbl
-				global bio
-				global biolbl
+	# Error checking on the signup page
+	def signuperror(self, parent, controller):
+		global firstname, lastname, mentormentee, firstnamelbl, lastnamelbl
+		global mentormenteelbl, bio, biolbl
 
-				#debug code so i dont have to enter a password every time i want to check the questionanaire
-				#set debug = true to bypass the create account check.
-				debug = False
-				if(debug):
-						controller.show_frame(QuestionPage)
-						return
+		#debug code so i dont have to enter a password every time i want to check the questionanaire
+		#set debug = true to bypass the create account check.
+		if(DEBUG):
+				controller.show_frame(QuestionPage)
+				return
 
-				# Error message that displays if at least one of the entry fields is not
-				# filled in.
-				# Spaces are used here to fully cover larger error labels
-				errorlbl = Label(self, text='                     *Please fill out red sections.                    ',
-						bg="medium sea green", fg="red4", font=SMALL_FONT)
+		# Error message that displays if at least one of the entry fields is not
+		# filled in.
+		# Spaces are used here to fully cover larger error labels
+		errorlbl = Label(self, text='                     *Please fill out red sections.                    ',
+				bg="medium sea green", fg="red4", font=SMALL_FONT)
 
-				# If the first name entry is empty turn text red, else white
-				if not firstname.get():
-						firstnamelbl.config(text='*First name:', fg='red4')
-						errorlbl.place(relx=0.50, rely=0.80, anchor=CENTER)
-				else:
-						firstnamelbl.config(text='First name:', fg='white')
+		# If the first name entry is empty turn text red, else white
+		if not firstname.get():
+				firstnamelbl.config(text='*First name:', fg='red4')
+				errorlbl.place(relx=0.50, rely=0.80, anchor=CENTER)
+		else:
+				firstnamelbl.config(text='First name:', fg='white')
 
-				# If the last name entry is empty turn text red, else white
-				if not lastname.get():
-						lastnamelbl.config(text='*Last name:', fg='red4')
-						errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
-				else:
-						lastnamelbl.config(text='Last name:', fg='white')
+		# If the last name entry is empty turn text red, else white
+		if not lastname.get():
+				lastnamelbl.config(text='*Last name:', fg='red4')
+				errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)
+		else:
+				lastnamelbl.config(text='Last name:', fg='white')
 
-				# If the mentor/mentee entry is empty turn text red, else white
-				if not mentormentee.get():
-						mentormenteelbl.config(text='*Are you looking to be a mentor or mentee?', fg='red4')
-						mentormenteelbl.place(relx=0.15, rely=0.43, anchor=W)
-				else:
-						mentormenteelbl.config(text='Are you looking to be a mentor or mentee?', fg='white')
+		# If the mentor/mentee entry is empty turn text red, else white
+		if not mentormentee.get():
+				mentormenteelbl.config(text='*Are you looking to be a mentor or mentee?', fg='red4')
+				mentormenteelbl.place(relx=0.5, rely=0.43, anchor=CENTER)
+		else:
+				mentormenteelbl.config(text='Are you looking to be a mentor or mentee?', fg='white')
 
-				# If all entries are filled out
-				if firstname.get() and lastname.get() and mentormentee.get():
-						# add information to user class to be later added into database
-						new_account.first = firstname.get()
-						new_account.last = lastname.get()
-						new_account.user_type = mentormentee.get()
-						new_account.bio = (bio.get()[:250])
+		# If all entries are filled out
+		if firstname.get() and lastname.get() and mentormentee.get():
+				# add information to user class to be later added into database
+				new_account.first = firstname.get()
+				new_account.last = lastname.get()
+				new_account.user_type = mentormentee.get()
+				new_account.bio = (bio.get()[:250])
 
-						controller.show_frame(QuestionPage)
+				controller.show_frame(QuestionPage)
 
 # Contains everything for the Sign Up Page frame.
 # This is where the user can create a new account.
 class SignUpPage(Frame):
 
 	def __init__(self, parent, controller):
-		global newusername
-		global newpassword
-		global newemail
-		global passcheck
-		global newuserlbl
-		global newpasslbl
-		global newemaillbl
-		global pclbl
+		global newusername, newpassword, newemail, passcheck, newuserlbl, newpasslbl, newemaillbl, pclbl
 
 		Frame.__init__(self, parent)
 		lbl1 = Label(self, text='MENTOR MEETER', bg="medium sea green", fg="white", font=TITLE_FONT)
@@ -377,21 +360,13 @@ class SignUpPage(Frame):
 
 	# Error checking on the signup page
 	def signuperror(self, parent, controller):
-		global newusername
-		global newpassword
-		global newemail
-		global passcheck
-		global newuserlbl
-		global newpasslbl
-		global newemaillbl
-		global pclbl
+		global newusername, newpassword, newemail, passcheck, newuserlbl, newpasslbl, newemaillbl, pclbl
 
 		#debug code so i dont have to enter a password every time i want to check the questionanaire
 		#set debug = true to bypass the create account check.
 		if(DEBUG):
 			controller.show_frame(NamePreferencesPage)
 			return
-
 
 		# Error message that displays if at least one of the entry fields is not
 		# filled in.
@@ -485,23 +460,13 @@ class HomePage(Frame):
 		b2 = Button(self, text="Logout", padx=40, font=TAB_FONT, command=lambda: controller.show_frame(MainMenu))
 		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
 
-		'''
-		TO DO:
-		FIND MENTORS/MENTEES
-		FROM CURRENT USERS MATCHES
-		REPLACE USERLBL TEXT WITH MATCH FIRST AND LAST 
-
-		ALSO NEED TO CHANGE THE CONNECT BUTTONS SO THAT
-		THEY CALL CONNECTWIN(MENTOR FIRST NAME, MENTOR LAST NAME,
-		MENTOR EMAIL)
-		'''
-
-		# First given mentor
-		# check to make sure a mentor matches
+		# First given match
+		# check to make sure a user has any matches
 		if c.current_user.user_matches[0][0] == "":
 			userlbl = Label(self, text='No available matches at this time...', fg="white", font=MATCH_FONT, bg = 'medium sea green')
 			userlbl.place(relx=0.5, rely=0.15, anchor=CENTER)
 			return
+		#Displays first match
 		fr1 = Frame(self, width=570, height=70, bg='white')
 		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 
@@ -518,9 +483,12 @@ class HomePage(Frame):
 			command=lambda: connect(str(c.current_user.user_matches[0][0].first), c.current_user.user_matches[0][0].last, c.current_user.user_matches[0][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
-		#Second given mentor
+		#Second given match
+		# Checks to see if the user has at least a second match
+		# If not returns and doesnt display anything
 		if c.current_user.user_matches[1][0] == "":
 			return
+		#Displays second match
 		fr2 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr2.place(relx=0.50, rely=0.35, anchor=CENTER)
 
@@ -538,9 +506,12 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
-		#Third given mentor
+		#Third given match
+		# Checks to see if the user has at least a third match
+		# If not returns and doesnt display anything
 		if c.current_user.user_matches[2][0] == "":
 			return
+		#Displays third match
 		fr3 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr3.place(relx=0.50, rely=0.53, anchor=CENTER)
 
@@ -558,9 +529,12 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
-		#Fourth given mentor
+		#Fourth given match
+		# Checks to see if the user has at least a fourth match
+		# If not returns and doesnt display anything
 		if c.current_user.user_matches[3][0] == "":
 			return
+		#Displays fourth match
 		fr4 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr4.place(relx=0.50, rely=0.71, anchor=CENTER)
 
@@ -578,9 +552,13 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
-		#Fifth given mentor
+		#Fifth given match
+		# Checks to see if the user has a fifth match
+		# If not returns and doesnt display anything
 		if c.current_user.user_matches[4][0] == "":
 			return
+
+		#Displays fifth match
 		fr5 = Frame(self, width = 570, height = 70, bg = 'white')
 		fr5.place(relx=0.50, rely=0.89, anchor=CENTER)
 
@@ -663,8 +641,9 @@ class OtherProfilePage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 
-	#load(parent, controller, c.current_user.user_matches[0])
+	# Loads the given matches information for their profile page
 	def loadd(self, parent, controller, mentor):
+		# b0, b1, and b2 are top tabs 
 		b0 = Button(self, text = "Potential Matches", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
 
@@ -676,6 +655,9 @@ class OtherProfilePage(Frame):
 
 		fr1 = Frame(self, width = 570, height = 340, bg = 'white')
 		fr1.place(relx=0.50, rely=0.48, anchor=CENTER)
+		#Back button that takes user back to the homepage
+		b3 = Button(self, text="Back", padx = 30, font = TAB_FONT, highlightbackground = 'medium sea green', command=lambda: controller.show_frame(HomePage))
+		b3.place(relx=0.12, rely=0.93, anchor=CENTER)
 
 		# Random line for looks
 		fr4 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
@@ -684,9 +666,6 @@ class OtherProfilePage(Frame):
 
 		lbl1 = Label(fr1, text=mentor.first + " " + mentor.last, bg="white", fg="sea green", font=("Helvetica", 46, "bold"))
 		lbl1.place(relx=0.5, rely=0.22, anchor=CENTER)
-
-		b3 = Button(self, text="Back", padx = 30, font = TAB_FONT, highlightbackground = 'medium sea green', command=lambda: controller.show_frame(HomePage))
-		b3.place(relx=0.12, rely=0.93, anchor=CENTER)
 
 		# Random line for looks
 		fr2 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
@@ -704,13 +683,12 @@ class OtherProfilePage(Frame):
 
 		# More about me sections 
 		Label(fr1, text="    A little more about me...    ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.67, anchor=CENTER)
-
+		# Age label and answer from current user
 		Label(fr1, text="Age:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.74, anchor=W)
 		Label(fr1, text=mentor.age, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.17, rely=0.74, anchor=W)
 		# Gender label and answer from current user
 		Label(fr1, text="Gender: ", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.82, anchor=W)
 		Label(fr1, text=mentor.gender, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.21, rely=0.82, anchor=W)
-
 		# Career Field and answer from current user
 		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.9, anchor=W)
 		Label(fr1, text= MAJORS[mentor.q[2]], bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.9, anchor=W)
@@ -719,9 +697,6 @@ class OtherProfilePage(Frame):
 # After creating a new account the user answers questions from these
 # pages to help match them up with similar mentors
 class QuestionPage(Frame):
-
-
-
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 
@@ -733,12 +708,12 @@ class QuestionPage(Frame):
 		matchgender = IntVar()
 		careerfield = StringVar()
 
-		lbl1 = Label(self, text='Please answer the following questions so\nwe can match you with a mentor:',
-					 bg="medium sea green", fg="white", font=("Roboto", 18, "bold"))
+		lbl1 = Label(self, text='Please answer the following questions so we can match you with a mentor:',
+					 bg="medium sea green", fg="white", font=("Roboto", 18, "bold"), wraplength = 400, justify= LEFT)
 		lbl1.place(relx=0.05, rely=0.1, anchor=W)
 
 		lbl1 = Label(self, text='What is your gender?', bg="medium sea green", fg="white", font=QUESTION_FONT)
-		lbl1.place(relx=0.05, rely=0.27, anchor=W)
+		lbl1.place(relx=0.05, rely=0.25, anchor=W)
 
 		maleRB = Radiobutton(self, text="Male", bg="medium sea green", selectcolor="medium sea green",
 							 activebackground="medium sea green", variable=gender, value=1, font=BUTTON_FONT, tristatevalue=6,
@@ -755,8 +730,8 @@ class QuestionPage(Frame):
 									 command=lambda: self.placeinputgender())
 		selfidentifyRB.place(relx=0.1, rely=0.50, anchor=W)
 
-		matchgenderLB = Label(self, text='Who do you want to be\n matched with?', bg="medium sea green", fg="white",
-							font=QUESTION_FONT)
+		matchgenderLB = Label(self, text='Who do you want to be matched with?', bg="medium sea green", fg="white",
+							font=QUESTION_FONT, wraplength = 200, justify = LEFT)
 		matchgenderLB.place(relx=0.53, rely=0.27, anchor=W)
 
 
@@ -799,8 +774,8 @@ class QuestionPage(Frame):
 		userage.place(relx=0.58, rely=0.69, anchor=W)
 
 
-		pagenum = Label(self, text='pg 2/6',bg="medium sea green", font=("Helvetica", 10))
-		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+		pagenum = Label(self, text='pg 2/6', bg="medium sea green", font=("Helvetica", 14))
+		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
 
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
@@ -921,8 +896,8 @@ class QuestionPage2(Frame):
 
 
 
-		Label(self, text='How much time would you like to invest in your\nmentor-mentee relationship? (1 = low, 5 = high)', bg="medium sea green", fg="white",
-							  font=QUESTION_FONT).place(relx=0.05, rely=0.3, anchor=W)
+		Label(self, text='How much time would you like to invest in your mentor-mentee relationship? (1 = low, 5 = high)', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT, wraplength = 400, justify = LEFT).place(relx=0.05, rely=0.3, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
 								  activebackground="medium sea green", variable=timeinvestment, value=1, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.1, rely=0.4, anchor=W)
@@ -987,8 +962,8 @@ class QuestionPage2(Frame):
 					  command=lambda: self.checkfilledout(parent,controller))
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
-		pagenum = Label(self, text='pg 3/6', bg="medium sea green", font=("Helvetica", 10))
-		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+		pagenum = Label(self, text='pg 3/6', bg="medium sea green", font=("Helvetica", 14))
+		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
 	def save(self):
 		global agerange
@@ -1125,8 +1100,8 @@ class QuestionPage3(Frame):
 				  command=lambda: self.checkfilledout(parent, controller))
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
-		pagenum = Label(self, text='pg 4/6', bg="medium sea green", font=("Helvetica", 10))
-		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+		pagenum = Label(self, text='pg 4/6', bg="medium sea green", font=("Helvetica", 14))
+		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
 
 	def save(self):
@@ -1197,7 +1172,7 @@ class QuestionPage4(Frame):
 
 
 		Label(self, text='How good are your time management skills?\n(1 = low, 5 = high)', bg="medium sea green", fg="white",
-							  font=QUESTION_FONT).place(relx=0.05, rely=0.28, anchor=W)
+							  font=QUESTION_FONT, wraplength = 400, justify = LEFT).place(relx=0.05, rely=0.28, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
 								  activebackground="medium sea green", variable=timemanagementskills, value=1, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.1, rely=0.4, anchor=W)
@@ -1265,8 +1240,8 @@ class QuestionPage4(Frame):
 				  command=lambda: self.checkfilledout(parent, controller))
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
-		pagenum = Label(self, text='pg 5/6', bg="medium sea green",  font=("Helvetica", 10))
-		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+		pagenum = Label(self, text='pg 4/6', bg="medium sea green", font=("Helvetica", 14))
+		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
 
 	def save(self):
@@ -1339,7 +1314,7 @@ class QuestionPage5(Frame):
 
 
 		Label(self, text='How would you rate your ablility to work with others?\n(1 = low, 5 = high)', bg="medium sea green", fg="white",
-							  font=QUESTION_FONT).place(relx=0.05, rely=0.55, anchor=W)
+							  font=QUESTION_FONT, justify = LEFT).place(relx=0.05, rely=0.55, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
 								  activebackground="medium sea green", variable=workwithothers, value=1, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.1, rely=0.65, anchor=W)
@@ -1358,8 +1333,8 @@ class QuestionPage5(Frame):
 
 
 
-		Label(self, text='How introverted/extroverted are you?\n(1 = introverted, 5 = extroverted', bg="medium sea green", fg="white",
-							  font=QUESTION_FONT).place(relx=0.05, rely=0.75, anchor=W)
+		Label(self, text='How introverted/extroverted are you?\n(1 = introverted, 5 = extroverted)', bg="medium sea green", fg="white",
+							  font=QUESTION_FONT, justify = LEFT).place(relx=0.05, rely=0.75, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
 								  activebackground="medium sea green", variable=introvertextrovert, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.85, anchor=W)
@@ -1387,8 +1362,8 @@ class QuestionPage5(Frame):
 				  command=lambda: self.checkfilledout(parent, controller))
 		finish.place(relx=1.0, rely=1.0, anchor=SE)
 
-		pagenum = Label(self, text='pg 6/6', bg="medium sea green",  font=("Helvetica", 10))
-		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+		pagenum = Label(self, text='pg 6/6', bg="medium sea green", font=("Helvetica", 14))
+		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
 
 	def finishaccount(self):

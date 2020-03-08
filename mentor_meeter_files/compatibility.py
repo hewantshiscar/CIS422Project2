@@ -11,6 +11,7 @@ import database as d
 users = []
 # test = d.extract_mentees()
 # print(test)
+global current_user
 
 percent_scale = [100/18, 75/18, 50/18, 25/18, 0]
 # Divide percent by 18 for each question because there are 18 questions
@@ -51,9 +52,10 @@ def login_check(username, password):
 	for user in users:
 		if user.username == username and user.password == password:
 			current_user = user
+			print("Current: ", current_user)
 			pref_check(current_user)
 			compat()
-			return 1
+			return 1, user
 	return 0
 
 
