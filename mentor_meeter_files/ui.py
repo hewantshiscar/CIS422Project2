@@ -64,7 +64,7 @@ test_account = c.User(1, "Olivia", "Pannell", 21, "Gender Queer", [2, 3, 11, 1, 
 	"olivia@gmail.com", "olp", "fyeah")
 
 c.users.append(test_account)
-# c.current_user = new_account
+#c.current_user = new_account
 
 # Main class that controls which frame is on top (shown to the user)
 # in any given instance

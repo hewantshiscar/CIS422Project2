@@ -220,13 +220,11 @@ def create_account(User):
 		create_mentee(User)
 
 	c.current_user = c.User(0, "", "", 0, "", [], "", "", "", "")
-	if c.users == []:
+	if len(c.users) <= 1:
 		c.users.extend(extract_mentees())
 		c.users.extend(extract_mentors())
 	c.current_user = User
 	c.users.append(c.current_user)
-
-	print(c.current_user.q)
 
 	c.pref_check(c.current_user)
 	c.compat(c.current_user)
