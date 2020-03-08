@@ -499,7 +499,7 @@ class HomePage(Frame):
 		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 
 		print("Current:")
-		print(c.current_user.user_matches[0][0])
+		print(c.current_user.user_matches[0][0].email)
 
 		userlbl = Label(fr1, text=c.current_user.user_matches[0][0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
@@ -511,7 +511,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr1, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connect("Kelly", "Telly", "Ktellyphony@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[0][0].first), c.current_user.user_matches[0][0].last, c.current_user.user_matches[0][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 		#Second given mentor
@@ -528,7 +528,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr2, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connect("Leanna", "Phillips", "LPPP@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[1][0].first), c.current_user.user_matches[1][0].last, c.current_user.user_matches[1][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -546,7 +546,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr3, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connect("Hallam", "Barron", "Barron@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[2][0].first), c.current_user.user_matches[2][0].last, c.current_user.user_matches[2][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -564,7 +564,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr4, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connect("Damian", "Steele", "DSTEElee@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[3][0].first), c.current_user.user_matches[3][0].last, c.current_user.user_matches[3][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -582,7 +582,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr5, text="Connect", padx=25, font=SMALL_FONT, 
-			command=lambda: connect("Sheikh", "Hopkins", "ShiekhH@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[4][0].first), c.current_user.user_matches[4][0].last, c.current_user.user_matches[4][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 	def learnmore(self):
