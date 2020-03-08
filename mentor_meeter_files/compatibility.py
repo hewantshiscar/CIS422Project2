@@ -49,9 +49,7 @@ current_user = User(0, "", "", 0, "", [], "", "", "", "")
 def login_check(username, password):
 	"""Checks login credentials"""
 	current_user = User(0, "", "", 0, "", [], "", "", "", "")
-	print(users)
 	if len(users) <= 1:
-		print("IN")
 		users.extend(d.extract_mentees())
 		users.extend(d.extract_mentors())
 
@@ -109,21 +107,9 @@ def pref_check(current_user):
 
 	0) Gender (Male, Female, Other)
 	1) Who do you want to be matched with? (Male, Female, Other)
-	2) What is your career field? (47)
-	3) Age Range (1 - 5)
+	3) What is your career field? (47)
+	4) Age Range (1 - 5)
 	"""
-
-	# user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, 11, 4, 4, 3, 5, 5, 4, 5, 2, 3, 4, 4, 3, 4, 2, 1, 3, 4, 1, 2], "Hiyo", "phillipe@gmail.com", "philoroz", "pickles9")
-	# user2 = User(0, "Lisa", "Deluc", 21, "Female", [2, 3, 11, 4, 3, 2, 3, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2], "Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. I am looking for someone who can be my friend.", "olivia@gmail.com", "olp", "anniepie98")
-	# user3 = User(0, "Jose", "West", 23, "Male", [1, 3, 11, 5, 3, 5, 3, 3, 1, 1, 2, 3, 4, 5, 3, 2, 3, 4, 3, 4, 1, 4], "Hey", "jose@gmail.com", "josewt", "glassesguy65")
-	# user4 = User(0, "Taylor", "Verney", 22, "Non-binary/Queer", [3, 3, 11, 1, 2, 1, 1, 2, 2, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 3, 1, 3], "Heyo", "taylor@gmail.com", "tayvey", "cheezitsaremylove74")
-	# user5 = User(0, "Pablo", "Garcia", 19, "Male", [1, 3, 11, 3, 1, 3, 4, 1, 4, 5, 2, 3, 4, 2, 4, 2, 4, 2, 3, 4, 1, 3], "Greetings", "pablo@gmail.com", "pabgar", "9000goo")
-
-	# users.append(user1)
-	# users.append(user2)
-	# users.append(user3)
-	# users.append(user4)
-	# users.append(user5)
 
 	age_ranges = [[18, 25], [25, 30], [30, 40], [40, 60], [60, 130]]
 
