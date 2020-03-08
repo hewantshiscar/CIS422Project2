@@ -23,6 +23,8 @@ QUESTION_FONT = ("Roboto", 15, "bold")
 BUTTON_FONT = ("Helvetica", 14)
 INFO_FONT = ("Helvetica", 16, "bold")
 
+DEBUG = False
+
 # List of Majors/Subjects
 MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
 		   "Asian studies", "Biochemistry", "Biology", "Business administration", "Chemistry", "Chinese", "Cinema studies",
@@ -154,8 +156,7 @@ class LoginPage(Frame):
 		global passlbl
 
 		# Quick way for testing to go to homepage
-		debug = False
-		if(debug):
+		if(DEBUG):
 			win.pages[HomePage].load(parent, controller)
 			controller.show_frame(HomePage)
 			return
@@ -261,6 +262,9 @@ class NamePreferencesPage(Frame):
 									activebackground="medium sea green", variable=mentormentee, value=0, tristatevalue=2)
                 menteerb.place(relx=0.6, rely=0.5, anchor=W)
 
+                pagenum = Label(self, text='pg 1/6', bg="medium sea green", font=BUTTON_FONT)
+                pagenum.place(relx=1.0, rely=0.0, anchor=NE)
+
 
         # Error checking on the signup page
         def signuperror(self, parent, controller):
@@ -275,8 +279,8 @@ class NamePreferencesPage(Frame):
 
                 #debug code so i dont have to enter a password every time i want to check the questionanaire
                 #set debug = true to bypass the create account check.
-                debug = False
-                if(debug):
+
+                if(DEBUG):
                         controller.show_frame(QuestionPage)
                         return
 
@@ -384,8 +388,7 @@ class SignUpPage(Frame):
 
 		#debug code so i dont have to enter a password every time i want to check the questionanaire
 		#set debug = true to bypass the create account check.
-		debug = False
-		if(debug):
+		if(DEBUG):
 			controller.show_frame(NamePreferencesPage)
 			return
 
@@ -697,18 +700,18 @@ class QuestionPage(Frame):
 							font=QUESTION_FONT)
 		matchgenderLB.place(relx=0.53, rely=0.27, anchor=W)
 
-		#FIXME: this dumb tristate value bug is back
+
 		malematchRB = Radiobutton(self, text="Male", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
-								  activebackground="medium sea green", variable=matchgender, value=1, tristatevalue=0)
+								  activebackground="medium sea green", variable=matchgender, value=1, tristatevalue=6)
 		malematchRB.place(relx=0.58, rely=0.36, anchor=W)
 
 		femalematchRB = Radiobutton(self, text="Female", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
-									activebackground="medium sea green", variable=matchgender, value=2, tristatevalue=0)
+									activebackground="medium sea green", variable=matchgender, value=2, tristatevalue=6)
 		femalematchRB.place(relx=0.58, rely=0.43, anchor=W)
 
 		everyonematchRB = Radiobutton(self, text="Everyone", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
 									  activebackground="medium sea green", variable=matchgender, value=3,
-									  tristatevalue=0)
+									  tristatevalue=6)
 		everyonematchRB.place(relx=0.58, rely=0.50, anchor=W)
 
 		majorLabel = Label(self, text='What is your career field?', bg="medium sea green", fg="white",
@@ -737,7 +740,7 @@ class QuestionPage(Frame):
 		userage.place(relx=0.58, rely=0.69, anchor=W)
 
 
-		pagenum = Label(self, text='pg 1/5',bg="medium sea green", font=BUTTON_FONT)
+		pagenum = Label(self, text='pg 2/6',bg="medium sea green", font=BUTTON_FONT)
 		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
 
 
@@ -749,14 +752,23 @@ class QuestionPage(Frame):
 					  command=lambda: controller.show_frame(NamePreferencesPage))
 		back.place(relx=0.0, rely=1.0, anchor=SW)
 
-		#TODO: add gender input to new_user
+
 		global inputgender
 		inputgender = Entry(self)
 
-	#NOTE: BEN, WHEN NOTHING IS SELECTED FROM THIS PAGE AND YOU GO BACK
-	# TO THE SIGNUP PAGE AN ERROR IS THROWN IN THE TERMINAL. I THINK IT IS
-	# BECAUSE THE MAJOR LIST ISNT CHECKED TO MAKE SURE SOMETHING WAS ACTUALLY
-	# SELECTED BEFORE SAVING IT
+
+
+    def checkfilledout(self):
+        errorlbl = Label(self, text='              *Please fill out all sections.              ',
+                     bg="medium sea green", fg="red4", font=SMALL_FONT)
+
+        if (gender.get() == 6):
+            return
+
+
+
+
+
 	def save(self):
 		global questionnaireAnswers
 		global gender
@@ -777,7 +789,6 @@ class QuestionPage(Frame):
 			new_account.gender = inputgender.get()
 		else :
 			print("gender error")
-
 
 	def placeinputgender(self):
 		global inputgender
@@ -807,19 +818,19 @@ class QuestionPage2(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.1, anchor=W)
 
 		Radiobutton(self, text="18-25", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=agerange, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.17, anchor=W)
+								  activebackground="medium sea green", variable=agerange, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="25-30", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=agerange, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.17, anchor=W)
+								   activebackground="medium sea green", variable=agerange, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.25, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="30-40", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=agerange, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.17, anchor=W)
+								   activebackground="medium sea green", variable=agerange, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.4, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="40-60", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=agerange, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.17, anchor=W)
+								   activebackground="medium sea green", variable=agerange, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.55, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="60+", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=agerange, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.17, anchor=W)
+								   activebackground="medium sea green", variable=agerange, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.17, anchor=W)
 
 
 
@@ -827,19 +838,19 @@ class QuestionPage2(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.3, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=timeinvestment, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.4, anchor=W)
+								  activebackground="medium sea green", variable=timeinvestment, value=1, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.1, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=timeinvestment, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=timeinvestment, value=2, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.25, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=timeinvestment, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=timeinvestment, value=3, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.4, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=timeinvestment, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=timeinvestment, value=4, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.55, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=timeinvestment, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=timeinvestment, value=5, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.7, rely=0.4, anchor=W)
 
 
 
@@ -847,19 +858,19 @@ class QuestionPage2(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=experiencelevel, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.6, anchor=W)
+								  activebackground="medium sea green", variable=experiencelevel, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=experiencelevel, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=experiencelevel, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.25, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=experiencelevel, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=experiencelevel, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.4, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=experiencelevel, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=experiencelevel, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.55, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=experiencelevel, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=experiencelevel, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.6, anchor=W)
 
 
 
@@ -867,19 +878,19 @@ class QuestionPage2(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.7, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=networkingskills, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.8, anchor=W)
+								  activebackground="medium sea green", variable=networkingskills, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=networkingskills, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=networkingskills, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.25, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=networkingskills, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=networkingskills, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.4, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=networkingskills, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=networkingskills, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.55, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=networkingskills, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=networkingskills, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.8, anchor=W)
 
 
 
@@ -892,7 +903,7 @@ class QuestionPage2(Frame):
 					  command=lambda: [controller.show_frame(QuestionPage3), self.save()])
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
-		pagenum = Label(self, text='pg 2/5', bg="medium sea green", font=BUTTON_FONT)
+		pagenum = Label(self, text='pg 3/6', bg="medium sea green", font=BUTTON_FONT)
 		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
 
 	def save(self):
@@ -924,19 +935,19 @@ class QuestionPage3(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.1, anchor=W)
 
 		Radiobutton(self, text="Large corporate company", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=kindofwork, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.05, rely=0.17, anchor=W)
+					activebackground="medium sea green", variable=kindofwork, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.05, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="Startup/small business", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=kindofwork, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.35, rely=0.17, anchor=W)
+					activebackground="medium sea green", variable=kindofwork, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.47, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="Own your own business", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=kindofwork, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.65, rely=0.17, anchor=W)
+					activebackground="medium sea green", variable=kindofwork, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.05, rely=0.24, anchor=W)
 
 		Radiobutton(self, text="Freelancer/contractor", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=kindofwork, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.2, rely=0.24, anchor=W)
+					activebackground="medium sea green", variable=kindofwork, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.43, rely=0.24, anchor=W)
 
 		Radiobutton(self, text="Non-Profit", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=kindofwork, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.5, rely=0.24, anchor=W)
+					activebackground="medium sea green", variable=kindofwork, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.78, rely=0.24, anchor=W)
 
 
 
@@ -944,19 +955,19 @@ class QuestionPage3(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.3, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=integrity, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.4, anchor=W)
+								  activebackground="medium sea green", variable=integrity, value=1, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.1, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=integrity, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=integrity, value=2, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.25, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=integrity, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=integrity, value=3, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.4, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=integrity, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=integrity, value=4, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.55, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=integrity, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=integrity, value=5, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.7, rely=0.4, anchor=W)
 
 
 
@@ -964,19 +975,19 @@ class QuestionPage3(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=orginizationalskills, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.6, anchor=W)
+								  activebackground="medium sea green", variable=orginizationalskills, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=orginizationalskills, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=orginizationalskills, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.25, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=orginizationalskills, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=orginizationalskills, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.4, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=orginizationalskills, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=orginizationalskills, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.55, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=orginizationalskills, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=orginizationalskills, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.6, anchor=W)
 
 
 
@@ -984,19 +995,19 @@ class QuestionPage3(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.7, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=communicationskills, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.8, anchor=W)
+								  activebackground="medium sea green", variable=communicationskills, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=communicationskills, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=communicationskills, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.25, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=communicationskills, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=communicationskills, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.4, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=communicationskills, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=communicationskills, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.55, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=communicationskills, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=communicationskills, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.8, anchor=W)
 
 
 
@@ -1008,7 +1019,7 @@ class QuestionPage3(Frame):
 				  command=lambda: [controller.show_frame(QuestionPage4), self.save()])
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
-		pagenum = Label(self, text='pg 3/5', bg="medium sea green", font=BUTTON_FONT)
+		pagenum = Label(self, text='pg 4/6', bg="medium sea green", font=BUTTON_FONT)
 		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
 
 
@@ -1041,19 +1052,19 @@ class QuestionPage4(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.1, anchor=W)
 
 		Radiobutton(self, text="Money", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=careergoals, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.17, anchor=W)
+								  activebackground="medium sea green", variable=careergoals, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="Happiness", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=careergoals, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.22, rely=0.17, anchor=W)
+								   activebackground="medium sea green", variable=careergoals, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.24, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="Community", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=careergoals, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.38, rely=0.17, anchor=W)
+								   activebackground="medium sea green", variable=careergoals, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.44, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="Stability", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=careergoals, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.17, anchor=W)
+								   activebackground="medium sea green", variable=careergoals, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.65, rely=0.17, anchor=W)
 
 		Radiobutton(self, text="Influence", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=careergoals, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.69, rely=0.17, anchor=W)
+								   activebackground="medium sea green", variable=careergoals, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.81, rely=0.17, anchor=W)
 
 
 
@@ -1061,19 +1072,19 @@ class QuestionPage4(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.28, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=timemanagementskills, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.4, anchor=W)
+								  activebackground="medium sea green", variable=timemanagementskills, value=1, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.1, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=timemanagementskills, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=timemanagementskills, value=2, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.25, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=timemanagementskills, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=timemanagementskills, value=3, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.4, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=timemanagementskills, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=timemanagementskills, value=4, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.55, rely=0.4, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=timemanagementskills, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.4, anchor=W)
+								   activebackground="medium sea green", variable=timemanagementskills, value=5, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.7, rely=0.4, anchor=W)
 
 
 
@@ -1081,19 +1092,19 @@ class QuestionPage4(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=workethic, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.6, anchor=W)
+								  activebackground="medium sea green", variable=workethic, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=workethic, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=workethic, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.25, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=workethic, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=workethic, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.4, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=workethic, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=workethic, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.55, rely=0.6, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=workethic, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.6, anchor=W)
+								   activebackground="medium sea green", variable=workethic, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.6, anchor=W)
 
 
 
@@ -1101,19 +1112,19 @@ class QuestionPage4(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.7, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=flexiblility, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.8, anchor=W)
+								  activebackground="medium sea green", variable=flexiblility, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=flexiblility, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=flexiblility, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.25, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=flexiblility, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=flexiblility, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.4, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=flexiblility, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=flexiblility, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.55, rely=0.8, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=flexiblility, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.8, anchor=W)
+								   activebackground="medium sea green", variable=flexiblility, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.8, anchor=W)
 
 
 
@@ -1126,7 +1137,7 @@ class QuestionPage4(Frame):
 				  command=lambda: [controller.show_frame(QuestionPage5), self.save()])
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
-		pagenum = Label(self, text='pg 4/5', bg="medium sea green",  font=BUTTON_FONT)
+		pagenum = Label(self, text='pg 5/6', bg="medium sea green",  font=BUTTON_FONT)
 		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
 
 
@@ -1160,19 +1171,19 @@ class QuestionPage5(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.08, anchor=W)
 
 		Radiobutton(self, text="Visual (Spatial): You prefer using pictures, images, and spatial understanding.", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=learningstyle, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.15, anchor=W)
+					activebackground="medium sea green", variable=learningstyle, value=1, font=("Helvetica", 12), tristatevalue=6).place(relx=0.05, rely=0.15, anchor=W)
 
 		Radiobutton(self, text="Aural (Auditory-Musical): You prefer using sound and music.", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=learningstyle, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.22, anchor=W)
+					activebackground="medium sea green", variable=learningstyle, value=2, font=("Helvetica", 12), tristatevalue=6).place(relx=0.05, rely=0.22, anchor=W)
 
 		Radiobutton(self, text="Verbal (Linguistic): You prefer using words, both in speech and writing", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=learningstyle, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.29, anchor=W)
+					activebackground="medium sea green", variable=learningstyle, value=3, font=("Helvetica", 12), tristatevalue=6).place(relx=0.05, rely=0.29, anchor=W)
 
 		Radiobutton(self, text="Physical (Kinesthetic): You prefer using our body, hands, and sense of touch.", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=learningstyle, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.36, anchor=W)
+					activebackground="medium sea green", variable=learningstyle, value=4, font=("Helvetica", 12), tristatevalue=6).place(relx=0.05, rely=0.36, anchor=W)
 
 		Radiobutton(self, text="Logical (Mathematical): You prefer using logic, reasoning, and systems.", bg="medium sea green", selectcolor="medium sea green",
-					activebackground="medium sea green", variable=learningstyle, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.43, anchor=W)
+					activebackground="medium sea green", variable=learningstyle, value=5, font=("Helvetica", 12), tristatevalue=6).place(relx=0.05, rely=0.43, anchor=W)
 
 
 
@@ -1180,19 +1191,19 @@ class QuestionPage5(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.55, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=workwithothers, value=1, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.1, rely=0.65, anchor=W)
+								  activebackground="medium sea green", variable=workwithothers, value=1, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.1, rely=0.65, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=workwithothers, value=2, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.25, rely=0.65, anchor=W)
+								   activebackground="medium sea green", variable=workwithothers, value=2, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.25, rely=0.65, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=workwithothers, value=3, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.4, rely=0.65, anchor=W)
+								   activebackground="medium sea green", variable=workwithothers, value=3, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.4, rely=0.65, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=workwithothers, value=4, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.55, rely=0.65, anchor=W)
+								   activebackground="medium sea green", variable=workwithothers, value=4, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.55, rely=0.65, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=workwithothers, value=5, font=BUTTON_FONT,  tristatevalue=0).place(relx=0.7, rely=0.65, anchor=W)
+								   activebackground="medium sea green", variable=workwithothers, value=5, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.7, rely=0.65, anchor=W)
 
 
 		"""
@@ -1200,19 +1211,19 @@ class QuestionPage5(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.59, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=patience, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.68, anchor=W)
+								  activebackground="medium sea green", variable=patience, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.68, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=patience, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.68, anchor=W)
+								   activebackground="medium sea green", variable=patience, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.25, rely=0.68, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=patience, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.68, anchor=W)
+								   activebackground="medium sea green", variable=patience, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.4, rely=0.68, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=patience, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.68, anchor=W)
+								   activebackground="medium sea green", variable=patience, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.55, rely=0.68, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=patience, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.68, anchor=W)
+								   activebackground="medium sea green", variable=patience, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.68, anchor=W)
 		"""
 
 
@@ -1220,19 +1231,19 @@ class QuestionPage5(Frame):
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.75, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
-								  activebackground="medium sea green", variable=introvertextrovert, value=1, font=BUTTON_FONT, tristatevalue=0).place(relx=0.1, rely=0.85, anchor=W)
+								  activebackground="medium sea green", variable=introvertextrovert, value=1, font=BUTTON_FONT, tristatevalue=6).place(relx=0.1, rely=0.85, anchor=W)
 
 		Radiobutton(self, text="2", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=introvertextrovert, value=2, font=BUTTON_FONT, tristatevalue=0).place(relx=0.25, rely=0.85, anchor=W)
+								   activebackground="medium sea green", variable=introvertextrovert, value=2, font=BUTTON_FONT, tristatevalue=6).place(relx=0.25, rely=0.85, anchor=W)
 
 		Radiobutton(self, text="3", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=introvertextrovert, value=3, font=BUTTON_FONT, tristatevalue=0).place(relx=0.4, rely=0.85, anchor=W)
+								   activebackground="medium sea green", variable=introvertextrovert, value=3, font=BUTTON_FONT, tristatevalue=6).place(relx=0.4, rely=0.85, anchor=W)
 
 		Radiobutton(self, text="4", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=introvertextrovert, value=4, font=BUTTON_FONT, tristatevalue=0).place(relx=0.55, rely=0.85, anchor=W)
+								   activebackground="medium sea green", variable=introvertextrovert, value=4, font=BUTTON_FONT, tristatevalue=6).place(relx=0.55, rely=0.85, anchor=W)
 
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
-								   activebackground="medium sea green", variable=introvertextrovert, value=5, font=BUTTON_FONT, tristatevalue=0).place(relx=0.7, rely=0.85, anchor=W)
+								   activebackground="medium sea green", variable=introvertextrovert, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.85, anchor=W)
 
 
 
@@ -1245,7 +1256,7 @@ class QuestionPage5(Frame):
 				  command=lambda: [win.pages[HomePage].load(parent, controller), controller.show_frame(HomePage), self.finishaccount()])
 		finish.place(relx=1.0, rely=1.0, anchor=SE)
 
-		pagenum = Label(self, text='pg 5/5', bg="medium sea green",  font=BUTTON_FONT)
+		pagenum = Label(self, text='pg 6/6', bg="medium sea green",  font=BUTTON_FONT)
 		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
 
 
@@ -1264,26 +1275,6 @@ class QuestionPage5(Frame):
 		new_account.age = questionnaireAnswers[2]
 		d.create_account(new_account)
 		c.current_user = new_account
-
-
-# class QuestionPage6(Frame):
-# 	def __init__(self, parent, controller):
-# 		Frame.__init__(self, parent)
-# 		Label(self, text='Just the test button right now,\nThis should link to the profile page.', bg="medium sea green", fg="white",
-# 			  font=("Roboto", 18, "bold")).place(relx=0.05, rely=0.3, anchor=W)
-# 		test = Button(self, text="Test", highlightbackground="medium sea green", padx=10,
-# 					  command=lambda: print(questionnaireAnswers))
-# 		test.pack()
-# 		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
-# 				  command=lambda: [controller.show_frame(QuestionPage2), self.save()])
-# 		back.place(relx=0.0, rely=1.0, anchor=SW)
-# 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
-# 				  command=lambda: [controller.show_frame(QuestionPage3), self.save()])
-# 		next.place(relx=1.0, rely=1.0, anchor=SE)
-# 		pagenum = Label(self, text='pg 6', bg="medium sea green",  font=BUTTON_FONT)
-# 		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
-# 	def save(self):
-# 		pass
 
 
 
