@@ -497,9 +497,6 @@ class HomePage(Frame):
 		fr1 = Frame(self, width=570, height=70, bg='white')
 		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 
-		print("Current:")
-		print(c.current_user.user_matches[0][0].email)
-
 		userlbl = Label(fr1, text=c.current_user.user_matches[0][0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
@@ -606,10 +603,6 @@ class ProfilePage(Frame):
 
 		fr1 = Frame(self, width = 570, height = 380, bg = 'white')
 		fr1.place(relx=0.50, rely=0.52, anchor=CENTER)
-
-		# Get current users full (first and last) name
-		fullname = c.current_user.first + " " + c.current_user.last
-		# maj = "Career Field: " + test_account.
 
 		lbl1 = Label(fr1, text=c.current_user.first + " " + c.current_user.last, bg="white", fg="sea green", font=(
 			"Helvetica", 46, "bold"))
@@ -1342,6 +1335,7 @@ def exit(top):
 
 win = start()
 win.geometry('600x425')
+win.resizable(False, False)
 win.title("Mentor Meeter")
 win.config(bg='medium sea green')
 win.mainloop()

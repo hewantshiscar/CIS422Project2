@@ -102,10 +102,6 @@ def pref_check(current_user):
 	2) What is your career field? (47)
 	3) Age Range (1 - 5)
 	"""
-	print("BEFORE:", current_user.user_matches)
-	current_user.user_matches = [["", 0], ["", 0], ["", 0], ["", 0], ["", 0]]
-	print("AFTER:", current_user.user_matches)
-	print("------------------------------------------------------------------")
 
 	user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, 11, 4, 4, 3, 5, 5, 4, 5, 2, 3, 4, 4, 3, 4, 2, 1, 3, 4, 1, 2], "Hiyo", "phillipe@gmail.com", "philoroz", "pickles9")
 	user2 = User(0, "Lisa", "Deluc", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2], "Hello", "olivia@gmail.com", "olp", "anniepie98")
@@ -136,8 +132,6 @@ def pref_check(current_user):
 							match.append(user)
 							match.append(0)
 							current_user.user_matches.append(match)
-	print("PrefCheck!!!!!!!!", current_user.user_matches)
-	print("------------------------------------------------------------------")
 
 def compat():
 	"""Compute compatibility amongst users"""
@@ -237,7 +231,6 @@ def compat():
 				count += 1
 
 	sort_matches()
-	print("COMPAT:", current_user.user_matches)
 
 
 def sort_matches():
