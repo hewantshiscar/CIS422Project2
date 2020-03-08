@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import Text, messagebox
 
 import compatibility as c
-#from database import *
+import database as d
 
 # Specific font variables
 SMALL_FONT = ("Helvetica", 14)
@@ -300,7 +300,6 @@ class NamePreferencesPage(Frame):
                 # If all entries are filled out
                 if firstname.get() and lastname.get() and mentormentee.get():
                         # add information to user class to be later added into database
-                        c.current_user.first = firstname.get()
                         new_account.first = firstname.get()
                         new_account.last = lastname.get()
                         new_account.user_type = mentormentee.get()
@@ -374,7 +373,7 @@ class SignUpPage(Frame):
 
 		#debug code so i dont have to enter a password every time i want to check the questionanaire
 		#set debug = true to bypass the create account check.
-		debug = True
+		debug = False
 		if(debug):
 			controller.show_frame(NamePreferencesPage)
 			return
@@ -432,7 +431,7 @@ class SignUpPage(Frame):
 					if check_username(newusername.get()):
 						# add information to user class to be later added into database
 						#c.current_user = c.User(0, None, None, 0, None, {}, None, None, None, None)
-						c.current_user.username = newusername.get()
+						#c.current_user.username = newusername.get()
 						new_account.username = newusername.get()
 						new_account.password = newpassword.get()
 						new_account.email = newemail.get()
@@ -736,9 +735,10 @@ class QuestionPage(Frame):
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
 		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
-					  command=lambda: [controller.show_frame(NamePreferencesPage), self.save()])
+					  command=lambda: controller.show_frame(NamePreferencesPage))
 		back.place(relx=0.0, rely=1.0, anchor=SW)
 
+		#TODO: add gender input to new_user
 		global inputgender
 		inputgender = Entry(self)
 
@@ -752,10 +752,21 @@ class QuestionPage(Frame):
 		global matchgender
 		global careerfield
 		global userage
+		global inputgender
 		questionnaireAnswers[0] = gender.get()
 		questionnaireAnswers[1] = matchgender.get()
 		questionnaireAnswers[3] = MAJORS.index(careerfield.get())
 		questionnaireAnswers[2] = int(userage.get())
+
+		if(gender.get() == 1):
+			new_account.gender = "Male"
+		elif(gender.get() == 2):
+			new_account.gender = "Female"
+		elif (gender.get() == 3):
+			new_account.gender = inputgender.get()
+		else :
+			print("gender error")
+
 
 	def placeinputgender(self):
 		global inputgender
@@ -1219,15 +1230,15 @@ class QuestionPage5(Frame):
 				  command=lambda: [controller.show_frame(QuestionPage4), self.save()])
 		back.place(relx=0.0, rely=1.0, anchor=SW)
 
-		next = Button(self, text="Finish!", highlightbackground="medium sea green", padx=10,
-				  command=lambda: [win.pages[HomePage].load(parent, controller), controller.show_frame(HomePage), self.save()])
-		next.place(relx=1.0, rely=1.0, anchor=SE)
+		finish = Button(self, text="Finish!", highlightbackground="medium sea green", padx=10,
+				  command=lambda: [win.pages[HomePage].load(parent, controller), controller.show_frame(HomePage), self.finishaccount()])
+		finish.place(relx=1.0, rely=1.0, anchor=SE)
 
 		pagenum = Label(self, text='pg 5/5', bg="medium sea green",  font=BUTTON_FONT)
 		pagenum.place(relx=1.0, rely=0.0, anchor=NE)
 
 
-	def save(self):
+	def finishaccount(self):
 		global learningstyle
 		global workwithothers
 		#global patience
@@ -1236,6 +1247,13 @@ class QuestionPage5(Frame):
 		questionnaireAnswers[13] = workwithothers.get()
 		#questionnaireAnswers["patience"] = patience.get()
 		questionnaireAnswers[14] = introvertextrovert.get()
+
+
+		new_account.q = questionnaireAnswers
+		new_account.age = questionnaireAnswers[2]
+		d.create_account(new_account)
+		c.current_user = new_account
+
 
 # class QuestionPage6(Frame):
 # 	def __init__(self, parent, controller):
