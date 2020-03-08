@@ -1,9 +1,10 @@
 """
 CIS 422 Project 2: User Interface File
 
-Last Modified: 3/6/20
+Last Modified: 3/7/20
 
-Authors: Olivia Pannell and Ben Verney and Bethany Van Meter
+Authors: Olivia Pannell, Ben Verney,
+Bethany Van Meter, and Mikayla Campbell
 """
 
 # Imports
@@ -23,7 +24,7 @@ QUESTION_FONT = ("Roboto", 15, "bold")
 BUTTON_FONT = ("Helvetica", 14)
 INFO_FONT = ("Helvetica", 16, "bold")
 
-DEBUG = FALSE
+DEBUG = TRUE
 
 # List of Majors/Subjects
 MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
@@ -1240,7 +1241,7 @@ class QuestionPage4(Frame):
 				  command=lambda: self.checkfilledout(parent, controller))
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
-		pagenum = Label(self, text='pg 4/6', bg="medium sea green", font=("Helvetica", 14))
+		pagenum = Label(self, text='pg 5/6', bg="medium sea green", font=("Helvetica", 14))
 		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
 
@@ -1363,7 +1364,7 @@ class QuestionPage5(Frame):
 		finish.place(relx=1.0, rely=1.0, anchor=SE)
 
 		pagenum = Label(self, text='pg 6/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.81, rely=0.99, anchor=SW)
 
 
 	def finishaccount(self):

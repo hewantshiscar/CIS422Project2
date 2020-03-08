@@ -15,7 +15,7 @@ Note: All comments on top of functions
 
 #import compatibility
 import mysql.connector
-from compatibility import *
+import compatibility as c
 
 # this function checks if the the email address and the username is already taken in our database
 # given the email(string), username(string), the mentor/mentee state (1:mentor, 0:mentee)
@@ -136,11 +136,11 @@ def mentor_info(username):
 			qs = row[4].split(",")
 			for i in range(len(qs)):
 				qs[i] = int(qs[i])
-			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
+			result = c.User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
 	try:
 		return result
 	except:
-		return User(-1, None, None, 0, None, {}, None, None, None, None)
+		return c.User(-1, None, None, 0, None, {}, None, None, None, None)
 
 # given the username of the mentee
 # obtain the information of the following mentee
@@ -161,12 +161,12 @@ def mentee_info(username):
 			qs = row[4].split(",")
 			for i in range(len(qs)):
 				qs[i] = int(qs[i])
-			result = User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
+			result = c.User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8])
 
 	try:
 		return result
 	except:
-		return User(-1, None, None, 0, None, {}, None, None, None, None)
+		return c.User(-1, None, None, 0, None, {}, None, None, None, None)
 
 # extract all of the information of the mentors
 # returns a list of mentors with User class type
@@ -184,7 +184,10 @@ def extract_mentors():
 	for row in myresult:
 		age = int(row[2])
 		qs = row[4].split(",")
-		result.append(User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8]))
+		for i in range(len(qs)):
+			qs[i] = int(qs[i])
+
+		result.append(c.User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8]))
 	return result
 
 # extract all of the information of the mentees
@@ -203,7 +206,10 @@ def extract_mentees():
 	for row in myresult:
 		age = int(row[2])
 		qs = row[4].split(",")
-		result.append(User(1, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8]))
+		for i in range(len(qs)):
+			qs[i] = int(qs[i])
+
+		result.append(c.User(0, row[0], row[1], age, row[3], qs, row[5], row[6], row[7], row[8]))
 	return result
 
 # creates an account in our database
@@ -212,6 +218,19 @@ def create_account(User):
 		create_mentor(User)
 	else:
 		create_mentee(User)
+
+	c.current_user = c.User(0, "", "", 0, "", [], "", "", "", "")
+	c.users.extend(extract_mentees())
+	c.users.extend(extract_mentors())
+	c.current_user = User
+	c.users.append(c.current_user)
+
+	print(c.current_user.q)
+
+	c.pref_check(c.current_user)
+	c.compat(c.current_user)
+
+	return c.current_user
 
 #def log_in(email, password):
 '''
