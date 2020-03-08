@@ -9,6 +9,7 @@ Authors: Mikayla Campbell
 # All of the program's users
 users = []
 
+
 percent_scale = [100/18, 75/18, 50/18, 25/18, 0]
 # Divide percent by 18 for each question because there are 18 questions
 	# # Max 4 off
@@ -101,6 +102,10 @@ def pref_check(current_user):
 	2) What is your career field? (47)
 	3) Age Range (1 - 5)
 	"""
+	print("BEFORE:", current_user.user_matches)
+	current_user.user_matches = [["", 0], ["", 0], ["", 0], ["", 0], ["", 0]]
+	print("AFTER:", current_user.user_matches)
+	print("------------------------------------------------------------------")
 
 	user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, 11, 4, 4, 3, 5, 5, 4, 5, 2, 3, 4, 4, 3, 4, 2, 1, 3, 4, 1, 2], "Hiyo", "phillipe@gmail.com", "philoroz", "pickles9")
 	user2 = User(0, "Lisa", "Deluc", 21, "Female", [2, 3, 11, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2], "Hello", "olivia@gmail.com", "olp", "anniepie98")
@@ -118,21 +123,21 @@ def pref_check(current_user):
 
 	count = 0
 	for user in users:
-		print(user.user_type, current_user.user_type)
 		if user.user_type != current_user.user_type: # Make sure mentors are assigned to mentees and vice versa
 			if user.q[1] == 3 or user.q[1] == current_user.q[0]: # Make sure gender prefeerence match up
 				if user.q[2] == current_user.q[2]:
 					if user.age >= age_ranges[current_user.q[3] - 1][0] and user.age <= age_ranges[current_user.q[3] - 1][1]:
-						if len(current_user.user_matches) <= 5:
+						if len(current_user.user_matches) <= 5 and count != 5:
 							current_user.user_matches[count][1] = 0
 							current_user.user_matches[count][0] = user
+							count += 1
 						else:
 							match = []
 							match.append(user)
 							match.append(0)
 							current_user.user_matches.append(match)
-						count += 1
-
+	print("PrefCheck!!!!!!!!", current_user.user_matches)
+	print("------------------------------------------------------------------")
 
 def compat():
 	"""Compute compatibility amongst users"""
@@ -232,6 +237,7 @@ def compat():
 				count += 1
 
 	sort_matches()
+	print("COMPAT:", current_user.user_matches)
 
 
 def sort_matches():
