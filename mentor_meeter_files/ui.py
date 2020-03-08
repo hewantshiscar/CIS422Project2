@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import Text, messagebox
 
 import compatibility as c
-import database as d
+#import database as d
 
 # Specific font variables
 SMALL_FONT = ("Helvetica", 14)
@@ -811,12 +811,12 @@ class QuestionPage(Frame):
 
 
 
-    def checkfilledout(self):
-        errorlbl = Label(self, text='              *Please fill out all sections.              ',
-                     bg="medium sea green", fg="red4", font=SMALL_FONT)
+	def checkfilledout(self):
+		errorlbl = Label(self, text='              *Please fill out all sections.              ',
+		             bg="medium sea green", fg="red4", font=SMALL_FONT)
 
-        if (gender.get() == 6):
-            return
+		if (gender.get() == 6):
+		    return
 
 
 
