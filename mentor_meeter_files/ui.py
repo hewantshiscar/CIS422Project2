@@ -51,7 +51,7 @@ TESTING STUFF
 '''
 # user_type, first, last, age, gender, questionnaire, bio, email, username, password
 
-test_account = c.User(1, "Olivia Lauren", "Pannell", 21, "Female", [2, 3, 11, 1, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
+test_account = c.User(1, "Olivia", "Pannell", 21, "Gender Queer", [2, 3, 11, 1, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
 	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. I am looking for someone who can be my friend.",
 	"olivia@gmail.com", "olp", "fyeah")
 c.users.append(test_account)
@@ -79,7 +79,7 @@ class start(Tk):
 		self.pages = {}
 
 		for page in (MainMenu, LoginPage, SignUpPage, HomePage, QuestionPage, QuestionPage2, ProfilePage,
-					QuestionPage3, QuestionPage4, QuestionPage5, NamePreferencesPage):
+					OtherProfilePage, QuestionPage3, QuestionPage4, QuestionPage5, NamePreferencesPage):
 			frame = page(container, self)
 			self.pages[page] = frame
 			frame.place(relx=0.0, rely=0.0, height=425, width=600)
@@ -124,7 +124,7 @@ class LoginPage(Frame):
 		lbl1 = Label(self, text='MENTOR MEETER', bg="medium sea green", fg="white", font=TITLE_FONT)
 		lbl1.place(relx=0.5, rely=0.20, anchor=CENTER)
 
-		lbl2 = Label(self, text='Find a mentor today!', bg="medium sea green", fg="white", font=SMALL_FONT)
+		lbl2 = Label(self, text='Find your mentor today!', bg="medium sea green", fg="white", font=SMALL_FONT)
 		lbl2.place(relx=0.5, rely=0.30, anchor=CENTER)
 
 		b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
@@ -336,7 +336,7 @@ class SignUpPage(Frame):
 		global pclbl
 
 		Frame.__init__(self, parent)
-		lbl1 = Label(self, text='MENTOR SHIT', bg="medium sea green", fg="white", font=TITLE_FONT)
+		lbl1 = Label(self, text='MENTOR MEETER', bg="medium sea green", fg="white", font=TITLE_FONT)
 		lbl1.place(relx=0.5, rely=0.20, anchor=CENTER)
 
 		lbl2 = Label(self, text='Welcome! Create your new account now!', bg="medium sea green", fg="white",
@@ -500,9 +500,6 @@ class HomePage(Frame):
 		fr1 = Frame(self, width=570, height=70, bg='white')
 		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 
-		print("Current:")
-		print(c.current_user.user_matches[0][0])
-
 		userlbl = Label(fr1, text=c.current_user.user_matches[0][0], fg="black", font=MATCH_FONT)
 		userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
@@ -513,7 +510,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr1, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connect("Kelly", "Telly", "Ktellyphony@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[0][0].first), c.current_user.user_matches[0][0].last, c.current_user.user_matches[0][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 		#Second given mentor
@@ -530,7 +527,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr2, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connect("Leanna", "Phillips", "LPPP@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[1][0].first), c.current_user.user_matches[1][0].last, c.current_user.user_matches[1][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -548,7 +545,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr3, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connect("Hallam", "Barron", "Barron@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[2][0].first), c.current_user.user_matches[2][0].last, c.current_user.user_matches[2][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -566,7 +563,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr4, text="Connect", padx=25, font=SMALL_FONT,
-			command=lambda: connect("Damian", "Steele", "DSTEElee@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[3][0].first), c.current_user.user_matches[3][0].last, c.current_user.user_matches[3][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
@@ -584,7 +581,7 @@ class HomePage(Frame):
 		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
 		b2 = Button(fr5, text="Connect", padx=25, font=SMALL_FONT, 
-			command=lambda: connect("Sheikh", "Hopkins", "ShiekhH@gmail.com"))
+			command=lambda: connect(str(c.current_user.user_matches[4][0].first), c.current_user.user_matches[4][0].last, c.current_user.user_matches[4][0].email))
 		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 	def learnmore(self):
@@ -610,21 +607,77 @@ class ProfilePage(Frame):
 		fr1 = Frame(self, width = 570, height = 380, bg = 'white')
 		fr1.place(relx=0.50, rely=0.52, anchor=CENTER)
 
-		# Get current users full (first and last) name
-		fullname = c.current_user.first + " " + c.current_user.last
-		# maj = "Career Field: " + test_account.
+		lbl1 = Label(fr1, text=c.current_user.first + " " + c.current_user.last, bg="white", fg="sea green", font=(
+			"Helvetica", 46, "bold"))
+		lbl1.place(relx=0.5, rely=0.15, anchor=CENTER)
+
+		# Random line for looks
+		fr2 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
+		fr2.place(relx=0.5, rely=0.3, anchor=CENTER)
+		Label(fr1, text="     Biography:     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.3, anchor=CENTER)
+
+		# Random line for looks
+		fr3 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
+		fr3.place(relx=0.5, rely=0.60, anchor=CENTER)
+
+		# Displays the users bio
+		lbl2 = Label(fr1, text=c.current_user.bio, bg="white", fg="gray20",
+			font=INFO_FONT, wraplength = 510, justify = CENTER)
+		lbl2.place(relx=0.5, rely=0.45, anchor=CENTER)
+
+		# More about me sections
+		Label(fr1, text="     A little more about me...     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.60, anchor=CENTER)
+
+		Label(fr1, text="Age:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.70, anchor=W)
+		Label(fr1, text=c.current_user.age, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.17, rely=0.70, anchor=W)
+		# Gender label and answer from current user
+		Label(fr1, text="Gender: ", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.80, anchor=W)
+		Label(fr1, text=c.current_user.gender, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.21, rely=0.80, anchor=W)
+
+		# Career Field and answer from current user
+		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.90, anchor=W)
+		Label(fr1, text= "Computer and Information Science", bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.90, anchor=W)
+		#MAJORS[c.current_user.q[2]]
+
+		'''
+		Next labels x and ys
+		relx=0.02, rely=0.74
+		relx=0.02, rely=0.80
+		relx=0.02, rely=0.86
+		relx=0.02, rely=0.92
+		'''
+
+# Contains the other users profile page.
+# The user can see potential matches name as well as some of their information.
+class OtherProfilePage(Frame):
+
+	def __init__(self, parent, controller):
+		Frame.__init__(self, parent)
+
+	def load(self, parent, controller):
+		b0 = Button(self, text = "Potential Mentors", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
+		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
+
+		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT)
+		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
+
+		b2 = Button(self, text="Logout", padx = 40, font = TAB_FONT, command=lambda: controller.show_frame(MainMenu))
+		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
+
+		fr1 = Frame(self, width = 570, height = 380, bg = 'white')
+		fr1.place(relx=0.50, rely=0.52, anchor=CENTER)
 
 		lbl1 = Label(fr1, text=c.current_user.first + " " + c.current_user.last, bg="white", fg="sea green", font=(
 			"Helvetica", 46, "bold"))
 		lbl1.place(relx=0.5, rely=0.15, anchor=CENTER)
 
 		# Random line for looks
-		fr2 = Frame(fr1, width = 500, height = 8, bg = 'grey70')
+		fr2 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
 		fr2.place(relx=0.5, rely=0.3, anchor=CENTER)
-		Label(fr1, text="    Biography:    ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.3, anchor=CENTER)
+		Label(fr1, text="     Biography:     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.3, anchor=CENTER)
 
 		# Random line for looks
-		fr3 = Frame(fr1, width = 500, height = 8, bg = 'grey70')
+		fr3 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
 		fr3.place(relx=0.5, rely=0.60, anchor=CENTER)
 
 		# Displays the users bio
@@ -633,7 +686,7 @@ class ProfilePage(Frame):
 		lbl2.place(relx=0.5, rely=0.45, anchor=CENTER)
 
 		# More about me sections 
-		Label(fr1, text="     A little more about me...    ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.60, anchor=CENTER)
+		Label(fr1, text="     A little more about me...     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.60, anchor=CENTER)
 		# Gender label and answer from current user
 		Label(fr1, text="Gender: ", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.70, anchor=W)
 		Label(fr1, text=c.current_user.gender, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.23, rely=0.70, anchor=W)
@@ -643,10 +696,10 @@ class ProfilePage(Frame):
 
 		# Career Field and answer from current user
 		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.80, anchor=W)
-		Label(fr1, text="Computer and Information Science", bg="white", fg="gray20", font=INFO_FONT).place(relx=0.25, rely=0.80, anchor=W)
+		Label(fr1, text="Computer and Information Science", bg="white", fg="gray20", font=INFO_FONT).place(relx=0.28, rely=0.80, anchor=W)
 
 		Label(fr1, text="Primary career goal:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.90, anchor=W)
-		Label(fr1, text="is here and so on", bg="white", fg="gray30", font=INFO_FONT).place(relx=0.34, rely=0.90, anchor=W)
+		Label(fr1, text="is here and so on", bg="white", fg="gray30", font=INFO_FONT).place(relx=0.4, rely=0.90, anchor=W)
 
 		'''
 		Next labels x and ys
@@ -1333,6 +1386,7 @@ def exit(top):
 
 win = start()
 win.geometry('600x425')
+win.resizable(False, False)
 win.title("Mentor Meeter")
 win.config(bg='medium sea green')
 win.mainloop()
