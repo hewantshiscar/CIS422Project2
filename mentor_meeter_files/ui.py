@@ -24,7 +24,7 @@ QUESTION_FONT = ("Roboto", 15, "bold")
 BUTTON_FONT = ("Helvetica", 14)
 INFO_FONT = ("Helvetica", 16, "bold")
 
-DEBUG = TRUE
+DEBUG = FALSE
 
 # List of Majors/Subjects
 MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technology", "Art history", "Arts management",
@@ -64,7 +64,7 @@ test_account = c.User(1, "Olivia", "Pannell", 21, "Gender Queer", [2, 3, 11, 1, 
 	"olivia@gmail.com", "olp", "fyeah")
 
 c.users.append(test_account)
-c.current_user = new_account
+# c.current_user = new_account
 
 # Main class that controls which frame is on top (shown to the user)
 # in any given instance
@@ -1428,7 +1428,7 @@ def check_username(username):
 def connect(first, last, email):
 	#Create new smaller window
 	top = Toplevel()
-	top.geometry('280x170')
+	top.geometry('310x170')
 	top.resizable(False, False)
 	top.title("Match Information")
 	top.config(bg='medium sea green')
