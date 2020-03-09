@@ -45,27 +45,6 @@ questionnaireAnswers = [-1, -1, -1, -1, -1, -1, -1, -1, -1,  -1,  -1, -1,  -1,  
 #Creates new user as a user class
 new_account = c.User(0, "", "", 0, "", [], "", "", "", "")
 
-'''
-TO DO:
-MAKE CURRENT USER WORK
-SET USERS TO GET FROM JAMES
-
-'''
-
-
-
-'''
-TESTING STUFF
-'''
-# user_type, first, last, age, gender, questionnaire, bio, email, username, password
-
-# test_account = c.User(1, "Olivia", "Pannell", 21, "Gender Queer", [2, 3, 11, 1, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
-# 	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. I am looking for someone who can be my friend.",
-# 	"olivia@gmail.com", "olp", "fyeah")
-
-# c.users.append(test_account)
-#c.current_user = new_account
-
 # Main class that controls which frame is on top (shown to the user)
 # in any given instance
 class start(Tk):
@@ -464,117 +443,126 @@ class HomePage(Frame):
 		# First given match
 		# check to make sure a user has any matches
 		if c.current_user.user_matches[0][0] == "":
+			fr1 = Frame(self, width=570, height=70, bg='medium sea green')
+			fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 			userlbl = Label(self, text='No available matches at this time...', fg="white", font=MATCH_FONT, bg = 'medium sea green')
 			userlbl.place(relx=0.5, rely=0.15, anchor=CENTER)
-			return
-		#Displays first match
-		fr1 = Frame(self, width=570, height=70, bg='white')
-		fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
+		else:
+			#Displays first match
+			fr1 = Frame(self, width=570, height=70, bg='white')
+			fr1.place(relx=0.50, rely=0.17, anchor=CENTER)
 
-		userlbl = Label(fr1, text=c.current_user.user_matches[0][0], fg="black", font=MATCH_FONT)
-		userlbl.place(relx=0.05, rely=0.3, anchor=W)
+			userlbl = Label(fr1, text=c.current_user.user_matches[0][0], fg="black", font=MATCH_FONT)
+			userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr1, text='Compatibility: ' + str(c.current_user.user_matches[0][1]) + '%', fg="grey40", font=PERCENT_FONT)
-		userlbl.place(relx=0.05, rely=0.7, anchor=W)
+			userlbl = Label(fr1, text='Compatibility: ' + str(c.current_user.user_matches[0][1]) + '%', fg="grey40", font=PERCENT_FONT)
+			userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[0][0]), controller.show_frame(OtherProfilePage)])
-		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
+			b2 = Button(fr1, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[0][0]), controller.show_frame(OtherProfilePage)])
+			b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr1, text="Contact", padx=30, font=SMALL_FONT,
-			command=lambda: connect(str(c.current_user.user_matches[0][0].first), c.current_user.user_matches[0][0].last, c.current_user.user_matches[0][0].email))
-		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+			b2 = Button(fr1, text="Contact", padx=30, font=SMALL_FONT,
+				command=lambda: connect(str(c.current_user.user_matches[0][0].first), c.current_user.user_matches[0][0].last, c.current_user.user_matches[0][0].email))
+			b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 		#Second given match
 		# Checks to see if the user has at least a second match
 		# If not returns and doesnt display anything
 		if c.current_user.user_matches[1][0] == "":
-			return
-		#Displays second match
-		fr2 = Frame(self, width = 570, height = 70, bg = 'white')
-		fr2.place(relx=0.50, rely=0.35, anchor=CENTER)
+			fr2 = Frame(self, width = 570, height = 70, bg = 'medium sea green')
+			fr2.place(relx=0.50, rely=0.35, anchor=CENTER)
+		else:
+			#Displays second match
+			fr2 = Frame(self, width = 570, height = 70, bg = 'white')
+			fr2.place(relx=0.50, rely=0.35, anchor=CENTER)
 
-		userlbl = Label(fr2, text=c.current_user.user_matches[1][0], fg="black", font=MATCH_FONT)
-		userlbl.place(relx=0.05, rely=0.3, anchor=W)
+			userlbl = Label(fr2, text=c.current_user.user_matches[1][0], fg="black", font=MATCH_FONT)
+			userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr2, text='Compatibility: ' + str(c.current_user.user_matches[1][1]) + '%', fg="grey40", font=PERCENT_FONT)
-		userlbl.place(relx=0.05, rely=0.7, anchor=W)
+			userlbl = Label(fr2, text='Compatibility: ' + str(c.current_user.user_matches[1][1]) + '%', fg="grey40", font=PERCENT_FONT)
+			userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		b2 = Button(fr2, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[1][0]), controller.show_frame(OtherProfilePage)])
-		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
+			b2 = Button(fr2, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[1][0]), controller.show_frame(OtherProfilePage)])
+			b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr2, text="Contact", padx=30, font=SMALL_FONT,
-			command=lambda: connect(str(c.current_user.user_matches[1][0].first), c.current_user.user_matches[1][0].last, c.current_user.user_matches[1][0].email))
-		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+			b2 = Button(fr2, text="Contact", padx=30, font=SMALL_FONT,
+				command=lambda: connect(str(c.current_user.user_matches[1][0].first), c.current_user.user_matches[1][0].last, c.current_user.user_matches[1][0].email))
+			b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
 		#Third given match
 		# Checks to see if the user has at least a third match
 		# If not returns and doesnt display anything
 		if c.current_user.user_matches[2][0] == "":
-			return
-		#Displays third match
-		fr3 = Frame(self, width = 570, height = 70, bg = 'white')
-		fr3.place(relx=0.50, rely=0.53, anchor=CENTER)
+			fr3 = Frame(self, width = 570, height = 70, bg = 'medium sea green')
+			fr3.place(relx=0.50, rely=0.53, anchor=CENTER)
+		else:
+			#Displays third match
+			fr3 = Frame(self, width = 570, height = 70, bg = 'white')
+			fr3.place(relx=0.50, rely=0.53, anchor=CENTER)
 
-		userlbl = Label(fr3, text=c.current_user.user_matches[2][0], fg="black", font=MATCH_FONT)
-		userlbl.place(relx=0.05, rely=0.3, anchor=W)
+			userlbl = Label(fr3, text=c.current_user.user_matches[2][0], fg="black", font=MATCH_FONT)
+			userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr3, text='Compatibility: ' + str(c.current_user.user_matches[2][1]) + '%', fg="grey40", font=PERCENT_FONT)
-		userlbl.place(relx=0.05, rely=0.7, anchor=W)
+			userlbl = Label(fr3, text='Compatibility: ' + str(c.current_user.user_matches[2][1]) + '%', fg="grey40", font=PERCENT_FONT)
+			userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		b2 = Button(fr3, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[2][0]), controller.show_frame(OtherProfilePage)])
-		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
+			b2 = Button(fr3, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[2][0]), controller.show_frame(OtherProfilePage)])
+			b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr3, text="Contact", padx=30, font=SMALL_FONT,
-			command=lambda: connect(str(c.current_user.user_matches[2][0].first), c.current_user.user_matches[2][0].last, c.current_user.user_matches[2][0].email))
-		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+			b2 = Button(fr3, text="Contact", padx=30, font=SMALL_FONT,
+				command=lambda: connect(str(c.current_user.user_matches[2][0].first), c.current_user.user_matches[2][0].last, c.current_user.user_matches[2][0].email))
+			b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
 		#Fourth given match
 		# Checks to see if the user has at least a fourth match
 		# If not returns and doesnt display anything
 		if c.current_user.user_matches[3][0] == "":
-			return
-		#Displays fourth match
-		fr4 = Frame(self, width = 570, height = 70, bg = 'white')
-		fr4.place(relx=0.50, rely=0.71, anchor=CENTER)
+			fr4 = Frame(self, width = 570, height = 70, bg = 'medium sea green')
+			fr4.place(relx=0.50, rely=0.71, anchor=CENTER)
+		else:
+			#Displays fourth match
+			fr4 = Frame(self, width = 570, height = 70, bg = 'white')
+			fr4.place(relx=0.50, rely=0.71, anchor=CENTER)
 
-		userlbl = Label(fr4, text=c.current_user.user_matches[3][0], fg="black", font=MATCH_FONT)
-		userlbl.place(relx=0.05, rely=0.3, anchor=W)
+			userlbl = Label(fr4, text=c.current_user.user_matches[3][0], fg="black", font=MATCH_FONT)
+			userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr4, text='Compatibility: ' + str(c.current_user.user_matches[3][1]) + '%', fg="grey40", font=PERCENT_FONT)
-		userlbl.place(relx=0.05, rely=0.7, anchor=W)
+			userlbl = Label(fr4, text='Compatibility: ' + str(c.current_user.user_matches[3][1]) + '%', fg="grey40", font=PERCENT_FONT)
+			userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		b2 = Button(fr4, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[3][0]), controller.show_frame(OtherProfilePage)])
-		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
+			b2 = Button(fr4, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[3][0]), controller.show_frame(OtherProfilePage)])
+			b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr4, text="Contact", padx=30, font=SMALL_FONT,
-			command=lambda: connect(str(c.current_user.user_matches[3][0].first), c.current_user.user_matches[3][0].last, c.current_user.user_matches[3][0].email))
-		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+			b2 = Button(fr4, text="Contact", padx=30, font=SMALL_FONT,
+				command=lambda: connect(str(c.current_user.user_matches[3][0].first), c.current_user.user_matches[3][0].last, c.current_user.user_matches[3][0].email))
+			b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 
 		#Fifth given match
 		# Checks to see if the user has a fifth match
 		# If not returns and doesnt display anything
 		if c.current_user.user_matches[4][0] == "":
-			return
+			fr5 = Frame(self, width = 570, height = 70, bg = 'medium sea green')
+			fr5.place(relx=0.50, rely=0.89, anchor=CENTER)
+		else:
+			#Displays fifth match
+			fr5 = Frame(self, width = 570, height = 70, bg = 'white')
+			fr5.place(relx=0.50, rely=0.89, anchor=CENTER)
 
-		#Displays fifth match
-		fr5 = Frame(self, width = 570, height = 70, bg = 'white')
-		fr5.place(relx=0.50, rely=0.89, anchor=CENTER)
+			userlbl = Label(fr5, text=c.current_user.user_matches[4][0], fg="black", font=MATCH_FONT)
+			userlbl.place(relx=0.05, rely=0.3, anchor=W)
 
-		userlbl = Label(fr5, text=c.current_user.user_matches[4][0], fg="black", font=MATCH_FONT)
-		userlbl.place(relx=0.05, rely=0.3, anchor=W)
+			userlbl = Label(fr5, text='Compatibility: ' + str(c.current_user.user_matches[4][1]) + '%', fg="grey40", font=PERCENT_FONT)
+			userlbl.place(relx=0.05, rely=0.7, anchor=W)
 
-		userlbl = Label(fr5, text='Compatibility: ' + str(c.current_user.user_matches[4][1]) + '%', fg="grey40", font=PERCENT_FONT)
-		userlbl.place(relx=0.05, rely=0.7, anchor=W)
+			b2 = Button(fr5, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[4][0]), controller.show_frame(OtherProfilePage)])
+			b2.place(relx=0.90, rely=0.75, anchor=CENTER)
 
-		b2 = Button(fr5, text="Learn More...", padx=10, font=SMALL_FONT, command=lambda: [win.pages[OtherProfilePage].loadd(parent, controller, c.current_user.user_matches[4][0]), controller.show_frame(OtherProfilePage)])
-		b2.place(relx=0.90, rely=0.75, anchor=CENTER)
-
-		b2 = Button(fr5, text="Contact", padx=30, font=SMALL_FONT, 
-			command=lambda: connect(str(c.current_user.user_matches[4][0].first), c.current_user.user_matches[4][0].last, c.current_user.user_matches[4][0].email))
-		b2.place(relx=0.90, rely=0.25, anchor=CENTER)
+			b2 = Button(fr5, text="Contact", padx=30, font=SMALL_FONT, 
+				command=lambda: connect(str(c.current_user.user_matches[4][0].first), c.current_user.user_matches[4][0].last, c.current_user.user_matches[4][0].email))
+			b2.place(relx=0.90, rely=0.25, anchor=CENTER)
 
 # Contains the current users profile page.
 # The user can see their name as well as some of their information.
