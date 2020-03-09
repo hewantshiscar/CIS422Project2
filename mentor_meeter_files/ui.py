@@ -427,8 +427,8 @@ class SignUpPage(Frame):
 						new_account.email = newemail.get()
 
 						# Clears password entry for security reasons
-						# newpassword.delete(0, 'end')
-						# passcheck.delete(0, 'end')
+						newpassword.delete(0, 'end')
+						passcheck.delete(0, 'end')
 						errorlbl = Label(self, text='*Passwords did not match. Please try again.', bg="medium sea green", fg="medium sea green",
 									 font=SMALL_FONT)
 						errorlbl.place(relx=0.50, rely=0.8, anchor=CENTER)

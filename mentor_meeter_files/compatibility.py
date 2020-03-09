@@ -12,8 +12,8 @@ users = []
 
 global current_user
 
-percent_scale = [100/18, 75/18, 50/18, 25/18, 0]
-# Divide percent by 18 for each question because there are 18 questions
+percent_scale = [100/14, 75/14, 50/14, 25/14, 0]
+# Divide percent by 14 for each question because there are 14 questions
 	# # Max 4 off
 	# # 4 = 0%
 	# # 3 = 25%
@@ -56,11 +56,13 @@ def login_check(username, password):
 	for user in users:
 		if user.username == username and user.password == password:
 			current_user = user
+			print(current_user.q)
 			pref_check(current_user)
 			compat(current_user)
 			return 1, current_user
+	print("bottom=========================")
 
-	return 0
+	return 0, User(0, "", "", 0, "", [], "", "", "", "")
 
 
 def equal_q_answer(current_user, user, q_num, count):
@@ -107,9 +109,11 @@ def pref_check(current_user):
 
 	0) Gender (Male, Female, Other)
 	1) Who do you want to be matched with? (Male, Female, Other)
+	2) Age range (1 - 5)
 	3) What is your career field? (47)
-	4) Age Range (1 - 5)
 	"""
+
+	print("INNNN")
 
 	age_ranges = [[18, 25], [25, 30], [30, 40], [40, 60], [60, 130]]
 
@@ -118,7 +122,7 @@ def pref_check(current_user):
 		if user.user_type != current_user.user_type: # Make sure mentors are assigned to mentees and vice versa
 			if user.q[1] == 3 or user.q[1] == current_user.q[0]: # Make sure gender prefeerence match up
 				if user.q[3] == current_user.q[3]:
-					if user.age >= age_ranges[current_user.q[4] - 1][0] and user.age <= age_ranges[current_user.q[4] - 1][1]:
+					if user.age >= age_ranges[current_user.q[2] - 1][0] and user.age <= age_ranges[current_user.q[2] - 1][1]:
 						if len(current_user.user_matches) <= 5 and count != 5:
 							current_user.user_matches[count][1] = 0
 							current_user.user_matches[count][0] = user
@@ -128,6 +132,7 @@ def pref_check(current_user):
 							match.append(user)
 							match.append(0)
 							current_user.user_matches.append(match)
+	print(current_user.user_matches)
 
 def compat(current_user):
 	"""Compute compatibility amongst users"""
@@ -136,39 +141,42 @@ def compat(current_user):
 		count = 0
 		for user in current_user.user_matches:
 			if user[0] != current_user and user[0] != '':
-				# 4) What is your experience level in your field? (1 - 5)
-				# 5) How good are your networking skills? (1 - 5)
-				# 6) How good are your organizational skills? (1 - 5)
-				for i in range(4, 7):
-					higher(current_user, user[0], i, count)
+				# 4) How much time would you like to invest in your mentor-mentee relationship?
+				equal_q_answer(current_user, user[0], 4, count)
 
-				# 7) How good are your organizational skills? (1 - 5)
-				# 8) How good are your time management skills? (1 - 5)
-				# 9) What is your work ethic? (1 - 5)
-				# 10) How flexible/adaptable are you?
-				# 11) Problem Solving skills (1 - 5)
-				# 12) Ability to work with coworkers/other people (1 - 5)
-				# 13) Self motivation (1 - 5)
-				# 14) Professionalism (1 - 5)
-				for i in range(7, 15):
+				# 5) What is your experience level in your field?
+				higher(current_user, user[0], 5, count)
+				# 6) How good are your networking skills?
+				higher(current_user, user[0], 6, count)
+
+				# 7) What kind of work do you want to do?
+				equal_q_answer(current_user, user[0], 7, count)
+				# 8) How much do you value integrity?
+				equal_q_answer(current_user, user[0], 8, count)
+
+				# 9) How good are you organizational skills?
+				higher(current_user, user[0], 9, count)
+
+				# 10) How good are your communication skills?
+				equal_or_higher(current_user, user[0], 10, count)
+
+				# 11) What is your primary career goal?
+				equal_q_answer(current_user, user[0], 11, count)
+
+				# 12) How good are your time management skills?
+				# 13) How would you rate your work ethic?
+				# 14) How flexible/adaptable are you?
+				for i in range(12, 15):
 					equal_or_higher(current_user, user[0], i, count)
 
-				# 15) How much do you value integrity?
+				# 15) What kind of learner are you?
 				equal_q_answer(current_user, user[0], 15, count)
 
-				# 16) How patient are you? (1 - 5)
+				# 16) How would you rate your ability to work with others?
 				equal_or_higher(current_user, user[0], 16, count)
 
-				# 17) How social are you? (1 - 5)
-				# 18) What is your learning style? (1 - 5)
-				# 19) Career goals (1 - 5)
-				for i in range(17, 20):
-					equal_q_answer(current_user, user[0], 19, count)
-
-				# 20) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
-				# 21) What kind of work do you want to do? (1 - 5)
-				for i in range(20, 22):
-					equal_q_answer(current_user, user[0], i, count)
+				# 17) How introverted/extroverted are you?
+				equal_q_answer(current_user, user[0], 17, count)
 
 				# No one is 100% compatible -- account for that
 				if current_user.user_matches[count][1] >= 100:
@@ -184,39 +192,42 @@ def compat(current_user):
 		count = 0
 		for user in current_user.user_matches:
 			if user[0] != current_user and user[0] != '':
-				# 4) What is your experience level in your field? (1 - 5)
-				# 5) How good are your networking skills? (1 - 5)
-				# 6) How good are your organizational skills? (1 - 5)
-				for i in range(4, 7):
-					lower(current_user, user[0], i, count)
+				# 4) How much time would you like to invest in your mentor-mentee relationship?
+				equal_q_answer(current_user, user[0], 4, count)
 
-				# 7) How good are your organizational skills? (1 - 5)
-				# 8) How good are your time management skills? (1 - 5)
-				# 9) What is your work ethic? (1 - 5)
-				# 10) How flexible/adaptable are you?
-				# 11) Problem Solving skills (1 - 5)
-				# 12) Ability to work with coworkers/other people (1 - 5)
-				# 13) Self motivation (1 - 5)
-				# 14) Professionalism (1 - 5)
-				for i in range(7, 15):
+				# 5) What is your experience level in your field?
+				lower(current_user, user[0], 5, count)
+				# 6) How good are your networking skills?
+				lower(current_user, user[0], 6, count)
+
+				# 7) What kind of work do you want to do?
+				equal_q_answer(current_user, user[0], 7, count)
+				# 8) How much do you value integrity?
+				equal_q_answer(current_user, user[0], 8, count)
+
+				# 9) How good are you organizational skills?
+				lower(current_user, user[0], 9, count)
+
+				# 10) How good are your communication skills?
+				equal_or_lower(current_user, user[0], 10, count)
+
+				# 11) What is your primary career goal?
+				equal_q_answer(current_user, user[0], 11, count)
+
+				# 12) How good are your time management skills?
+				# 13) How would you rate your work ethic?
+				# 14) How flexible/adaptable are you?
+				for i in range(12, 15):
 					equal_or_lower(current_user, user[0], i, count)
 
-				# 15) How much do you value integrity?
+				# 15) What kind of learner are you?
 				equal_q_answer(current_user, user[0], 15, count)
-				
-				# 16) How patient are you? (1 - 5)
+
+				# 16) How would you rate your ability to work with others?
 				equal_or_lower(current_user, user[0], 16, count)
 
-				# 17) How social are you? (1 - 5)
-				# 18) What is your learning style? (1 - 5)
-				# 19) Career goals (1 - 5)
-				for i in range(17, 20):
-					equal_q_answer(current_user, user[0], 19, count)
-
-				# 20) How much time do you to invest in your mentor-mentee relationship? (1 = low, 5 = high)
-				# 21) What kind of work do you want to do? (1 - 5)
-				for i in range(20, 22):
-					equal_q_answer(current_user, user[0], i, count)
+				# 17) How introverted/extroverted are you?
+				equal_q_answer(current_user, user[0], 17, count)
 
 				# No one is 100% compatible -- account for that
 				if current_user.user_matches[count][1] >= 100:
