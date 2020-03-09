@@ -625,7 +625,7 @@ class ProfilePage(Frame):
 
 		# Career Field and answer from current user
 		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.90, anchor=W)
-		Label(fr1, text= MAJORS[c.current_user.q[2]], bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.90, anchor=W)
+		Label(fr1, text= MAJORS[c.current_user.q[3]], bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.90, anchor=W)
 
 		'''
 		Next labels x and ys
