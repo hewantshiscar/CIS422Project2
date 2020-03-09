@@ -14,6 +14,7 @@ How to install:
 	- Double click on the install_mm file
 	- If this does not work enter the following into the terminal: $ pip install mysql-connector-python
 	- If neither of these installations work, then install pip and attempt the installation processes again
+	- If installing on a Mac in Deschutes room 100, then double click on the install_mm_room_100 file instead of the install_mm file.
 
 How to run the code: 
 	- Double click on the MentorMeeter file
