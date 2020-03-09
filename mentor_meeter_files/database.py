@@ -161,7 +161,7 @@ def mentee_info(username):
 			qs = row[4].split(",")
 			for i in range(len(qs)):
 				qs[i] = int(qs[i])
-			result = c.User(1, row[0], row[1], age, row[3], qs, row[5], str(row[6]), str(row[7]), str(row[8]))
+			result = c.User(0, row[0], row[1], age, row[3], qs, row[5], str(row[6]), str(row[7]), str(row[8]))
 
 	try:
 		return result
@@ -209,7 +209,7 @@ def extract_mentees():
 		for i in range(len(qs)):
 			qs[i] = int(qs[i])
 
-		result.append(c.User(1, row[0], row[1], age, row[3], qs, row[5], str(row[6]), str(row[7]), str(row[8])))
+		result.append(c.User(0, row[0], row[1], age, row[3], qs, row[5], str(row[6]), str(row[7]), str(row[8])))
 	return result
 
 # creates an account in our database
