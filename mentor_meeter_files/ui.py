@@ -24,6 +24,8 @@ QUESTION_FONT = ("Roboto", 15, "bold")
 BUTTON_FONT = ("Helvetica", 14)
 INFO_FONT = ("Helvetica", 16, "bold")
 
+# Flag set to bypass any error checking that occurs in login page, signup page, namepreference page, or questionnaires.
+# This is just for testing.
 DEBUG = FALSE
 
 # List of Majors/Subjects
@@ -40,6 +42,7 @@ MAJORS = ["Accounting", "Anthropology", "Architecture", "Art", "Art and technolo
 		   "Political science", "Product design", "Psychology", "Religious studies", "Romance languages", "Russian, East European, and Eurasian studies",
 		   "Sociology", "Spanish", "Spatial data science and technology", "Theater arts", "Women's, gender, and sexuality studies"]
 
+# Users questionnaire answers will be saved to this list
 questionnaireAnswers = [-1, -1, -1, -1, -1, -1, -1, -1, -1,  -1,  -1, -1,  -1,  -1, -1, -1, -1, -1]
 
 #Creates new user as a user class
@@ -48,7 +51,7 @@ new_account = c.User(0, "", "", 0, "", [], "", "", "", "")
 # Main class that controls which frame is on top (shown to the user)
 # in any given instance
 class start(Tk):
-
+	# Initializes the tk original window
 	def __init__(self, *args, **kwargs):
 		global questionnaireAnswers
 		# initializes container for frames
@@ -81,12 +84,12 @@ class MainMenu(Frame):
 		lbl1.place(relx=0.5, rely=0.20, anchor=CENTER)
 
 		lbl2 = Label(self, text='Find your mentor today!', bg="medium sea green", fg="white", font=SMALL_FONT)
-		lbl2.place(relx=0.5, rely=0.30, anchor=CENTER)
-
+		lbl2.place(relx=0.5, rely=0.30, anchor=CENTER)	
+		# Button takes user to login page
 		b0 = Button(self, text="Login", highlightbackground="medium sea green", padx=10,
 					command=lambda: controller.show_frame(LoginPage))
 		b0.place(relx=0.5, rely=0.40, width=150, anchor=CENTER)
-
+		#button takes user to signup page.
 		b1 = Button(self, text="Sign-Up", highlightbackground="medium sea green", padx=10,
 					command=lambda: controller.show_frame(SignUpPage))
 		b1.place(relx=0.5, rely=0.50, width=150, anchor=CENTER)
@@ -107,23 +110,24 @@ class LoginPage(Frame):
 
 		lbl2 = Label(self, text='Find your mentor today!', bg="medium sea green", fg="white", font=SMALL_FONT)
 		lbl2.place(relx=0.5, rely=0.30, anchor=CENTER)
-
+		# Button takes the user back to the Main Menu
 		b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 					command=lambda: controller.show_frame(MainMenu))
 		b0.place(relx=0.0, rely=1.0, anchor=SW)
 
+		# Saves users input as username in username1	
 		userlbl = Label(self, text='Username:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		userlbl.place(relx=0.30, rely=0.40, anchor=CENTER)
-
 		username1 = Entry(self)
 		username1.place(relx=0.55, rely=0.40, anchor=CENTER)
 
+		#Saves users input as password in password1
 		passlbl = Label(self, text='Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		passlbl.place(relx=0.30, rely=0.50, anchor=CENTER)
-
 		password1 = Entry(self, show='*')
 		password1.place(relx=0.55, rely=0.50, anchor=CENTER)
 
+		# Button that calls loginerror to potentially log a user in
 		log = Button(self, text="Login", highlightbackground="medium sea green", padx=10,
 					 command=lambda: self.loginerror(parent, controller))
 		log.place(relx=0.62, rely=0.62, anchor=SW)
@@ -192,41 +196,39 @@ class NamePreferencesPage(Frame):
 	def __init__(self, parent, controller):
 		global firstname, lastname, mentormentee, firstnamelbl, lastnamelbl
 		global mentormenteelbl, bio, biolbl
-
 		Frame.__init__(self, parent)
 
 		lbl2 = Label(self, text='Please fill out all fields:', bg="medium sea green", fg="white",
 								 font=QUESTION_FONT)
 		lbl2.place(relx=0.5, rely=0.10, anchor=CENTER)
-
+		# Button that takes user back to the signup page.
 		b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 								command=lambda: controller.show_frame(SignUpPage))
 		b0.place(relx=0.0, rely=1.0, anchor=SW)
-
+		# Button that calls signuperror to potentially move onto the questionnaire 
 		b2 = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
 								command=lambda: self.signuperror(parent, controller))
 		b2.place(relx=1.0, rely=1.0, anchor=SE)
 
+		# Saves users input as their first name in firstname
 		firstnamelbl = Label(self, text='First name:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		firstnamelbl.place(relx=0.272, rely=0.20, anchor=CENTER)
-
 		firstname = Entry(self)
 		firstname.place(relx=0.55, rely=0.20, anchor=CENTER)
 
+		# Saves users input as their last name in lastname
 		lastnamelbl = Label(self, text='Last name:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		lastnamelbl.place(relx=0.275, rely=0.30, anchor=CENTER)
-
 		lastname = Entry(self)
 		lastname.place(relx=0.55, rely=0.30, anchor=CENTER)
 
+		# This is where the user enters their bio and its saved in bio
 		biolbl = Label(self, text='Please enter a little about yourself (250 char max):', bg="medium sea green", fg="white", font=QUESTION_FONT)
 		biolbl.place(relx=0.5, rely=0.60, anchor=CENTER)
-
 		bio = Entry(self, width=60)
 		bio.place(relx=0.5, rely=0.70, anchor=CENTER)
 
 		mentormentee = StringVar()
-
 		mentormenteelbl = Label(self, text='Are you looking to be a mentor or mentee?', bg="medium sea green", fg="white",
 					font=QUESTION_FONT)
 		mentormenteelbl.place(relx=0.5, rely=0.43, anchor=CENTER)
@@ -301,40 +303,41 @@ class SignUpPage(Frame):
 		Frame.__init__(self, parent)
 		lbl1 = Label(self, text='MENTOR MEETER', bg="medium sea green", fg="white", font=TITLE_FONT)
 		lbl1.place(relx=0.5, rely=0.20, anchor=CENTER)
-
 		lbl2 = Label(self, text='Welcome! Create your new account now!', bg="medium sea green", fg="white",
 					 font=SMALL_FONT)
 		lbl2.place(relx=0.5, rely=0.30, anchor=CENTER)
 
+		# Button that takes user back to the main menu page.
 		b0 = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 					command=lambda: controller.show_frame(MainMenu))
 		b0.place(relx=0.0, rely=1.0, anchor=SW)
 
+		# Button that calls signuperror to potentially move onto the namepreferencepage 
 		b2 = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
 					command=lambda: self.signuperror(parent, controller))
 		b2.place(relx=1.0, rely=1.0, anchor=SE)
 
+		# Saves users input as their new username in newusername
 		newuserlbl = Label(self, text='New Username:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		newuserlbl.place(relx=0.272, rely=0.40, anchor=CENTER)
-
 		newusername = Entry(self)
 		newusername.place(relx=0.55, rely=0.40, anchor=CENTER)
 
+		# Saves users input as their new password in newpassword
 		newpasslbl = Label(self, text='New Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		newpasslbl.place(relx=0.275, rely=0.50, anchor=CENTER)
-
-		newpassword = Entry(self, show='*')
+		newpassword = Entry(self, show='*') #"show='*'" hides the password to the user for security 
 		newpassword.place(relx=0.55, rely=0.50, anchor=CENTER)
 
+		# Saves users input as for their password verification in passcheck
 		pclbl = Label(self, text='Re-Enter Password:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		pclbl.place(relx=0.25, rely=0.60, anchor=CENTER)
-
 		passcheck = Entry(self, show = '*')
 		passcheck.place(relx=0.55, rely=0.60, anchor=CENTER)
 
+		# Saves users input as their new email in newemail
 		newemaillbl = Label(self, text='Email:', bg="medium sea green", fg="white", font=SMALL_FONT)
 		newemaillbl.place(relx=0.325, rely=0.70, anchor=CENTER)
-
 		newemail = Entry(self)
 		newemail.place(relx=0.55, rely=0.70, anchor=CENTER)
 
@@ -423,20 +426,20 @@ class SignUpPage(Frame):
 				pclbl.config(text='*Re-Enter Password:', fg='red4')
 				errorlbl2.place(relx=0.50, rely=0.8, anchor=CENTER)
 
-# Contains everything for the Mentee Home Page frame.
-# This is where the user can see pontential mentors.
+# Contains everything for the Home Page frame.
+# This is where the user can see pontential matches.
 class HomePage(Frame):
-
+	#Initalizes frame
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 
+	#Seperate load function so the the homepage is reloaded with the current users matches
 	def load(self, parent, controller):
+		#Top tab navigation buttons
 		b0 = Button(self, text="Potential Matches", width=30, font=TAB_FONT)
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
-
 		b1 = Button(self, text="Profile", padx=50, font=TAB_FONT, command=lambda: [win.pages[ProfilePage].load(parent, controller), controller.show_frame(ProfilePage)])
 		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
-
 		b2 = Button(self, text="Logout", padx=40, font=TAB_FONT, command=lambda: controller.show_frame(MainMenu))
 		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
 
@@ -567,23 +570,22 @@ class HomePage(Frame):
 # Contains the current users profile page.
 # The user can see their name as well as some of their information.
 class ProfilePage(Frame):
-
+	# Initializes the profilepage frame
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
-
+	#Function that reloads information based on the current user once they login or signup
 	def load(self, parent, controller):
+		# Top tab navigation buttons 
 		b0 = Button(self, text = "Potential Matches", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
-
 		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT)
 		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
-
 		b2 = Button(self, text="Logout", padx = 40, font = TAB_FONT, command=lambda: controller.show_frame(MainMenu))
 		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
-
 		fr1 = Frame(self, width = 570, height = 380, bg = 'white')
 		fr1.place(relx=0.50, rely=0.52, anchor=CENTER)
 
+		#Displays users name
 		lbl1 = Label(fr1, text=c.current_user.first + " " + c.current_user.last, bg="white", fg="sea green", font=(
 			"Helvetica", 46, "bold"))
 		lbl1.place(relx=0.5, rely=0.15, anchor=CENTER)
@@ -615,35 +617,26 @@ class ProfilePage(Frame):
 		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.90, anchor=W)
 		Label(fr1, text= MAJORS[c.current_user.q[3]], bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.90, anchor=W)
 
-		'''
-		Next labels x and ys
-		relx=0.02, rely=0.74
-		relx=0.02, rely=0.80
-		relx=0.02, rely=0.86
-		relx=0.02, rely=0.92
-		'''
-
 # Contains the other users profile page.
 # The user can see potential matches name as well as some of their information.
 class OtherProfilePage(Frame):
-
+	#Initializes the other profile page frame
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
 
 	# Loads the given matches information for their profile page
+	# NOTE: even though the variable name is mentor this can be either a mentee or mentor.
 	def loadd(self, parent, controller, mentor):
-		# b0, b1, and b2 are top tabs 
+		# b0, b1, and b2 are top tabs for navigation 
 		b0 = Button(self, text = "Potential Matches", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
-
 		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT, command=lambda: controller.show_frame(ProfilePage))
 		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
-
 		b2 = Button(self, text="Logout", padx = 40, font = TAB_FONT, command=lambda: controller.show_frame(MainMenu))
 		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
-
 		fr1 = Frame(self, width = 570, height = 340, bg = 'white')
 		fr1.place(relx=0.50, rely=0.48, anchor=CENTER)
+
 		#Back button that takes user back to the homepage
 		b3 = Button(self, text="Back", padx = 30, font = TAB_FONT, highlightbackground = 'medium sea green', command=lambda: controller.show_frame(HomePage))
 		b3.place(relx=0.12, rely=0.93, anchor=CENTER)
@@ -652,7 +645,7 @@ class OtherProfilePage(Frame):
 		fr4 = Frame(fr1, width = 500, height = 5, bg = 'grey70')
 		fr4.place(relx=0.5, rely=0.08, anchor=CENTER)
 		Label(fr1, text="     Match's Profile:     ", bg="white", fg="black", font=TAB_FONT).place(relx=0.5, rely=0.08, anchor=CENTER)
-
+		# Displays mentors/mentees name
 		lbl1 = Label(fr1, text=mentor.first + " " + mentor.last, bg="white", fg="sea green", font=("Helvetica", 46, "bold"))
 		lbl1.place(relx=0.5, rely=0.22, anchor=CENTER)
 
@@ -688,7 +681,6 @@ class OtherProfilePage(Frame):
 class QuestionPage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
-
 		global gender
 		global matchgender
 		global careerfield
@@ -1442,6 +1434,7 @@ def connect(first, last, email):
 def exit(top):
 	top.destroy()
 
+#Initializes the window, sets size, title, and background color.
 win = start()
 win.geometry('600x425')
 win.resizable(False, False)

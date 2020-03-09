@@ -214,47 +214,24 @@ def extract_mentees():
 
 # creates an account in our database
 def create_account(User):
+	# Checks if mentor of mentee
 	if User.user_type:
 		create_mentor(User)
 	else:
 		create_mentee(User)
-
+	# Initializes current user
 	c.current_user = c.User(0, "", "", 0, "", [], "", "", "", "")
+	# Adds users to users[] if havent already.
 	if len(c.users) <= 1:
 		c.users.extend(extract_mentees())
 		c.users.extend(extract_mentors())
+	# initialize current user to this user
 	c.current_user = User
 	c.users.append(c.current_user)
-
+	# Gets current users matches.
 	c.pref_check(c.current_user)
 	c.compat(c.current_user)
 
 	return c.current_user
 
-#def log_in(email, password):
-'''
-test to input into databse
-user1 = User(0, "Phillipe", "Orozco", 20, "Male", [1, 3, 0, 4, 4, 3, 5, 5, 4, 5, 2, 3, 4, 4, 3, 4, 2, 1, 3, 4, 1, 2], "Hiyo", "phillipe@gmail.com", "philoroz", "pickles9")
-user2 = User(0, "Olivia", "Pannell", 21, "Female", [2, 3, 0, 4, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2], "Hello", "olivia@gmail.com", "olp", "anniepie98")
-user3 = User(0, "Jose", "West", 23, "Male", [1, 3, 0, 5, 3, 5, 3, 3, 1, 1, 2, 3, 4, 5, 3, 2, 3, 4, 3, 4, 1, 4], "Hey", "jose@gmail.com", "josewt", "glassesguy65")
-user4 = User(0, "Taylor", "Verney", 22, "Non-binary/Queer", [3, 3, 0, 1, 2, 1, 1, 2, 2, 4, 3, 4, 3, 4, 4, 4, 3, 4, 4, 3, 1, 3], "Heyo", "taylor@gmail.com", "tayvey", "cheezitsaremylove74")
-user5 = User(0, "Pablo", "Garcia", 19, "Male", [1, 3, 0, 3, 1, 3, 4, 1, 4, 5, 2, 3, 4, 2, 4, 2, 4, 2, 3, 4, 1, 3], "Greetings", "pablo@gmail.com", "pabgar", "9000goo")
-
-users = []
-users.append(user1)
-users.append(user2)
-users.append(user3)
-users.append(user4)
-users.append(user5)
-
-for use in users:
-	create_account(use)
-'''
-
-'''
-test to extract from database
-users = extract_mentees()
-for user in users:
-	print(user)
-'''
 
