@@ -246,7 +246,7 @@ class NamePreferencesPage(Frame):
 		bio = Entry(self, width=60)
 		bio.place(relx=0.5, rely=0.70, anchor=CENTER)
 
-		mentormentee = StringVar()
+		mentormentee = IntVar()
 
 		mentormenteelbl = Label(self, text='Are you looking to be a mentor or mentee?', bg="medium sea green", fg="white",
 					font=QUESTION_FONT)
