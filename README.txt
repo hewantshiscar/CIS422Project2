@@ -21,6 +21,7 @@ How to run the code:
 
 Software dependencies:
 	Python 3
+	Mysql
 
 Subdirectories:
 	mentor_meeter_files: holds our source code files that do not include our executable files
