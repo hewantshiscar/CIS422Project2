@@ -59,11 +59,11 @@ TESTING STUFF
 '''
 # user_type, first, last, age, gender, questionnaire, bio, email, username, password
 
-test_account = c.User(1, "Olivia", "Pannell", 21, "Gender Queer", [2, 3, 11, 1, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
-	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. I am looking for someone who can be my friend.",
-	"olivia@gmail.com", "olp", "fyeah")
+# test_account = c.User(1, "Olivia", "Pannell", 21, "Gender Queer", [2, 3, 11, 1, 3, 2, 4, 5, 4, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2],
+# 	"Hello I am a student at university of Oregon and I am looking for a mentor who can help guide me through the difficulties of being a woman. I am looking for someone who can be my friend.",
+# 	"olivia@gmail.com", "olp", "fyeah")
 
-c.users.append(test_account)
+# c.users.append(test_account)
 #c.current_user = new_account
 
 # Main class that controls which frame is on top (shown to the user)
@@ -1053,7 +1053,7 @@ class QuestionPage3(Frame):
 
 
 
-		Label(self, text='How good are your orginizational skills?', bg="medium sea green", fg="white",
+		Label(self, text='How good are your organizational skills?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
 
 		Radiobutton(self, text="1", bg="medium sea green", selectcolor="medium sea green",
