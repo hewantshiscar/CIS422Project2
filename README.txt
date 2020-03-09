@@ -2,7 +2,7 @@ Mentor Meeter
 
 -----------------------------
 
-Description: Our system connects users to create a mentor-mentee relationship. It allows users to answer what is important to them in life and in their field and finds someone who is compatable with those answers. The users can then get the information of other compatable users.
+Description: Our system connects users to create a mentor-mentee relationship. It allows users to answer what is important to them in life and in their field and finds someone who is compatible with those answers. The users can then get the information of other compatible users.
 
 Authors: Mikayla Campbell, James Kang, Olivia Pannell, Bethany Van Meter, and Ben Verney
 
