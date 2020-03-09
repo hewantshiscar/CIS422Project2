@@ -246,7 +246,7 @@ class NamePreferencesPage(Frame):
 		bio = Entry(self, width=60)
 		bio.place(relx=0.5, rely=0.70, anchor=CENTER)
 
-		mentormentee = IntVar()
+		mentormentee = StringVar()
 
 		mentormenteelbl = Label(self, text='Are you looking to be a mentor or mentee?', bg="medium sea green", fg="white",
 					font=QUESTION_FONT)
@@ -307,7 +307,7 @@ class NamePreferencesPage(Frame):
 				# add information to user class to be later added into database
 				new_account.first = firstname.get()
 				new_account.last = lastname.get()
-				new_account.user_type = mentormentee.get()
+				new_account.user_type = int(mentormentee.get())
 				new_account.bio = (bio.get()[:250])
 
 				controller.show_frame(QuestionPage)
