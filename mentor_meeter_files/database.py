@@ -215,9 +215,9 @@ def extract_mentees():
 # creates an account in our database
 def create_account(User):
 	if User.user_type:
-		create_mentor(User)
-	else:
 		create_mentee(User)
+	else:
+		create_mentor(User)
 
 	c.current_user = c.User(0, "", "", 0, "", [], "", "", "", "")
 	if len(c.users) <= 1:
