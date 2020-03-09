@@ -60,7 +60,6 @@ def login_check(username, password):
 			pref_check(current_user)
 			compat(current_user)
 			return 1, current_user
-	print("bottom=========================")
 
 	return 0, User(0, "", "", 0, "", [], "", "", "", "")
 
@@ -112,8 +111,6 @@ def pref_check(current_user):
 	2) Age range (1 - 5)
 	3) What is your career field? (47)
 	"""
-
-	print("INNNN")
 
 	age_ranges = [[18, 25], [25, 30], [30, 40], [40, 60], [60, 130]]
 

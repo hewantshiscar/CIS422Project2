@@ -692,7 +692,7 @@ class OtherProfilePage(Frame):
 		Label(fr1, text=mentor.gender, bg="white", fg="gray20", font=INFO_FONT).place(relx=0.21, rely=0.82, anchor=W)
 		# Career Field and answer from current user
 		Label(fr1, text="Career Field:", bg="white", fg="black", font=INFO_FONT).place(relx=0.1, rely=0.9, anchor=W)
-		Label(fr1, text= MAJORS[mentor.q[2]], bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.9, anchor=W)
+		Label(fr1, text= MAJORS[mentor.q[3]], bg="white", fg="gray20", font=INFO_FONT).place(relx=0.27, rely=0.9, anchor=W)
 
 # Contains everything for the First page of the questionaire page.
 # After creating a new account the user answers questions from these
