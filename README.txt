@@ -10,12 +10,13 @@ Created: 3/7/2020
 
 Created for: CIS 422, Project 2
 
-How to compile code and run: 
-	python3 ui.py
+How to install:
+	- Double click on the install_mm file
+	- If this does not work enter the following into the terminal: $ pip install mysql-connector-python
+	- If neither of these installations work, then install pip and attempt the installation processes again
 
-Any additional setup: 
-	If mysql-connector-python isn't installed run this command:
-		pip install mysql-connector-python
+How to run the code: 
+	- Double click on the MentorMeeter file
 
 Software dependencies:
 	Python 3
