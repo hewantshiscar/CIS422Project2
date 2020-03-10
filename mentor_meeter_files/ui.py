@@ -173,6 +173,7 @@ class LoginPage(Frame):
 		# If both are filled out
 		if username1.get() and password1.get():
 			# Checks if the username and password are in the database
+			c.current_user.user_matches = [["", 0],["", 0], ["", 0], ["", 0], ["", 0]]
 			valid, usr = c.login_check(username1.get(), password1.get())
 			#c.current_user = usr
 			if valid:

@@ -49,6 +49,7 @@ current_user = User(0, "", "", 0, "", [], "", "", "", "")
 def login_check(username, password):
 	"""Checks login credentials"""
 	current_user = User(0, "", "", 0, "", [], "", "", "", "")
+
 	if len(users) <= 1:
 		users.extend(d.extract_mentees())
 		users.extend(d.extract_mentors())
@@ -56,7 +57,6 @@ def login_check(username, password):
 	for user in users:
 		if user.username == username and user.password == password:
 			current_user = user
-			print(current_user.q)
 			pref_check(current_user)
 			compat(current_user)
 			return 1, current_user
@@ -129,7 +129,6 @@ def pref_check(current_user):
 							match.append(user)
 							match.append(0)
 							current_user.user_matches.append(match)
-	print(current_user.user_matches)
 
 def compat(current_user):
 	"""Compute compatibility amongst users"""
