@@ -632,7 +632,7 @@ class OtherProfilePage(Frame):
 		# b0, b1, and b2 are top tabs for navigation 
 		b0 = Button(self, text = "Potential Matches", width = 30, font = TAB_FONT, command=lambda: controller.show_frame(HomePage))
 		b0.place(relx=0.25, rely=0.02, anchor=CENTER)
-		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT, command=lambda: controller.show_frame(ProfilePage))
+		b1 = Button(self, text="Profile", padx = 50, font = TAB_FONT, command=lambda: [win.pages[ProfilePage].load(parent, controller), controller.show_frame(ProfilePage)])
 		b1.place(relx=0.65, rely=0.02, anchor=CENTER)
 		b2 = Button(self, text="Logout", padx = 40, font = TAB_FONT, command=lambda: controller.show_frame(MainMenu))
 		b2.place(relx=0.90, rely=0.02, anchor=CENTER)
