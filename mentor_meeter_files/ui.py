@@ -242,7 +242,7 @@ class NamePreferencesPage(Frame):
 		menteerb.place(relx=0.6, rely=0.5, anchor=W)
 
 		pagenum = Label(self, text='pg 1/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 
 	# Error checking on the signup page
@@ -756,7 +756,7 @@ class QuestionPage(Frame):
 
 
 		pagenum = Label(self, text='pg 2/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
@@ -944,7 +944,7 @@ class QuestionPage2(Frame):
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
 		pagenum = Label(self, text='pg 3/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 	def save(self):
 		global agerange
@@ -1082,7 +1082,7 @@ class QuestionPage3(Frame):
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
 		pagenum = Label(self, text='pg 4/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 
 	def save(self):
@@ -1222,7 +1222,7 @@ class QuestionPage4(Frame):
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
 		pagenum = Label(self, text='pg 5/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 
 	def save(self):
