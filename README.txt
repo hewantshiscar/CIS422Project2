@@ -30,7 +30,7 @@ Accounts in database to test with:
 
 Example Mentee Accounts:
 Username	Password
---------    --------
+--------        --------
 168		2
 152		2
 152		2
@@ -39,7 +39,7 @@ Username	Password
 
 Example Mentor Accounts:
 Username	Password
---------    --------
+--------        --------
 mikicam		pickles
 greg		gr
 62		2
