@@ -243,7 +243,7 @@ class NamePreferencesPage(Frame):
 		menteerb.place(relx=0.6, rely=0.5, anchor=W)
 
 		pagenum = Label(self, text='pg 1/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 
 	# Error checking on the signup page
@@ -691,9 +691,8 @@ class QuestionPage(Frame):
 		matchgender = IntVar()
 		careerfield = StringVar()
 
-
-		#Header to explain to the user that this is a questionnaire
-		lbl1 = Label(self, text='Please answer the following questions so we can match you with a mentor:',
+		#header to explain to the user that this is a questionnaire
+		lbl1 = Label(self, text='Please answer the following questions so we can match you with other users:',
 					 bg="medium sea green", fg="white", font=("Roboto", 18, "bold"), wraplength = 400, justify= LEFT)
 		lbl1.place(relx=0.05, rely=0.1, anchor=W)
 
@@ -762,7 +761,7 @@ class QuestionPage(Frame):
 
 		#displays page number
 		pagenum = Label(self, text='pg 2/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 		#advances window to next page
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
@@ -964,7 +963,7 @@ class QuestionPage2(Frame):
 
 		#displays page number
 		pagenum = Label(self, text='pg 3/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 	#saves the questionnaire responses to the output list
 	def save(self):
@@ -1112,7 +1111,7 @@ class QuestionPage3(Frame):
 
 		#displays page number
 		pagenum = Label(self, text='pg 4/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 	#saves the questionnaire responses to the output list
 	def save(self):
@@ -1259,7 +1258,7 @@ class QuestionPage4(Frame):
 
 		#displays the page number
 		pagenum = Label(self, text='pg 5/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 	#saves the questionnaire responses to the output list
 	def save(self):
@@ -1389,7 +1388,7 @@ class QuestionPage5(Frame):
 
 		#displays the page number
 		pagenum = Label(self, text='pg 6/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.81, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 	#saves the final page of user responses, creates a new User with the date, and saves the User to the database
 	def finishaccount(self):
@@ -1455,7 +1454,7 @@ def check_username(username):
 def connect(first, last, email):
 	#Create new smaller window
 	top = Toplevel()
-	top.geometry('310x170')
+	top.geometry('320x170')
 	top.resizable(False, False)
 	top.title("Match Information")
 	top.config(bg='medium sea green')
@@ -1464,7 +1463,7 @@ def connect(first, last, email):
 	name = first + " " + last
 	l = Label(top, text=name, fg="White", bg = 'medium sea green', font=INFO_FONT)
 	l.place(relx=0.05, rely=0.13, anchor=W)
-	fr1 = Frame(top, width=600, height=5, bg='white')
+	fr1 = Frame(top, width=630, height=5, bg='white')
 	fr1.place(relx=0.05, rely=0.25, anchor=CENTER)
 
 	#Add "Contact By" with email to new string
