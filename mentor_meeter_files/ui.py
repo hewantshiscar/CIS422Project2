@@ -26,6 +26,7 @@ INFO_FONT = ("Helvetica", 16, "bold")
 
 # Flag set to bypass any error checking that occurs in login page, signup page, namepreference page, or questionnaires.
 # This is just for testing.
+# Don't change this, you'll probably break something.
 DEBUG = FALSE
 
 # List of Majors/Subjects
@@ -681,6 +682,7 @@ class OtherProfilePage(Frame):
 class QuestionPage(Frame):
 	def __init__(self, parent, controller):
 		Frame.__init__(self, parent)
+		#create variables to store user responses in
 		global gender
 		global matchgender
 		global careerfield
@@ -689,10 +691,13 @@ class QuestionPage(Frame):
 		matchgender = IntVar()
 		careerfield = StringVar()
 
+
+		#Header to explain to the user that this is a questionnaire
 		lbl1 = Label(self, text='Please answer the following questions so we can match you with a mentor:',
 					 bg="medium sea green", fg="white", font=("Roboto", 18, "bold"), wraplength = 400, justify= LEFT)
 		lbl1.place(relx=0.05, rely=0.1, anchor=W)
 
+		#gets the users gender using radio buttons. Text entry field for those who want to specify their own gender.
 		lbl1 = Label(self, text='What is your gender?', bg="medium sea green", fg="white", font=QUESTION_FONT)
 		lbl1.place(relx=0.05, rely=0.25, anchor=W)
 
@@ -711,10 +716,11 @@ class QuestionPage(Frame):
 									 command=lambda: self.placeinputgender())
 		selfidentifyRB.place(relx=0.1, rely=0.50, anchor=W)
 
+
+		#Gets the gender that the user wants to be matched with
 		matchgenderLB = Label(self, text='Who do you want to be matched with?', bg="medium sea green", fg="white",
 							font=QUESTION_FONT, wraplength = 200, justify = LEFT)
 		matchgenderLB.place(relx=0.53, rely=0.27, anchor=W)
-
 
 		malematchRB = Radiobutton(self, text="Male", bg="medium sea green", selectcolor="medium sea green", font=BUTTON_FONT,
 								  activebackground="medium sea green", variable=matchgender, value=1, tristatevalue=6)
@@ -729,6 +735,7 @@ class QuestionPage(Frame):
 									  tristatevalue=6)
 		everyonematchRB.place(relx=0.58, rely=0.50, anchor=W)
 
+		#Gets the user's career field
 		majorLabel = Label(self, text='What is your career field?', bg="medium sea green", fg="white",
 							font=QUESTION_FONT)
 		majorLabel.place(relx=0.05, rely=0.62, anchor=W)
@@ -742,37 +749,37 @@ class QuestionPage(Frame):
 		majoroptions.config(bg = 'medium sea green')
 
 		# Changes the drop down font color to be green,
-		# we can change this if you dont like it!
 		majoroptions["menu"].config(bg = 'medium sea green')
 		majoroptions.place(relx=0.1, rely=0.70, anchor=W)
 
 
-
+		#gets the users age
 		enterage = Label(self, text='How old are you?', bg="medium sea green", fg="white",
 							font=QUESTION_FONT)
 		enterage.place(relx=0.53, rely=0.62, anchor=W)
 		userage = Entry(self)
 		userage.place(relx=0.58, rely=0.69, anchor=W)
 
-
+		#displays page number
 		pagenum = Label(self, text='pg 2/6', bg="medium sea green", font=("Helvetica", 14))
 		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
-
+		#advances window to next page
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
 					  command=lambda: self.checkfilledout(parent, controller))
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
+		#returns window to previous page
 		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 					  command=lambda: controller.show_frame(NamePreferencesPage))
 		back.place(relx=0.0, rely=1.0, anchor=SW)
 
-
+		#entry box where users can self identify gender
 		global inputgender
 		inputgender = Entry(self)
 
 
-
+	#ensures that all fields are filled out before allowing the user to go to the next page
 	def checkfilledout(self,parent,controller):
 		global userage
 		global gender
@@ -788,30 +795,34 @@ class QuestionPage(Frame):
 		gendererror = Label(self, text='                 *Please enter your gender                 ',
 						 bg="medium sea green", fg="red4", font=SMALL_FONT)
 
+		#if global variable DEBUG is true, just move to next page
 		if(DEBUG):
 			controller.show_frame(QuestionPage2)
 			return
 
+		#checks if everything is filled out, if not, display error
 		if (gender.get() == 0) or (not userage.get()) or (matchgender.get() == 0) or (
 				careerfield.get() == "Choose One..."):
 			errorlbl.place(relx=0.5, rely=0.85, anchor=S)
 			return
 
-
+		#ensures that a user has entered a digit in the age field
 		if not (userage.get().isdigit()):
 			ageerror.place(relx=0.5, rely=0.85, anchor=S)
 			return
 
+		#ensures that if a user self identifies their gender, that they have entered a gender.
 		if(gender.get() == 3) and (not inputgender.get()):
-
 			gendererror.place(relx=0.5, rely=0.85, anchor=S)
 			return
 
+		#if everything is filled out correctly, save questionnaire responses and move to next page
 		self.save()
 		Label(self, text='                 *Please enter your gender                 ',
 			  bg="medium sea green", fg="medium sea green", font=SMALL_FONT).place(relx=0.5, rely=0.85, anchor=S)
 		controller.show_frame(QuestionPage2)
 
+	#saves the questionaire responses to the output list
 	def save(self):
 		global questionnaireAnswers
 		global gender
@@ -824,6 +835,7 @@ class QuestionPage(Frame):
 		questionnaireAnswers[3] = MAJORS.index(careerfield.get())
 		questionnaireAnswers[2] = int(userage.get())
 
+		#sets the new_account's gender
 		if(gender.get() == 1):
 			new_account.gender = "Male"
 		elif(gender.get() == 2):
@@ -833,17 +845,22 @@ class QuestionPage(Frame):
 		else :
 			print("gender error")
 
+	#creates an input box to self identify gender if the user picks "self identify"
 	def placeinputgender(self):
 		global inputgender
 		inputgender.place(relx=0.13, rely=0.56, anchor=W)
 
+	#removes an input box to self identify gender if the user de-selects "self identify"
 	def removeinputgender(self):
 		global inputgender
 		inputgender.place_forget()
 
+
+# Contains everything for the second page of the questionnaire page.
 class QuestionPage2(Frame):
 
 	def __init__(self, parent, controller):
+		#create variables to store user responses in
 		global agerange
 		global timeinvestment
 		global experiencelevel
@@ -856,7 +873,7 @@ class QuestionPage2(Frame):
 
 		Frame.__init__(self, parent)
 
-
+		#gets what age range the user wants to be matched with
 		Label(self, text='What age range do you want to be matched with?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.1, anchor=W)
 
@@ -876,7 +893,7 @@ class QuestionPage2(Frame):
 								   activebackground="medium sea green", variable=agerange, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.17, anchor=W)
 
 
-
+		#gets how much time the user wants to invest in their mentor-mentee relationship
 		Label(self, text='How much time would you like to invest in your mentor-mentee relationship? (1 = low, 5 = high)', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT, wraplength = 400, justify = LEFT).place(relx=0.05, rely=0.3, anchor=W)
 
@@ -896,7 +913,7 @@ class QuestionPage2(Frame):
 								   activebackground="medium sea green", variable=timeinvestment, value=5, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.7, rely=0.4, anchor=W)
 
 
-
+		#gets the user's experience level
 		Label(self, text='What is your experience level in your field?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
 
@@ -916,7 +933,7 @@ class QuestionPage2(Frame):
 								   activebackground="medium sea green", variable=experiencelevel, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.6, anchor=W)
 
 
-
+		#gets the user's networking skills
 		Label(self, text='How good are your networking skills?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.7, anchor=W)
 
@@ -935,17 +952,21 @@ class QuestionPage2(Frame):
 		Radiobutton(self, text="5", bg="medium sea green", selectcolor="medium sea green",
 								   activebackground="medium sea green", variable=networkingskills, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.8, anchor=W)
 
+		#returns window to previous page
 		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 					command=lambda: controller.show_frame(QuestionPage))
 		back.place(relx=0.0, rely=1.0, anchor=SW)
 
+		#advances window to next page
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
 					  command=lambda: self.checkfilledout(parent,controller))
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
+		#displays page number
 		pagenum = Label(self, text='pg 3/6', bg="medium sea green", font=("Helvetica", 14))
 		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
+	#saves the questionnaire responses to the output list
 	def save(self):
 		global agerange
 		global timeinvestment
@@ -956,6 +977,7 @@ class QuestionPage2(Frame):
 		questionnaireAnswers[6] = experiencelevel.get()
 		questionnaireAnswers[7] = networkingskills.get()
 
+	#ensures the user has filled out all sectons before allowing them to move to the next page
 	def checkfilledout(self, parent, controller):
 		global agerange
 		global timeinvestment
@@ -965,22 +987,28 @@ class QuestionPage2(Frame):
 		errorlbl = Label(self, text='              *Please fill out all sections.              ',
 						 bg="medium sea green", fg="red4", font=SMALL_FONT)
 
+		#if debug is true, just move to next page
 		if (DEBUG):
 			controller.show_frame(QuestionPage3)
 			return
 
+		#checks if everything is filled out, if not display error
 		if (agerange.get() == 0) or (timeinvestment.get() == 0) or (experiencelevel.get() == 0) or (networkingskills.get() == 0):
 			errorlbl.place(relx=0.5, rely=0.9, anchor=S)
 			return
 
+		#if everything is filled out, save responses and move to next page
 		self.save()
 		Label(self, text='                 *Please fill out all sections                 ',
 			  bg="medium sea green", fg="medium sea green", font=SMALL_FONT).place(relx=0.5, rely=0.9, anchor=S)
 		controller.show_frame(QuestionPage3)
 
+
+# Contains everything for the third page of the questionnaire page.
 class QuestionPage3(Frame):
 
 	def __init__(self, parent, controller):
+		#create variables to store user response in
 		global kindofwork
 		global integrity
 		global orginizationalskills
@@ -992,7 +1020,7 @@ class QuestionPage3(Frame):
 
 		Frame.__init__(self, parent)
 
-
+		#gets the kind of work the user wants to do
 		Label(self, text='What kind of work do you want to do?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.1, anchor=W)
 
@@ -1012,7 +1040,7 @@ class QuestionPage3(Frame):
 					activebackground="medium sea green", variable=kindofwork, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.78, rely=0.24, anchor=W)
 
 
-
+		#gets how much the user values integrity
 		Label(self, text='How much do you value integrity? (1 = low, 5 = high)', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.3, anchor=W)
 
@@ -1032,7 +1060,7 @@ class QuestionPage3(Frame):
 								   activebackground="medium sea green", variable=integrity, value=5, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.7, rely=0.4, anchor=W)
 
 
-
+		#gets the users orginizational skills
 		Label(self, text='How good are your organizational skills?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
 
@@ -1052,7 +1080,7 @@ class QuestionPage3(Frame):
 								   activebackground="medium sea green", variable=orginizationalskills, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.6, anchor=W)
 
 
-
+		#gets the user's communication skills
 		Label(self, text='How good are your communication skills?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.7, anchor=W)
 
@@ -1072,29 +1100,30 @@ class QuestionPage3(Frame):
 								   activebackground="medium sea green", variable=communicationskills, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.8, anchor=W)
 
 
-
+		#returns the window to the previous page
 		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 				  command=lambda: controller.show_frame(QuestionPage2))
 		back.place(relx=0.0, rely=1.0, anchor=SW)
 
+		#advances the window to the next page
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
 				  command=lambda: self.checkfilledout(parent, controller))
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
+		#displays page number
 		pagenum = Label(self, text='pg 4/6', bg="medium sea green", font=("Helvetica", 14))
 		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
-
+	#saves the questionnaire responses to the output list
 	def save(self):
 		global kindofwork
-
 		global orginizationalskills
 		global communicationskills
 		questionnaireAnswers[17] = kindofwork.get()
-		#questionnaireAnswers["networkingskills"] = networkingskills.get()
 		questionnaireAnswers[8] = orginizationalskills.get()
 		questionnaireAnswers[9] = communicationskills.get()
 
+	#ensures that all sections are filled out before allowing the user to advance to the next page
 	def checkfilledout(self, parent, controller):
 		global kindofwork
 		global integrity
@@ -1104,22 +1133,28 @@ class QuestionPage3(Frame):
 		errorlbl = Label(self, text='              *Please fill out all sections.              ',
 						 bg="medium sea green", fg="red4", font=SMALL_FONT)
 
+		#if global variable debug is true, just move to next page
 		if (DEBUG):
 			controller.show_frame(QuestionPage4)
 			return
 
+		#checks that all sections are filled out, if not display error
 		if (kindofwork.get() == 0) or (orginizationalskills.get() == 0) or (integrity.get() == 0) or (communicationskills.get() == 0):
 			errorlbl.place(relx=0.5, rely=0.9, anchor=S)
 			return
 
+		#if everything is filled out, save responses and move to next page
 		self.save()
 		Label(self, text='                 *Please fill out all sections                 ',
 			  bg="medium sea green", fg="medium sea green", font=SMALL_FONT).place(relx=0.5, rely=0.9, anchor=S)
 		controller.show_frame(QuestionPage4)
 
+
+# Contains everything for the fourth page of the questionnaire page.
 class QuestionPage4(Frame):
 
 	def __init__(self, parent, controller):
+		#create variables to store questionnaire responses
 		global careergoals
 		global timemanagementskills
 		global workethic
@@ -1131,7 +1166,7 @@ class QuestionPage4(Frame):
 
 		Frame.__init__(self, parent)
 
-
+		#gets the user's career goal
 		Label(self, text='What is your primary career goal?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.1, anchor=W)
 
@@ -1151,7 +1186,7 @@ class QuestionPage4(Frame):
 								   activebackground="medium sea green", variable=careergoals, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.81, rely=0.17, anchor=W)
 
 
-
+		#gets the users time management skills
 		Label(self, text='How good are your time management skills?\n(1 = low, 5 = high)', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT, wraplength = 400, justify = LEFT).place(relx=0.05, rely=0.28, anchor=W)
 
@@ -1171,7 +1206,7 @@ class QuestionPage4(Frame):
 								   activebackground="medium sea green", variable=timemanagementskills, value=5, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.7, rely=0.4, anchor=W)
 
 
-
+		#gets the user's work ethic
 		Label(self, text='How would you rate your work ethic?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.5, anchor=W)
 
@@ -1191,7 +1226,7 @@ class QuestionPage4(Frame):
 								   activebackground="medium sea green", variable=workethic, value=5, font=BUTTON_FONT, tristatevalue=6).place(relx=0.7, rely=0.6, anchor=W)
 
 
-
+		#gets how felxible/adaptable the user is
 		Label(self, text='How flexible/adaptable are you?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.7, anchor=W)
 
@@ -1212,19 +1247,21 @@ class QuestionPage4(Frame):
 
 
 
-
+		#returns the window to the previous page
 		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 				  command=lambda: controller.show_frame(QuestionPage3))
 		back.place(relx=0.0, rely=1.0, anchor=SW)
 
+		#advances the window to the next page
 		next = Button(self, text="Next", highlightbackground="medium sea green", padx=10,
 				  command=lambda: self.checkfilledout(parent, controller))
 		next.place(relx=1.0, rely=1.0, anchor=SE)
 
+		#displays the page number
 		pagenum = Label(self, text='pg 5/6', bg="medium sea green", font=("Helvetica", 14))
 		pagenum.place(relx=0.82, rely=0.99, anchor=SW)
 
-
+	#saves the questionnaire responses to the output list
 	def save(self):
 		global careergoals
 		global timemanagementskills
@@ -1235,7 +1272,7 @@ class QuestionPage4(Frame):
 		questionnaireAnswers[11] = workethic.get()
 		questionnaireAnswers[12] = flexiblility.get()
 
-
+	#ensures that all sections are filled out before allowing the user to move to the next page
 	def checkfilledout(self, parent, controller):
 		global careergoals
 		global timemanagementskills
@@ -1247,22 +1284,28 @@ class QuestionPage4(Frame):
 		errorlbl = Label(self, text='              *Please fill out all sections.              ',
 						 bg="medium sea green", fg="red4", font=SMALL_FONT)
 
+		#if global variable DEBUG is true, just move to next page
 		if (DEBUG):
 			controller.show_frame(QuestionPage5)
 			return
 
+		#check if everything is filled out, if not, display error
 		if (careergoals.get() == 0) or (timemanagementskills.get() == 0) or (workethic.get() == 0) or (flexiblility.get() == 0):
 			errorlbl.place(relx=0.5, rely=0.9, anchor=S)
 			return
 
+		#if everything is filled out, save responses and move to next page
 		self.save()
 		Label(self, text='                 *Please fill out all sections                 ',
 			  bg="medium sea green", fg="medium sea green", font=SMALL_FONT).place(relx=0.5, rely=0.9, anchor=S)
 		controller.show_frame(QuestionPage5)
 
+
+#Contains everything for the fith page of the questionnaire page.
 class QuestionPage5(Frame):
 
 	def __init__(self, parent, controller):
+		#create variables to store user responses
 		global learningstyle
 		global workwithothers
 		global introvertextrovert
@@ -1273,7 +1316,7 @@ class QuestionPage5(Frame):
 		Frame.__init__(self, parent)
 
 
-
+		#gets what kind of learner the user is
 		Label(self, text='What kind of learner are you?', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT).place(relx=0.05, rely=0.08, anchor=W)
 
@@ -1293,7 +1336,7 @@ class QuestionPage5(Frame):
 					activebackground="medium sea green", variable=learningstyle, value=5, font=("Helvetica", 12), tristatevalue=6).place(relx=0.05, rely=0.43, anchor=W)
 
 
-
+		#gets the user's ability to work with others
 		Label(self, text='How would you rate your ablility to work with others?\n(1 = low, 5 = high)', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT, justify = LEFT).place(relx=0.05, rely=0.55, anchor=W)
 
@@ -1313,7 +1356,7 @@ class QuestionPage5(Frame):
 								   activebackground="medium sea green", variable=workwithothers, value=5, font=BUTTON_FONT,  tristatevalue=6).place(relx=0.7, rely=0.65, anchor=W)
 
 
-
+		#gets how introverted/extroverted the user is
 		Label(self, text='How introverted/extroverted are you?\n(1 = introverted, 5 = extroverted)', bg="medium sea green", fg="white",
 							  font=QUESTION_FONT, justify = LEFT).place(relx=0.05, rely=0.75, anchor=W)
 
@@ -1334,19 +1377,21 @@ class QuestionPage5(Frame):
 
 
 
-
+		#returns the window to the previous page
 		back = Button(self, text="Back", highlightbackground="medium sea green", padx=10,
 				  command=lambda: controller.show_frame(QuestionPage4))
 		back.place(relx=0.0, rely=1.0, anchor=SW)
 
+		#if everything is filled out, creates a new account and moves to the new user's account page
 		finish = Button(self, text="Finish!", highlightbackground="medium sea green", padx=10,
 				  command=lambda: self.checkfilledout(parent, controller))
 		finish.place(relx=1.0, rely=1.0, anchor=SE)
 
+		#displays the page number
 		pagenum = Label(self, text='pg 6/6', bg="medium sea green", font=("Helvetica", 14))
 		pagenum.place(relx=0.81, rely=0.99, anchor=SW)
 
-
+	#saves the final page of user responses, creates a new User with the date, and saves the User to the database
 	def finishaccount(self):
 		global learningstyle
 		global workwithothers
@@ -1361,6 +1406,7 @@ class QuestionPage5(Frame):
 		d.create_account(new_account)
 		c.current_user = new_account
 
+	#ensures all sections are filled out before the user can finish creating their account
 	def checkfilledout(self, parent, controller):
 		global learningstyle
 		global workwithothers
@@ -1370,11 +1416,12 @@ class QuestionPage5(Frame):
 						 bg="medium sea green", fg="red4", font=SMALL_FONT)
 
 
-
+		#checks if all fields are filled out
 		if (learningstyle.get() == 0) or (workwithothers.get() == 0) or (introvertextrovert.get() == 0):
 			errorlbl.place(relx=0.5, rely=0.95, anchor=S)
 			return
 
+		#if everything is filled out, creat a new account, and more to the account's home page
 		self.finishaccount()
 		Label(self, text='               *Please fill out all sections               ',
 			  bg="medium sea green", fg="medium sea green", font=SMALL_FONT).place(relx=0.5, rely=0.95, anchor=S)
