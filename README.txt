@@ -11,13 +11,15 @@ Created: 3/7/2020
 Created for: CIS 422, Project 2
 
 How to install:
-	- Double click on the install_mm file
-	- If this does not work enter the following into the terminal: $ pip install mysql-connector-python
+	- Double click on the install_mm file or enter the following into the terminal $ pip3 install mysql-connector-python
+		-- If this does not work enter the following into the terminal: $ pip install mysql-connector-python
+	- If installing on a Mac in Deschutes room 100, then double click on the install_mm_room_100 file or enter the following into the terminal $ pip3 install --user mysql-connector-python
+		-- If this does not work enter the following into the terminl $ pip install --user mysql-connector-python
 	- If neither of these installations work, then install pip and attempt the installation processes again
-	- If installing on a Mac in Deschutes room 100, then double click on the install_mm_room_100 file instead of the install_mm file.
 
 How to run the code: 
-	- Double click on the MentorMeeter file
+	- Double click on the MentorMeeter file or enter the following into the terminal while inside the CIS422Project2 file $ python3 mentor_meeter_files/ui.py
+		-- If the above command does not work enter the following into the terminal while inside the CIS422Project2 file $ python mentor_meeter_files/ui.py
 
 Software dependencies:
 	Python 3
