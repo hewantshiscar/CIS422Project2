@@ -25,3 +25,23 @@ Software dependencies:
 
 Subdirectories:
 	mentor_meeter_files: holds our source code files that do not include our executable files
+
+Accounts in database to test with:
+
+Example Mentee Accounts:
+Username	Password
+--------    --------
+168			2
+152			2
+152			2
+175			2
+166			2
+
+Example Mentor Accounts:
+Username	Password
+--------    --------
+mikicam		pickles
+greg		gr
+62			2
+70			2
+83			2
