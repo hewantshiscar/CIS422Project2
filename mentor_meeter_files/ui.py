@@ -689,7 +689,7 @@ class QuestionPage(Frame):
 		matchgender = IntVar()
 		careerfield = StringVar()
 
-		lbl1 = Label(self, text='Please answer the following questions so we can match you with a mentor:',
+		lbl1 = Label(self, text='Please answer the following questions so we can match you with other users:',
 					 bg="medium sea green", fg="white", font=("Roboto", 18, "bold"), wraplength = 400, justify= LEFT)
 		lbl1.place(relx=0.05, rely=0.1, anchor=W)
 
@@ -1344,7 +1344,7 @@ class QuestionPage5(Frame):
 		finish.place(relx=1.0, rely=1.0, anchor=SE)
 
 		pagenum = Label(self, text='pg 6/6', bg="medium sea green", font=("Helvetica", 14))
-		pagenum.place(relx=0.81, rely=0.99, anchor=SW)
+		pagenum.place(relx=0.80, rely=0.99, anchor=SW)
 
 
 	def finishaccount(self):
@@ -1408,7 +1408,7 @@ def check_username(username):
 def connect(first, last, email):
 	#Create new smaller window
 	top = Toplevel()
-	top.geometry('310x170')
+	top.geometry('320x170')
 	top.resizable(False, False)
 	top.title("Match Information")
 	top.config(bg='medium sea green')
@@ -1417,7 +1417,7 @@ def connect(first, last, email):
 	name = first + " " + last
 	l = Label(top, text=name, fg="White", bg = 'medium sea green', font=INFO_FONT)
 	l.place(relx=0.05, rely=0.13, anchor=W)
-	fr1 = Frame(top, width=600, height=5, bg='white')
+	fr1 = Frame(top, width=630, height=5, bg='white')
 	fr1.place(relx=0.05, rely=0.25, anchor=CENTER)
 
 	#Add "Contact By" with email to new string
